@@ -16,6 +16,8 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        getSupportActionBar().setTitle("Login");
+
         login = findViewById(R.id.loginButton);
 
         login.setOnClickListener(new View.OnClickListener() {
