@@ -8,15 +8,10 @@
             android:id="@+id/nav_camera"
             android:icon="@mipmap/form"
             android:title="Job Reporter" />
+        <item
+            android:id="@+id/nav_share"
+            android:icon="@mipmap/login"
+            android:title="Login" />
     </group>
-
-    <item android:title="Communicate">
-        <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="Contact Us" />
-        </menu>
-    </item>
 
 </menu>
