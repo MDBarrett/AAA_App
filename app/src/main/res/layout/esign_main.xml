@@ -26,34 +26,44 @@
     </android.gesture.GestureOverlayView>
 
     <RelativeLayout
-        android:id="@+id/rellay_esign_donebutton"
+        android:id="@+id/buttonBarRL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="10dp"
-        >
+
+        android:background="#222222"
+        android:gravity="center_vertical">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_height="58dp"
             android:gravity="center"
-            >
+            android:orientation="horizontal">
+
             <Button
                 android:id="@+id/DoneButton"
+                style="?android:attr/borderlessButtonStyle"
+                android:textColor="@color/colorWhite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="20dp"
                 android:text="Done" />
 
             <Button
                 android:id="@+id/ClearButton"
+                style="?android:attr/borderlessButtonStyle"
+                android:textColor="@color/colorWhite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Clear" />
 
             <Button
                 android:id="@+id/cancelButton"
+                style="?android:attr/borderlessButtonStyle"
+                android:textColor="@color/colorWhite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="CANCEL" />
+                android:layout_marginLeft="20dp"
+                android:text="Cancel" />
         </LinearLayout>
     </RelativeLayout>
 

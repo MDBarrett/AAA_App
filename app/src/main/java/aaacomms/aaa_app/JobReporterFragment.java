@@ -1,6 +1,9 @@
 package aaacomms.aaa_app;
 
 import android.Manifest;
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -191,12 +194,6 @@ public class JobReporterFragment extends Fragment {
             }
         }
 
-    }
-
-    public void setButtonVis() {
-        submit.setVisibility(View.INVISIBLE);
-        sign.setVisibility(View.VISIBLE);
-        Toast.makeText(getActivity().getApplicationContext(),"set vis called",Toast.LENGTH_SHORT).show();
     }
 
 }
