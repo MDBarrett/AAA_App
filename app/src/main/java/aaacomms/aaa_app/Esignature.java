@@ -30,6 +30,7 @@ public class Esignature extends Activity {
         donebutton.setText("Done");
         Button clearButton = (Button) findViewById(R.id.ClearButton);
         clearButton.setText("Clear");
+        Button cancel = findViewById(R.id.cancelButton);
 
         path= Environment.getExternalStorageDirectory()+"/signature.png";
         file = new File(path);
@@ -90,7 +91,7 @@ public class Esignature extends Activity {
                     fos.close();
                     MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, "signature" , "it is a signature");
 
-                    JobReporter jobReporter = new JobReporter();
+                    JobReporterFragment jobReporter = new JobReporterFragment();
                     jobReporter.setButtonVis();
 
                 } catch (Exception e) {
@@ -120,6 +121,15 @@ public class Esignature extends Activity {
                 gestureView.cancelClearAnimation();
             }
         });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                finish();
+            }
+        });
+
     }
 
 

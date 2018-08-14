@@ -5,20 +5,28 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
 import java.util.Calendar;
 
-public class JobReporter extends AppCompatActivity {
+public class JobReporterFragment extends Fragment {
 
     Button submit, sign;
 
@@ -26,7 +34,9 @@ public class JobReporter extends AppCompatActivity {
 
     TextView totalHours;
 
-    ImageView signed;
+    ImageButton navBtn;
+
+    private DrawerLayout drawer;
 
     int startMinute, startHour, endMinute, endHour;
 
@@ -38,42 +48,48 @@ public class JobReporter extends AppCompatActivity {
         if (requestCode == WRITE_EXTERNAL_STORAGE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
             } else {
-                Toast.makeText(this, "Permission was not granted", Toast.LENGTH_SHORT).show();
+                Toast.makeText( getActivity(), "Permission was not granted", Toast.LENGTH_SHORT).show();
             }
         } else {
             super.onRequestPermissionsResult(requestCode, permissions,grantResults);
         }
     }
 
+    @Nullable
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_job_reporter);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_job_reporter, container, false);
+    }
 
-        getSupportActionBar().setTitle("Job Reporter");
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
-        submit = findViewById(R.id.submitButton);
-        startTimeET = findViewById(R.id.startTimeText);
-        endTimeET = findViewById(R.id.endTimeText);
-        dateET = findViewById(R.id.dateText);
-        totalHours = findViewById(R.id.totalHoursText);
-        signed = findViewById(R.id.signedImage);
-        sign = findViewById(R.id.signButton);
+        submit = getView().findViewById(R.id.submitButton);
+        startTimeET = getView().findViewById(R.id.startTimeText);
+        endTimeET = getView().findViewById(R.id.endTimeText);
+        dateET = getView().findViewById(R.id.dateText);
+        totalHours = getView().findViewById(R.id.totalHoursText);
+        sign = getView().findViewById(R.id.signButton);
 
-        if(checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-        } else {
-            if(shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)){
-                Toast.makeText(this, "Body Sensors permissions is needed to show the heart rate.", Toast.LENGTH_SHORT).show();
+        drawer = getActivity().findViewById(R.id.drawer_layout);
+        navBtn = getView().findViewById(R.id.navButton);
+
+        navBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawer.openDrawer(Gravity.START);
             }
-            ActivityCompat.requestPermissions(JobReporter.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE );
-        }
+        });
 
-        signed.setVisibility(View.INVISIBLE);
+        if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions( getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE );
+        }
 
         sign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(JobReporter.this, Esignature.class);
+                Intent intent = new Intent(getActivity(), Esignature.class);
                 startActivity(intent);
             }
         });
@@ -81,9 +97,9 @@ public class JobReporter extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(JobReporter.this, MainActivity.class);
+                Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
-                Toast.makeText(getApplicationContext(),"Job submitted",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(),"Job submitted",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -95,7 +111,7 @@ public class JobReporter extends AppCompatActivity {
                 int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
                 int currentMinute = calendar.get(Calendar.MINUTE);
 
-                TimePickerDialog timePickerDialog = new TimePickerDialog(JobReporter.this, new TimePickerDialog.OnTimeSetListener() {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
 
@@ -121,7 +137,7 @@ public class JobReporter extends AppCompatActivity {
                 int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
                 int currentMinute = calendar.get(Calendar.MINUTE);
 
-                TimePickerDialog timePickerDialog = new TimePickerDialog(JobReporter.this, new TimePickerDialog.OnTimeSetListener() {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
 
@@ -148,7 +164,7 @@ public class JobReporter extends AppCompatActivity {
                 int month = calendar.get(Calendar.MONTH);
                 int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(JobReporter.this,
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
@@ -162,15 +178,16 @@ public class JobReporter extends AppCompatActivity {
 
             }
         });
+
     }
 
     private void setTotalHours() {
 
         if ( ( endMinute > 0 | endHour > 0 ) & ( startMinute > 0 | startHour > 0 ) )  {
             if ( startMinute > endMinute ) {
-                totalHours.setText( "Total Time: " + ( ( endHour - startHour ) -1 ) + "h " + ( 60 + ( endMinute - startMinute ) ) + "m" );
+                totalHours.setText( ( ( endHour - startHour ) -1 ) + "h " + ( 60 + ( endMinute - startMinute ) ) + "m" );
             } else {
-                totalHours.setText( "Total Time: " + ( endHour - startHour ) + "h " + ( endMinute - startMinute ) + "m" );
+                totalHours.setText( ( endHour - startHour ) + "h " + ( endMinute - startMinute ) + "m" );
             }
         }
 
@@ -179,7 +196,7 @@ public class JobReporter extends AppCompatActivity {
     public void setButtonVis() {
         submit.setVisibility(View.INVISIBLE);
         sign.setVisibility(View.VISIBLE);
-        Toast.makeText(getApplicationContext(),"set vis called",Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity().getApplicationContext(),"set vis called",Toast.LENGTH_SHORT).show();
     }
 
 }

@@ -6,4 +6,8 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+
+    <string name="incomePrompt">Set hourly income :</string>
+    <string name="currencyPrompt">Currency symbol :</string>
+    <string name="clearMessage">Are you sure you want to clear your saved hours?</string>
 </resources>

@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:fillViewport="true"
+    android:background="#222222"
+    android:isScrollContainer="false" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:clickable="false">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:clickable="false">
+
+            <ImageButton
+                android:id="@+id/navButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:scaleType="centerCrop"
+                android:background="@null"
+                app:srcCompat="@mipmap/menu_icon" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:text="Job Reporter"
+                android:gravity="center"
+                android:paddingLeft="50dp"
+                android:textColor="@color/colorWhite"
+                android:textSize="30dp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:clickable="false">
+
+            <TextView
+                android:id="@+id/JobNoTV"
+                android:layout_width="231dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="50dp"
+                android:paddingTop="30dp"
+                android:text="Job Number:"
+                android:textColor="@color/colorWhite"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/jobNumberText"
+                android:paddingTop="30dp"
+                android:backgroundTint="@color/colorWhite"
+                android:textColor="@color/colorWhite"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:inputType="number" />
+
+        </LinearLayout> <!-- job number -->
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:clickable="false">
+
+            <TextView
+                android:id="@+id/firstNameTV"
+                android:layout_width="231dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="50dp"
+                android:paddingTop="30dp"
+                android:text="First Name:"
+                android:textColor="@color/colorWhite"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/firstNameET"
+                android:paddingTop="30dp"
+                android:backgroundTint="@color/colorWhite"
+                android:textColor="@color/colorWhite"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"/>
+
+        </LinearLayout> <!-- first name -->
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:clickable="false">
+
+            <TextView
+                android:id="@+id/lastNameTV"
+                android:layout_width="231dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="50dp"
+                android:paddingTop="30dp"
+                android:text="Last Name:"
+                android:textColor="@color/colorWhite"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/lastNameET"
+                android:paddingTop="30dp"
+                android:backgroundTint="@color/colorWhite"
+                android:textColor="@color/colorWhite"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"/>
+
+        </LinearLayout> <!-- last name -->
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:clickable="false">
+
+            <TextView
+                android:id="@+id/startTimeTV"
+                android:layout_width="231dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="50dp"
+                android:paddingTop="30dp"
+                android:text="Start Time:"
+                android:textColor="@color/colorWhite"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/startTimeText"
+                android:paddingTop="30dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite"
+                android:backgroundTint="@color/colorWhite"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="false"
+                android:gravity="center"/>
+
+        </LinearLayout> <!-- start time -->
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:clickable="false">
+
+            <TextView
+                android:id="@+id/endTimeTV"
+                android:layout_width="231dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="50dp"
+                android:paddingTop="30dp"
+                android:text="End Time:"
+                android:textColor="@color/colorWhite"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/endTimeText"
+                android:paddingTop="30dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite"
+                android:backgroundTint="@color/colorWhite"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="false"
+                android:gravity="center"/>
+
+        </LinearLayout> <!-- end time -->
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:clickable="false">
+
+            <TextView
+                android:id="@+id/totalTimeTV"
+                android:layout_width="231dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="50dp"
+                android:paddingTop="30dp"
+                android:text="Total Time:"
+                android:textColor="@color/colorWhite"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/totalHoursText"
+                android:paddingTop="30dp"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite"
+                android:backgroundTint="@color/colorWhite"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="false"
+                android:gravity="center"/>
+
+        </LinearLayout> <!-- total hours -->
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:clickable="false">
+
+            <TextView
+                android:id="@+id/customerTV"
+                android:layout_width="231dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="50dp"
+                android:paddingTop="30dp"
+                android:text="Customer:"
+                android:textColor="@color/colorWhite"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/customerET"
+                android:paddingTop="30dp"
+                android:backgroundTint="@color/colorWhite"
+                android:textColor="@color/colorWhite"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"/>
+
+        </LinearLayout> <!-- customer -->
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:clickable="false">
+
+            <TextView
+                android:id="@+id/dateTV"
+                android:layout_width="231dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="50dp"
+                android:paddingTop="30dp"
+                android:text="Date:"
+                android:textColor="@color/colorWhite"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/dateText"
+                android:paddingTop="30dp"
+                android:textColor="@color/colorWhite"
+                android:backgroundTint="@color/colorWhite"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:focusableInTouchMode="false"
+                android:gravity="center"
+                android:inputType="date" />
+
+        </LinearLayout> <!-- date -->
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:clickable="false"
+            android:padding="15dp"
+            android:gravity="center" >
+
+            <EditText
+                android:id="@+id/additionalText"
+                android:textColor="@color/colorWhite"
+                android:textColorHint="@color/colorWhite"
+                android:layout_width="320dp"
+                android:layout_height="170dp"
+                android:background="@drawable/box"
+                android:hint="Additional Comments"
+                android:inputType="textMultiLine"
+                android:gravity="top"
+                android:padding="5dp" />
+
+        </LinearLayout> <!-- additional comments -->
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:padding="15dp">
+
+            <Button
+                android:id="@+id/signButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="70dp"
+                android:ems="5"
+                android:text="Sign" />
+
+            <Button
+                android:id="@+id/submitButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="70dp"
+                android:text="Submit" />
+
+        </RelativeLayout> <!-- sign and submit buttons -->
+
+    </LinearLayout>
+
+</ScrollView>
