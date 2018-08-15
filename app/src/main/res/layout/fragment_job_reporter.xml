@@ -285,6 +285,12 @@
                 android:background="@drawable/box"
                 android:hint="Additional Comments"
                 android:inputType="textMultiLine"
+
+                android:overScrollMode="always"
+                android:scrollbarStyle="insideInset"
+                android:scrollbars="vertical"
+
+                android:verticalScrollbarPosition="right"
                 android:gravity="top"
                 android:padding="5dp" />
 

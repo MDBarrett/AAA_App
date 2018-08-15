@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.SwitchCompat;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -17,12 +18,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,9 +39,16 @@ public class AppSettingsFragment extends Fragment {
 
     private DrawerLayout drawer;
     ImageButton navBtn;
+    Button clearData;
+
+    Boolean savePhotos, appTheme;
+
+    TextView prompt;
 
     SharedPreferences prefs;
     String appPrefs = "ApplicationPreferences";
+
+    SwitchCompat savePhotosSW, appThemeSW;
 
     Context context;
 
@@ -52,15 +64,80 @@ public class AppSettingsFragment extends Fragment {
 
         drawer = getActivity().findViewById(R.id.drawer_layout);
         navBtn = getView().findViewById(R.id.navButton);
+        clearData = getView().findViewById(R.id.clearDataButton);
+        savePhotosSW = getView().findViewById(R.id.savePhotosSwitch);
+        appThemeSW = getView().findViewById(R.id.appThemeSwitch);
 
         context = getActivity();
 
-        prefs = context.getSharedPreferences("shared preferences", Context.MODE_PRIVATE);
+        prefs = context.getSharedPreferences( appPrefs , Context.MODE_PRIVATE);
+
+        savePhotos = prefs.getBoolean("savePhotos", false);      //FALSE for LIGHT, TRUE for DARK
+        appTheme = prefs.getBoolean("appTheme", false);
+
+        savePhotosSW.setChecked(savePhotos);
+        appThemeSW.setChecked(appTheme);
 
         navBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 drawer.openDrawer(Gravity.START);
+            }
+        });
+
+        clearData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final LayoutInflater li = LayoutInflater.from(context);
+                View promptsView = li.inflate(R.layout.warning_reset, null);
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                alertDialogBuilder.setView(promptsView);
+
+                alertDialogBuilder.setCancelable(false).setPositiveButton("OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                Toast.makeText(getActivity().getApplicationContext(),"Job Sheet Data Cleared",Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton("Cancel",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog,int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+
+                AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+            }
+        });
+
+        savePhotosSW.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SharedPreferences.Editor editor = prefs.edit();
+                if (isChecked) {
+                    savePhotos = true;
+                    //noinspection ConstantConditions
+                    editor.putBoolean("savePhotos", savePhotos).apply();
+                } else {
+                    savePhotos = false;
+                    //noinspection ConstantConditions
+                    editor.putBoolean("savePhotos", savePhotos).apply();
+                }
+            }
+        });
+
+        appThemeSW.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                SharedPreferences.Editor editor = prefs.edit();
+                if (isChecked) {
+                    appTheme = true;
+                    //noinspection ConstantConditions
+                    editor.putBoolean("appTheme", appTheme).apply();
+                } else {
+                    appTheme = false;
+                    //noinspection ConstantConditions
+                    editor.putBoolean("appTheme", appTheme).apply();
+                }
             }
         });
 

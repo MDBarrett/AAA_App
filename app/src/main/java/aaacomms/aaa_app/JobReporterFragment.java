@@ -4,6 +4,7 @@ import android.Manifest;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -33,7 +35,7 @@ public class JobReporterFragment extends Fragment {
 
     Button submit, sign;
 
-    EditText startTimeET, endTimeET, dateET;
+    EditText startTimeET, endTimeET, dateET, addText;
 
     TextView totalHours;
 
@@ -64,6 +66,7 @@ public class JobReporterFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_job_reporter, container, false);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -74,6 +77,7 @@ public class JobReporterFragment extends Fragment {
         dateET = getView().findViewById(R.id.dateText);
         totalHours = getView().findViewById(R.id.totalHoursText);
         sign = getView().findViewById(R.id.signButton);
+        addText = getView().findViewById(R.id.additionalText);
 
         drawer = getActivity().findViewById(R.id.drawer_layout);
         navBtn = getView().findViewById(R.id.navButton);
@@ -88,6 +92,22 @@ public class JobReporterFragment extends Fragment {
         if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions( getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE );
         }
+
+        addText.setOnTouchListener(new View.OnTouchListener() {
+
+            public boolean onTouch(View view, MotionEvent event) {
+                // TODO Auto-generated method stub
+                if (view.getId() ==R.id.additionalText) {
+                    view.getParent().requestDisallowInterceptTouchEvent(true);
+                    switch (event.getAction()&MotionEvent.ACTION_MASK){
+                        case MotionEvent.ACTION_UP:
+                            view.getParent().requestDisallowInterceptTouchEvent(false);
+                            break;
+                    }
+                }
+                return false;
+            }
+        });
 
         sign.setOnClickListener(new View.OnClickListener() {
             @Override
