@@ -42,7 +42,6 @@
             <Button
                 android:id="@+id/DoneButton"
                 style="?android:attr/borderlessButtonStyle"
-                android:textColor="@color/colorWhite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="20dp"
@@ -51,7 +50,6 @@
             <Button
                 android:id="@+id/ClearButton"
                 style="?android:attr/borderlessButtonStyle"
-                android:textColor="@color/colorWhite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Clear" />
@@ -59,7 +57,6 @@
             <Button
                 android:id="@+id/cancelButton"
                 style="?android:attr/borderlessButtonStyle"
-                android:textColor="@color/colorWhite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"

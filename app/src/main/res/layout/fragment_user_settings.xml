@@ -4,9 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-
-    android:background="#151B1E">
+    android:layout_height="match_parent">
 
     <ImageButton
         android:id="@+id/navButton"
@@ -18,7 +16,7 @@
         android:layout_marginTop="15dp"
         android:scaleType="centerCrop"
         android:background="@null"
-        app:srcCompat="@mipmap/menu_icon" />
+        app:srcCompat="?attr/navButton" />
 
     <android.support.v7.widget.CardView
         android:id="@+id/loginCV"
@@ -33,15 +31,16 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@null">
 
             <TextView
                 android:id="@+id/loginButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
+                android:background="@null"
                 android:text="Login"
-                android:textColor="#fff"
                 android:textSize="18sp" />
         </RelativeLayout>
     </android.support.v7.widget.CardView>
@@ -54,7 +53,6 @@
         android:layout_marginTop="97dp"
         android:layout_toEndOf="@+id/navButton"
         android:text="Name:"
-        android:textColor="@color/colorWhite"
         android:textSize="20dp" />
 
     <TextView
@@ -64,7 +62,6 @@
         android:layout_alignStart="@+id/displayCompanyTV"
         android:layout_alignTop="@+id/nameTV"
         android:text="John Smith"
-        android:textColor="@color/colorWhite"
         android:textSize="20dp" />
 
     <TextView
@@ -75,7 +72,6 @@
         android:layout_alignTop="@+id/companyTV"
         android:layout_marginEnd="129dp"
         android:text="ABC Cabling"
-        android:textColor="@color/colorWhite"
         android:textSize="20dp" />
 
     <TextView
@@ -86,7 +82,6 @@
         android:layout_marginTop="142dp"
         android:layout_toEndOf="@+id/navButton"
         android:text="Company:"
-        android:textColor="@color/colorWhite"
         android:textSize="20dp" />
 
     <TextView
@@ -95,7 +90,6 @@
         android:layout_alignTop="@+id/navButton"
         android:layout_centerHorizontal="true"
         android:text="User Settings"
-        android:textColor="@color/colorWhite"
         android:textSize="30dp" />
 
 </RelativeLayout>

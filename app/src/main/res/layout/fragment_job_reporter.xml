@@ -5,8 +5,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:fillViewport="true"
-    android:background="#222222"
-    android:isScrollContainer="false" >
+    android:isScrollContainer="false">
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -28,7 +27,7 @@
                 android:layout_marginTop="15dp"
                 android:scaleType="centerCrop"
                 android:background="@null"
-                app:srcCompat="@mipmap/menu_icon" />
+                app:srcCompat="?attr/navButton" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -38,10 +37,10 @@
                 android:text="Job Reporter"
                 android:gravity="center"
                 android:paddingLeft="50dp"
-                android:textColor="@color/colorWhite"
+                android:textColor="@color/white"
                 android:textSize="30dp" />
 
-        </LinearLayout>
+        </LinearLayout> <!-- nav button and title -->
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -56,14 +55,11 @@
                 android:paddingStart="50dp"
                 android:paddingTop="30dp"
                 android:text="Job Number:"
-                android:textColor="@color/colorWhite"
                 android:textSize="20dp" />
 
             <EditText
                 android:id="@+id/jobNumberText"
                 android:paddingTop="30dp"
-                android:backgroundTint="@color/colorWhite"
-                android:textColor="@color/colorWhite"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -78,20 +74,41 @@
             android:clickable="false">
 
             <TextView
+                android:id="@+id/customerTV"
+                android:layout_width="231dp"
+                android:layout_height="wrap_content"
+                android:paddingStart="50dp"
+                android:paddingTop="30dp"
+                android:text="Customer:"
+                android:textSize="20dp" />
+
+            <EditText
+                android:id="@+id/customerET"
+                android:paddingTop="30dp"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"/>
+
+        </LinearLayout> <!-- customer -->
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:clickable="false">
+
+            <TextView
                 android:id="@+id/firstNameTV"
                 android:layout_width="231dp"
                 android:layout_height="wrap_content"
                 android:paddingStart="50dp"
                 android:paddingTop="30dp"
                 android:text="First Name:"
-                android:textColor="@color/colorWhite"
                 android:textSize="20dp" />
 
             <EditText
                 android:id="@+id/firstNameET"
                 android:paddingTop="30dp"
-                android:backgroundTint="@color/colorWhite"
-                android:textColor="@color/colorWhite"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"/>
@@ -111,14 +128,11 @@
                 android:paddingStart="50dp"
                 android:paddingTop="30dp"
                 android:text="Last Name:"
-                android:textColor="@color/colorWhite"
                 android:textSize="20dp" />
 
             <EditText
                 android:id="@+id/lastNameET"
                 android:paddingTop="30dp"
-                android:backgroundTint="@color/colorWhite"
-                android:textColor="@color/colorWhite"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:gravity="center"/>
@@ -138,15 +152,11 @@
                 android:paddingStart="50dp"
                 android:paddingTop="30dp"
                 android:text="Start Time:"
-                android:textColor="@color/colorWhite"
                 android:textSize="20dp" />
 
             <EditText
                 android:id="@+id/startTimeText"
                 android:paddingTop="30dp"
-                android:textColor="@color/colorWhite"
-                android:textColorHint="@color/colorWhite"
-                android:backgroundTint="@color/colorWhite"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:focusableInTouchMode="false"
@@ -167,15 +177,11 @@
                 android:paddingStart="50dp"
                 android:paddingTop="30dp"
                 android:text="End Time:"
-                android:textColor="@color/colorWhite"
                 android:textSize="20dp" />
 
             <EditText
                 android:id="@+id/endTimeText"
                 android:paddingTop="30dp"
-                android:textColor="@color/colorWhite"
-                android:textColorHint="@color/colorWhite"
-                android:backgroundTint="@color/colorWhite"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:focusableInTouchMode="false"
@@ -196,15 +202,11 @@
                 android:paddingStart="50dp"
                 android:paddingTop="30dp"
                 android:text="Total Time:"
-                android:textColor="@color/colorWhite"
                 android:textSize="20dp" />
 
             <EditText
                 android:id="@+id/totalHoursText"
                 android:paddingTop="30dp"
-                android:textColor="@color/colorWhite"
-                android:textColorHint="@color/colorWhite"
-                android:backgroundTint="@color/colorWhite"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:focusableInTouchMode="false"
@@ -219,47 +221,17 @@
             android:clickable="false">
 
             <TextView
-                android:id="@+id/customerTV"
-                android:layout_width="231dp"
-                android:layout_height="wrap_content"
-                android:paddingStart="50dp"
-                android:paddingTop="30dp"
-                android:text="Customer:"
-                android:textColor="@color/colorWhite"
-                android:textSize="20dp" />
-
-            <EditText
-                android:id="@+id/customerET"
-                android:paddingTop="30dp"
-                android:backgroundTint="@color/colorWhite"
-                android:textColor="@color/colorWhite"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"/>
-
-        </LinearLayout> <!-- customer -->
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:clickable="false">
-
-            <TextView
                 android:id="@+id/dateTV"
                 android:layout_width="231dp"
                 android:layout_height="wrap_content"
                 android:paddingStart="50dp"
                 android:paddingTop="30dp"
                 android:text="Date:"
-                android:textColor="@color/colorWhite"
                 android:textSize="20dp" />
 
             <EditText
                 android:id="@+id/dateText"
                 android:paddingTop="30dp"
-                android:textColor="@color/colorWhite"
-                android:backgroundTint="@color/colorWhite"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:focusableInTouchMode="false"
@@ -278,11 +250,9 @@
 
             <EditText
                 android:id="@+id/additionalText"
-                android:textColor="@color/colorWhite"
-                android:textColorHint="@color/colorWhite"
                 android:layout_width="320dp"
                 android:layout_height="170dp"
-                android:background="@drawable/box"
+                android:background="?attr/box"
                 android:hint="Additional Comments"
                 android:inputType="textMultiLine"
 
@@ -304,26 +274,22 @@
 
             <Button
                 android:id="@+id/signButton"
-                style="?android:attr/borderlessButtonStyle"
-                android:textColor="@color/colorWhite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
                 android:layout_marginStart="70dp"
                 android:ems="5"
-                android:text="Sign" />
+                android:text="Sign"/>
 
             <Button
                 android:id="@+id/submitButton"
-                style="?android:attr/borderlessButtonStyle"
-                android:textColor="@color/colorWhite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="70dp"
-                android:text="Submit" />
+                android:text="Submit"/>
 
         </RelativeLayout> <!-- sign and submit buttons -->
 

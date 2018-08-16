@@ -14,4 +14,16 @@
     <string name="clearJobData">Are you sure you want to clear your saved job sheet data?</string>
 
     <string name="appVersion">App Version: 0.1</string>
+
+    <string name="navButtonCD">Navigation drawer button</string>
+
+    <string name="appSettingsTitle">App Settings</string>
+
+    <string name="savePhotoSetting">Save photos with job sheets</string>
+    <string name="darkThemeSetting">Dark theme</string>
+    <string name="lightThemeSetting">Light theme</string>
+    <string name="clearDataSetting">Clear job sheet data</string>
+
+    <string name="clear">Clear</string>
+
 </resources>

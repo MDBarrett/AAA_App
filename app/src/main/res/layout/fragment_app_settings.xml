@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-
-    android:background="#151B1E">
+    android:layout_height="match_parent">
 
     <ImageButton
         android:id="@+id/navButton"
@@ -18,16 +15,16 @@
         android:layout_marginTop="15dp"
         android:scaleType="centerCrop"
         android:background="@null"
-        app:srcCompat="@mipmap/menu_icon" />
+        app:srcCompat="?attr/navButton"
+        android:contentDescription="@string/navButtonCD"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/navButton"
         android:layout_centerHorizontal="true"
-        android:text="App Settings"
-        android:textColor="@color/colorWhite"
-        android:textSize="30dp" />
+        android:text="@string/appSettingsTitle"
+        android:textSize="30sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -45,17 +42,16 @@
 
                 <TextView
                     android:id="@+id/savePhotosTV"
-                    android:textColor="@color/colorWhite"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:text="Save photos with job sheets"/>
+                    android:textSize="20sp"
+                    android:text="@string/savePhotoSetting"/>
 
                 <android.support.v7.widget.SwitchCompat
                     android:id="@+id/savePhotosSwitch"
                     style="@style/SwitchCompatTheme"
                     android:layout_weight="1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"/>
 
         </LinearLayout> <!--save photos-->
@@ -68,17 +64,16 @@
 
             <TextView
                 android:id="@+id/appThemeTV"
-                android:textColor="@color/colorWhite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="20dp"
-                android:text="Dark theme"/>
+                android:textSize="20sp"
+                android:text="@string/darkThemeSetting"/>
 
             <android.support.v7.widget.SwitchCompat
                 android:id="@+id/appThemeSwitch"
                 style="@style/SwitchCompatTheme"
                 android:layout_weight="1"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"/>
 
         </LinearLayout> <!--app theme-->
@@ -90,23 +85,21 @@
 
             <TextView
                 android:id="@+id/clearDataTV"
-                android:textColor="@color/colorWhite"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_toStartOf="@+id/clearDataButton"
                 android:layout_marginTop="10dp"
-                android:textSize="20dp"
-                android:text="Clear job sheet data"/>
+                android:textSize="20sp"
+                android:text="@string/clearDataSetting"/>
 
             <Button
                 android:id="@+id/clearDataButton"
-                style="?android:attr/borderlessButtonStyle"
                 android:textAlignment="textEnd"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
-                android:text="Clear"
-                android:textColor="@color/colorWhite" />
+                android:text="@string/clear"/>
 
         </RelativeLayout> <!--clear data-->
 
@@ -115,28 +108,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="bottom"
+        android:orientation="horizontal"
+        android:gravity="bottom|center"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="15dp"
         android:layout_marginTop="100dp">
 
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="horizontal">
-
             <TextView
                 android:id="@+id/appVersionTV"
-                android:textColor="@color/colorWhite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="15dp"
+                android:textSize="15sp"
                 android:text="@string/appVersion"/>
-
-        </LinearLayout> <!--app version-->
 
     </LinearLayout> <!--app info-->
 

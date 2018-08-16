@@ -3,15 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:background="#222222" >
+    android:orientation="vertical">
 
 
     <ImageView
         android:layout_width="119dp"
         android:layout_height="179dp"
         android:layout_centerInParent="true"
-        app:srcCompat="@mipmap/home_white"
+        app:srcCompat="?attr/homeIcon"
         tools:layout_editor_absoluteX="146dp"
         tools:layout_editor_absoluteY="212dp" />
 
@@ -25,6 +24,6 @@
         android:layout_marginTop="15dp"
         android:scaleType="centerCrop"
         android:background="@null"
-        app:srcCompat="@mipmap/menu_icon" />
+        app:srcCompat="?attr/navButton" />
 
 </RelativeLayout>

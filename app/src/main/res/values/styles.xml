@@ -10,14 +10,19 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
+    <!--<style name="darkTheme">-->
+        <!--<item name="windowActionBar">false</item>-->
+        <!--<item name="android:textColor">@color/white</item>-->
+        <!--<item name="android:windowBackground">@color/background</item>-->
+        <!--<item name="android:backgroundTint">@color/white</item>-->
+        <!--<item name="android:textColorHint">@color/lightGrey</item>-->
+        <!--<item name="android:buttonStyle">?android:attr/borderlessButtonStyle</item>-->
+        <!--<item name="windowNoTitle">true</item>-->
+        <!--<item name="colorPrimary">@color/colorPrimary</item>-->
+        <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+        <!--<item name="android:statusBarColor">@color/colorPrimaryDark</item>-->
+        <!--<item name="colorAccent">@color/colorAccent</item>-->
+    <!--</style>-->
 
     <style name="SwitchCompatTheme" >
         <item name="colorControlActivated">@color/colorAccent</item>
@@ -26,5 +31,31 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="darkTheme" parent="AppTheme" >
+        <item name="android:textColorHint">@color/lightGrey</item>
+        <item name="android:colorBackground">@color/darkBackground</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="android:buttonStyle">?android:attr/borderlessButtonStyle</item>
+        <item name="navButton">@mipmap/menu_icon</item>
+        <item name="homeIcon">@mipmap/home_white</item>
+        <item name="box">@drawable/box</item>
+    </style>
+
+    <style name="lightTheme" parent="AppTheme" >
+        <item name="android:textColorHint">@color/darkGrey</item>
+        <item name="android:colorBackground">@color/lightBackground</item>
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:textColorSecondary">@color/black</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="android:buttonStyle">?android:attr/borderlessButtonStyle</item>
+        <item name="navButton">@mipmap/menu_icon_light</item>
+        <item name="homeIcon">@mipmap/home</item>
+        <item name="box">@drawable/box_light</item>
+    </style>
 
 </resources>

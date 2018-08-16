@@ -138,7 +138,7 @@ public class Esignature extends Activity {
     }
 
     private void redColorAnimation(View v) {
-        int colorStart = getResources().getColor(R.color.colorBackground);
+        int colorStart = getResources().getColor(R.color.darkBackground);
         int colorEnd = 0xFFFF0000;
 
         ValueAnimator colorAnim = ObjectAnimator.ofInt(v,"BackgroundColor", colorStart, colorEnd);
@@ -151,7 +151,7 @@ public class Esignature extends Activity {
     }
 
     private void greenColorAnimation(View v) {
-        int colorStart = getResources().getColor(R.color.colorBackground);
+        int colorStart = getResources().getColor(R.color.darkBackground);
         int colorEnd = 0xFF00FF00;
 
         ValueAnimator colorAnim = ObjectAnimator.ofInt(v,"BackgroundColor", colorStart, colorEnd);

@@ -11,7 +11,6 @@
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
         android:text="TEXT 1"
-        android:textColor="#FFFFFF"
         android:textSize="24sp" />
 
     <TextView android:id="@+id/text2"
@@ -20,7 +19,6 @@
         android:textSize="24sp"
         android:textAlignment="textEnd"
         android:text="TEXT 2"
-        android:textColor="#FFFFFF"
         />
 
 </LinearLayout>

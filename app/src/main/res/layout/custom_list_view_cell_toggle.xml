@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:background="#A1A1A1"
     android:layout_height="match_parent">
 
     <TextView
@@ -12,7 +11,6 @@
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
         android:text="TEXT 1"
-        android:textColor="#FFFFFF"
         android:textSize="24sp" />
 
     <android.support.v7.widget.SwitchCompat
