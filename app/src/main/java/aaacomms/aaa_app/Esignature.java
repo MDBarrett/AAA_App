@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import java.io.File;
@@ -20,12 +21,13 @@ import java.io.FileOutputStream;
 
 public class Esignature extends Activity {
     GestureOverlayView gestureView;
+    LinearLayout signPad;
     String path;
     File file;
     Bitmap bitmap;
     public boolean gestureTouch=false;
 
-    RelativeLayout buttonBar;
+    LinearLayout buttonBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,8 +44,9 @@ public class Esignature extends Activity {
         path= Environment.getExternalStorageDirectory()+"/signature.png";
         file = new File(path);
         file.delete();
+        signPad = findViewById(R.id.signPad);
         gestureView = (GestureOverlayView) findViewById(R.id.signaturePad);
-        gestureView.setDrawingCacheEnabled(true);
+        signPad.setDrawingCacheEnabled(true);
 
         gestureView.setAlwaysDrawnWithCacheEnabled(true);
         gestureView.setHapticFeedbackEnabled(false);
@@ -89,7 +92,7 @@ public class Esignature extends Activity {
             public void onClick(View v) {
                 greenColorAnimation(buttonBar);
                 try {
-                    bitmap = Bitmap.createBitmap(gestureView.getDrawingCache());
+                    bitmap = Bitmap.createBitmap(signPad.getDrawingCache());
                     file.createNewFile();
                     FileOutputStream fos = new FileOutputStream(file);
                     // compress to specified format (PNG), quality - which is
