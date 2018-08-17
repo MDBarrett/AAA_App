@@ -10,15 +10,12 @@
         android:layout_height="wrap_content"
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
-        android:text="TEXT 1"
         android:textSize="24sp" />
 
     <TextView android:id="@+id/text2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="24sp"
-        android:textAlignment="textEnd"
-        android:text="TEXT 2"
-        />
+        android:textAlignment="textEnd" />
 
 </LinearLayout>

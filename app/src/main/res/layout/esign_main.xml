@@ -11,7 +11,6 @@
 
         <LinearLayout
             android:id="@+id/jobInfo"
-            android:layout_alignParentTop="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/darkBackground"
@@ -23,17 +22,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
-                android:paddingStart="20dp">
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight = "0"
+                    android:paddingStart="0dp"
                     android:paddingEnd="10dp"
-                    android:text="Start:"
-                    android:textSize="20dp" />
+                    android:text="@string/start"
+                    android:textSize="20sp" />
 
                 <TextView
+                    android:id="@+id/startTimeESTV"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/box"
@@ -42,18 +43,18 @@
                     android:paddingEnd="5dp"
                     android:paddingStart="5dp"
                     android:paddingTop="5dp"
-                    android:text="0700"
-                    android:textSize="20dp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingEnd="15dp"
                     android:paddingStart="15dp"
-                    android:text="End:"
-                    android:textSize="20dp" />
+                    android:text="@string/end"
+                    android:textSize="20sp" />
 
                 <TextView
+                    android:id="@+id/endTimeESTV"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/box"
@@ -62,28 +63,28 @@
                     android:paddingEnd="5dp"
                     android:paddingStart="5dp"
                     android:paddingTop="5dp"
-                    android:text="1300"
-                    android:textSize="20dp" />
+                    android:textSize="20sp" />
 
             </LinearLayout> <!--start and end-->
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
                 android:orientation="horizontal"
                 android:paddingStart="20dp"
+                android:paddingEnd="20dp"
                 android:paddingTop="15dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:paddingStart="0dp"
                     android:paddingEnd="7dp"
-                    android:text="Total:"
-                    android:textSize="20dp" />
+                    android:text="@string/total"
+                    android:textSize="20sp" />
 
                 <TextView
+                    android:id="@+id/totalHoursESTV"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/box"
@@ -92,18 +93,18 @@
                     android:paddingEnd="5dp"
                     android:paddingStart="5dp"
                     android:paddingTop="5dp"
-                    android:text="6 hrs"
-                    android:textSize="20dp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingEnd="7dp"
                     android:paddingStart="15dp"
-                    android:text="Date:"
-                    android:textSize="20dp" />
+                    android:text="@string/dateTV"
+                    android:textSize="20sp" />
 
                 <TextView
+                    android:id="@+id/dataESTV"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/box"
@@ -112,8 +113,7 @@
                     android:paddingEnd="5dp"
                     android:paddingStart="5dp"
                     android:paddingTop="5dp"
-                    android:text="16/08/2018"
-                    android:textSize="20dp" />
+                    android:textSize="20sp" />
 
             </LinearLayout> <!--total hours and date-->
 
@@ -123,7 +123,6 @@
             android:id="@+id/signaturePad"
             android:layout_width="match_parent"
             android:layout_height="10000dp"
-            android:layout_above="@id/buttonBarRL"
             android:background="@android:color/white"
             android:clickable="false"
             android:eventsInterceptionEnabled="true"
@@ -138,13 +137,13 @@
             android:uncertainGestureColor="#000000">
 
             <TextView
+                android:id="@+id/signLine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="420dp"
                 android:paddingEnd="20dp"
                 android:paddingStart="20dp"
-                android:text="I, John smith accept that job #49567 has been completed"
                 android:textColor="@color/darkGrey" />
 
             <View
@@ -164,39 +163,34 @@
         android:id="@+id/buttonBarRL"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="58dp"
         android:background="@color/darkBackground"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical|center"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="58dp"
-            android:gravity="center"
-            android:orientation="horizontal">
+        <Button
+            android:id="@+id/DoneButton"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:text="@string/doneBtn" />
 
-            <Button
-                android:id="@+id/DoneButton"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
-                android:text="Done" />
+        <Button
+            android:id="@+id/ClearButton"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/clearBtn" />
 
-            <Button
-                android:id="@+id/ClearButton"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Clear" />
+        <Button
+            android:id="@+id/cancelButton"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:text="@string/cancelBtn" />
 
-            <Button
-                android:id="@+id/cancelButton"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:text="Cancel" />
-        </LinearLayout>
     </LinearLayout> <!--button bar-->
 
 </RelativeLayout>

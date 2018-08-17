@@ -27,18 +27,20 @@
                 android:layout_marginTop="15dp"
                 android:scaleType="centerCrop"
                 android:background="@null"
-                app:srcCompat="?attr/navButton" />
+                app:srcCompat="?attr/navButton"
+                android:contentDescription="@string/navButtonCD"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
-                android:text="Job Reporter"
+                android:text="@string/jobReporterTitle"
                 android:gravity="center"
-                android:paddingLeft="50dp"
+                android:paddingStart="50dp"
+                android:paddingEnd="50dp"
                 android:textColor="@color/white"
-                android:textSize="30dp" />
+                android:textSize="30sp" />
 
         </LinearLayout> <!-- nav button and title -->
 
@@ -53,12 +55,15 @@
                 android:layout_width="231dp"
                 android:layout_height="wrap_content"
                 android:paddingStart="50dp"
+                android:paddingEnd="50dp"
                 android:paddingTop="30dp"
-                android:text="Job Number:"
-                android:textSize="20dp" />
+                android:text="@string/jobNoTV"
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/jobNumberText"
+                android:hint="@string/jobNo"
+                android:textColorHint="?attr/invisibleHint"
                 android:paddingTop="30dp"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
@@ -78,16 +83,20 @@
                 android:layout_width="231dp"
                 android:layout_height="wrap_content"
                 android:paddingStart="50dp"
+                android:paddingEnd="50dp"
                 android:paddingTop="30dp"
-                android:text="Customer:"
-                android:textSize="20dp" />
+                android:text="@string/customerTV"
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/customerET"
+                android:hint="@string/customer"
+                android:textColorHint="?attr/invisibleHint"
                 android:paddingTop="30dp"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:inputType="text"/>
 
         </LinearLayout> <!-- customer -->
 
@@ -102,16 +111,20 @@
                 android:layout_width="231dp"
                 android:layout_height="wrap_content"
                 android:paddingStart="50dp"
+                android:paddingEnd="50dp"
                 android:paddingTop="30dp"
-                android:text="First Name:"
-                android:textSize="20dp" />
+                android:text="@string/firstNameTV"
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/firstNameET"
+                android:hint="@string/firstName"
+                android:textColorHint="?attr/invisibleHint"
                 android:paddingTop="30dp"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:inputType="text"/>
 
         </LinearLayout> <!-- first name -->
 
@@ -126,16 +139,20 @@
                 android:layout_width="231dp"
                 android:layout_height="wrap_content"
                 android:paddingStart="50dp"
+                android:paddingEnd="50dp"
                 android:paddingTop="30dp"
-                android:text="Last Name:"
-                android:textSize="20dp" />
+                android:text="@string/lastNameTV"
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/lastNameET"
+                android:hint="@string/lastName"
+                android:textColorHint="?attr/invisibleHint"
                 android:paddingTop="30dp"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:inputType="text"/>
 
         </LinearLayout> <!-- last name -->
 
@@ -150,17 +167,21 @@
                 android:layout_width="231dp"
                 android:layout_height="wrap_content"
                 android:paddingStart="50dp"
+                android:paddingEnd="50dp"
                 android:paddingTop="30dp"
-                android:text="Start Time:"
-                android:textSize="20dp" />
+                android:text="@string/startTimeTV"
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/startTimeText"
+                android:hint="@string/startTime"
+                android:textColorHint="?attr/invisibleHint"
                 android:paddingTop="30dp"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:focusableInTouchMode="false"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:inputType="text"/>
 
         </LinearLayout> <!-- start time -->
 
@@ -175,17 +196,21 @@
                 android:layout_width="231dp"
                 android:layout_height="wrap_content"
                 android:paddingStart="50dp"
+                android:paddingEnd="50dp"
                 android:paddingTop="30dp"
-                android:text="End Time:"
-                android:textSize="20dp" />
+                android:text="@string/endTimeTV"
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/endTimeText"
+                android:hint="@string/endTime"
+                android:textColorHint="?attr/invisibleHint"
                 android:paddingTop="30dp"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:focusableInTouchMode="false"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:inputType="text"/>
 
         </LinearLayout> <!-- end time -->
 
@@ -200,17 +225,21 @@
                 android:layout_width="231dp"
                 android:layout_height="wrap_content"
                 android:paddingStart="50dp"
+                android:paddingEnd="50dp"
                 android:paddingTop="30dp"
-                android:text="Total Time:"
-                android:textSize="20dp" />
+                android:text="@string/totalTimeTV"
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/totalHoursText"
+                android:hint="@string/totalTime"
+                android:textColorHint="?attr/invisibleHint"
                 android:paddingTop="30dp"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:focusableInTouchMode="false"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:inputType="text"/>
 
         </LinearLayout> <!-- total hours -->
 
@@ -225,12 +254,15 @@
                 android:layout_width="231dp"
                 android:layout_height="wrap_content"
                 android:paddingStart="50dp"
+                android:paddingEnd="50dp"
                 android:paddingTop="30dp"
-                android:text="Date:"
-                android:textSize="20dp" />
+                android:text="@string/dateTV"
+                android:textSize="20sp" />
 
             <EditText
                 android:id="@+id/dateText"
+                android:hint="@string/date"
+                android:textColorHint="?attr/invisibleHint"
                 android:paddingTop="30dp"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
@@ -253,7 +285,7 @@
                 android:layout_width="320dp"
                 android:layout_height="170dp"
                 android:background="?attr/box"
-                android:hint="Additional Comments"
+                android:hint="@string/addComments"
                 android:inputType="textMultiLine"
 
                 android:overScrollMode="always"
@@ -266,7 +298,7 @@
 
         </LinearLayout> <!-- additional comments -->
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:clickable="false"
@@ -274,24 +306,26 @@
 
             <Button
                 android:id="@+id/signButton"
-                android:layout_width="wrap_content"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="70dp"
+                android:layout_weight="1"
                 android:ems="5"
-                android:text="Sign"/>
+                android:layout_marginStart="50dp"
+                android:layout_marginEnd="50dp"
+                android:text="@string/signBtn"/>
 
             <Button
                 android:id="@+id/submitButton"
-                android:layout_width="wrap_content"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="70dp"
-                android:text="Submit"/>
+                android:layout_weight="1"
+                android:layout_marginStart="50dp"
+                android:layout_marginEnd="50dp"
+                android:text="@string/submitBtn"/>
 
-        </RelativeLayout> <!-- sign and submit buttons -->
+        </LinearLayout> <!-- sign and submit buttons -->
 
     </LinearLayout>
 

@@ -10,14 +10,13 @@
         android:layout_height="wrap_content"
         android:paddingBottom="10dp"
         android:paddingTop="10dp"
-        android:text="TEXT 1"
         android:textSize="24sp" />
 
     <android.support.v7.widget.SwitchCompat
         android:id="@+id/switch1"
         style="@style/SwitchCompatTheme"
         android:layout_weight="1"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"/>
 
 

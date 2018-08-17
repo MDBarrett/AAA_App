@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -26,6 +27,11 @@ public class Esignature extends Activity {
     File file;
     Bitmap bitmap;
     public boolean gestureTouch=false;
+
+    String customerName;
+    int jobNo;
+
+    TextView signLine;
 
     LinearLayout buttonBar;
 
@@ -40,6 +46,7 @@ public class Esignature extends Activity {
         clearButton.setText("Clear");
         Button cancel = findViewById(R.id.cancelButton);
         buttonBar = findViewById(R.id.buttonBarRL);
+        signLine = findViewById(R.id.signLine);
 
         path= Environment.getExternalStorageDirectory()+"/signature.png";
         file = new File(path);
@@ -164,6 +171,15 @@ public class Esignature extends Activity {
         colorAnim.setRepeatCount(1);
         colorAnim.setRepeatMode(ValueAnimator.REVERSE);
         colorAnim.start();
+    }
+
+    private void setSignatureLine(String name, int jobNo) {
+        String s;
+
+        s = getString(R.string.signLine, "I, ", name, " accept that job #", jobNo, " has been completed" );
+
+        signLine.setText( s );
+
     }
 
 }

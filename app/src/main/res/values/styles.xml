@@ -43,6 +43,7 @@
         <item name="navButton">@mipmap/menu_icon</item>
         <item name="homeIcon">@mipmap/home_white</item>
         <item name="box">@drawable/box</item>
+        <item name="invisibleHint">@color/darkBackground</item>
     </style>
 
     <style name="lightTheme" parent="AppTheme" >
@@ -56,6 +57,7 @@
         <item name="navButton">@mipmap/menu_icon_light</item>
         <item name="homeIcon">@mipmap/home</item>
         <item name="box">@drawable/box_light</item>
+        <item name="invisibleHint">@color/lightBackground</item>
     </style>
 
 </resources>

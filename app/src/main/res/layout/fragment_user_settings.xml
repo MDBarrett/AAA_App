@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
@@ -16,7 +15,8 @@
         android:layout_marginTop="15dp"
         android:scaleType="centerCrop"
         android:background="@null"
-        app:srcCompat="?attr/navButton" />
+        app:srcCompat="?attr/navButton"
+        android:contentDescription="@string/navButtonCD"/>
 
     <android.support.v7.widget.CardView
         android:id="@+id/loginCV"
@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:background="@null"
-                android:text="Login"
+                android:text="@string/loginBtn"
                 android:textSize="18sp" />
         </RelativeLayout>
     </android.support.v7.widget.CardView>
@@ -52,8 +52,8 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="97dp"
         android:layout_toEndOf="@+id/navButton"
-        android:text="Name:"
-        android:textSize="20dp" />
+        android:text="@string/nameTV"
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/displayNameTV"
@@ -61,18 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_alignStart="@+id/displayCompanyTV"
         android:layout_alignTop="@+id/nameTV"
-        android:text="John Smith"
-        android:textSize="20dp" />
-
-    <TextView
-        android:id="@+id/displayCompanyTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/companyTV"
-        android:layout_marginEnd="129dp"
-        android:text="ABC Cabling"
-        android:textSize="20dp" />
+        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/companyTV"
@@ -81,15 +70,24 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="142dp"
         android:layout_toEndOf="@+id/navButton"
-        android:text="Company:"
-        android:textSize="20dp" />
+        android:text="@string/companyTV"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/displayCompanyTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/companyTV"
+        android:layout_marginEnd="129dp"
+        android:textSize="20sp" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/navButton"
         android:layout_centerHorizontal="true"
-        android:text="User Settings"
-        android:textSize="30dp" />
+        android:text="@string/userSettingsTitle"
+        android:textSize="30sp" />
 
 </RelativeLayout>

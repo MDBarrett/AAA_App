@@ -12,7 +12,8 @@
         android:layout_centerInParent="true"
         app:srcCompat="?attr/homeIcon"
         tools:layout_editor_absoluteX="146dp"
-        tools:layout_editor_absoluteY="212dp" />
+        tools:layout_editor_absoluteY="212dp"
+        android:contentDescription="@string/homeIconCD"/>
 
     <ImageButton
         android:id="@+id/navButton"
@@ -24,6 +25,7 @@
         android:layout_marginTop="15dp"
         android:scaleType="centerCrop"
         android:background="@null"
-        app:srcCompat="?attr/navButton" />
+        app:srcCompat="?attr/navButton"
+        android:contentDescription="@string/navButtonCD"/>
 
 </RelativeLayout>

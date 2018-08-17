@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">AAA Communications</string>
+    <string name="appVersion">App Version: 0.1</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">AAA Communications</string>
@@ -13,17 +14,55 @@
 
     <string name="clearJobData">Are you sure you want to clear your saved job sheet data?</string>
 
-    <string name="appVersion">App Version: 0.1</string>
-
     <string name="navButtonCD">Navigation drawer button</string>
+    <string name="homeIconCD">Home icon</string>
+    <string name="appLogoCD">AAA Communications Logo</string>
 
-    <string name="appSettingsTitle">App Settings</string>
+    <string name="appSettingsTitle">App Settings</string>      <!--titles-->
+    <string name="jobReporterTitle">Job Reporter</string>
+    <string name="userSettingsTitle">User Settings</string>
 
     <string name="savePhotoSetting">Save photos with job sheets</string>
     <string name="darkThemeSetting">Dark theme</string>
     <string name="lightThemeSetting">Light theme</string>
     <string name="clearDataSetting">Clear job sheet data</string>
 
-    <string name="clear">Clear</string>
+
+    <string name="addComments">Additional Comments</string>   <!--hints-->
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+
+    <string name="start">Start:</string>                      <!--text views-->
+    <string name="end">End:</string>
+    <string name="total">Total:</string>
+    <string name="jobNoTV">Job Number:</string>
+    <string name="customerTV">Customer:</string>
+    <string name="firstNameTV">First Name:</string>
+    <string name="lastNameTV">Last Name:</string>
+    <string name="startTimeTV">Start Time:</string>
+    <string name="endTimeTV">End Time:</string>
+    <string name="totalTimeTV">Total Time:</string>
+    <string name="dateTV">Date:</string>
+    <string name="nameTV">Name:</string>
+    <string name="companyTV">Company:</string>
+
+
+    <string name="jobNo">Job Number</string>                  <!--edit texts-->
+    <string name="customer">Customer</string>
+    <string name="firstName">First Name</string>
+    <string name="lastName">Last Name</string>
+    <string name="startTime">Start Time</string>
+    <string name="endTime">End Time</string>
+    <string name="totalTime">Total Time</string>
+    <string name="date">Date</string>
+
+    <string name="doneBtn">done</string>                      <!--buttons-->
+    <string name="cancelBtn">cancel</string>
+    <string name="clearBtn">clear</string>
+    <string name="signBtn">Sign</string>
+    <string name="submitBtn">Submit</string>
+    <string name="loginBtn">Login</string>
+
+    <string name="signLine">%1$s%2$s%3$s%4$d%5$s</string>
 
 </resources>

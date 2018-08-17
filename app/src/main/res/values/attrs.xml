@@ -4,5 +4,6 @@
         <attr name="navButton" format="reference" />
         <attr name="homeIcon" format="reference" />
         <attr name="box" format="reference" />
+        <attr name="invisibleHint" format="reference" />
     </declare-styleable>
 </resources>
