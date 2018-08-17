@@ -22,7 +22,6 @@
             android:id="@+id/prompt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="sample option text"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
         <Spinner
@@ -32,14 +31,15 @@
             android:layout_gravity="center"
             android:background="#EAEAEA"
             android:gravity="center"
-            android:layout_marginLeft="0dp"
+            android:layout_marginStart="0dp"
             android:spinnerMode="dropdown" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@mipmap/drop" />
+            android:src="@mipmap/drop"
+            android:contentDescription="@string/dropdown"/>
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

@@ -14,9 +14,10 @@
 
     <string name="clearJobData">Are you sure you want to clear your saved job sheet data?</string>
 
-    <string name="navButtonCD">Navigation drawer button</string>
+    <string name="navButtonCD">Navigation drawer button</string>   <!--content descriptions-->
     <string name="homeIconCD">Home icon</string>
     <string name="appLogoCD">AAA Communications Logo</string>
+    <string name="dropdown">Dropdown</string>
 
     <string name="appSettingsTitle">App Settings</string>      <!--titles-->
     <string name="jobReporterTitle">Job Reporter</string>
@@ -57,7 +58,7 @@
     <string name="date">Date</string>
 
     <string name="doneBtn">done</string>                      <!--buttons-->
-    <string name="cancelBtn">cancel</string>
+    <string name="cancelBtn">Cancel</string>
     <string name="clearBtn">clear</string>
     <string name="signBtn">Sign</string>
     <string name="submitBtn">Submit</string>
