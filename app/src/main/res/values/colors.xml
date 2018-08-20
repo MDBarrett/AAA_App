@@ -11,4 +11,5 @@
 
     <color name="darkBackground">#222222</color>
     <color name="lightBackground">#FFFFFF</color>
+    <color name="primary_text_default_material_dark">#000000</color>
 </resources>

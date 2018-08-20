@@ -94,6 +94,7 @@
 
             <Button
                 android:id="@+id/clearDataButton"
+                style="?android:attr/borderlessButtonStyle"
                 android:textAlignment="textEnd"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"

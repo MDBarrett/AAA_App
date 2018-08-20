@@ -1,31 +1,168 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:clickable="false">
 
-    <ImageView
-        android:layout_width="119dp"
-        android:layout_height="179dp"
-        android:layout_centerInParent="true"
-        app:srcCompat="?attr/homeIcon"
-        tools:layout_editor_absoluteX="146dp"
-        tools:layout_editor_absoluteY="212dp"
-        android:contentDescription="@string/homeIconCD"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-    <ImageButton
-        android:id="@+id/navButton"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="15dp"
-        android:scaleType="centerCrop"
-        android:background="@null"
-        app:srcCompat="?attr/navButton"
-        android:contentDescription="@string/navButtonCD"/>
+            <ImageButton
+                android:id="@+id/navButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:scaleType="centerCrop"
+                android:background="@null"
+                app:srcCompat="?attr/navButton"
+                android:contentDescription="@string/navButtonCD"/>
 
-</RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="70dp"
+                android:text="@string/homePageTitle"
+                android:textSize="30sp" />
+
+        </LinearLayout> <!--title bar-->
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_height="1dp"
+            android:background="@color/lightGrey" /> <!--divider-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/colorAccent"
+                android:text="@string/scheduledJobsTV"
+                android:textSize="16sp"
+                android:layout_marginTop="5dp"
+                android:gravity="center"/>
+
+        </LinearLayout> <!--Scheduled jobs textView-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="200dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp">
+
+            <ListView
+                android:id="@+id/scheduledJobsLV"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:dividerHeight="2dp">
+
+            </ListView>
+
+        </LinearLayout> <!--Scheduled jobs listView-->
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_height="1dp"
+            android:background="@color/lightGrey" /> <!--divider-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/colorAccent"
+                android:text="@string/inProgressJobsTV"
+                android:textSize="16sp"
+                android:layout_marginTop="5dp"
+                android:gravity="center"/>
+
+        </LinearLayout> <!--In Progress jobs textView-->
+
+        <LinearLayout
+            android:id="@+id/inProgressJobsLV"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="200dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp">
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:dividerHeight="2dp">
+
+            </ListView>
+
+        </LinearLayout> <!--In Progress jobs listView-->
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_height="1dp"
+            android:background="@color/lightGrey" /> <!--divider-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/colorAccent"
+                android:text="@string/completedJobsTV"
+                android:textSize="16sp"
+                android:layout_marginTop="5dp"
+                android:gravity="center"/>
+
+        </LinearLayout> <!--Completed textView-->
+
+        <LinearLayout
+            android:id="@+id/completedJobsLV"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="200dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp">
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:dividerHeight="2dp">
+
+            </ListView>
+
+        </LinearLayout> <!--Completed jobs listView-->
+
+
+    </LinearLayout>
+
+</ScrollView>

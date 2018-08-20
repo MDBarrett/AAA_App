@@ -22,6 +22,7 @@
     <string name="appSettingsTitle">App Settings</string>      <!--titles-->
     <string name="jobReporterTitle">Job Reporter</string>
     <string name="userSettingsTitle">User Settings</string>
+    <string name="homePageTitle">Home Page</string>
 
     <string name="savePhotoSetting">Save photos with job sheets</string>
     <string name="darkThemeSetting">Dark theme</string>
@@ -46,6 +47,9 @@
     <string name="dateTV">Date:</string>
     <string name="nameTV">Name:</string>
     <string name="companyTV">Company:</string>
+    <string name="scheduledJobsTV">Scheduled Jobs</string>
+    <string name="inProgressJobsTV">In Progress Jobs</string>
+    <string name="completedJobsTV">Completed Jobs</string>
 
 
     <string name="jobNo">Job Number</string>                  <!--edit texts-->

@@ -35,7 +35,11 @@ public class JobReporterFragment extends Fragment {
 
     Button submit, sign;
 
-    EditText startTimeET, endTimeET, dateET, addText;
+    EditText addText, firstET, lastET, customerET, jobNoET;
+
+    DatePicker dateDP;
+
+    TimePicker startTimeTP, endTimeTP;
 
     TextView totalHours;
 
@@ -72,20 +76,63 @@ public class JobReporterFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         submit = getView().findViewById(R.id.submitButton);
-        startTimeET = getView().findViewById(R.id.startTimeText);
-        endTimeET = getView().findViewById(R.id.endTimeText);
-        dateET = getView().findViewById(R.id.dateText);
+        startTimeTP = getView().findViewById(R.id.startTimeTP);
+        endTimeTP = getView().findViewById(R.id.endTimeTP);
+        dateDP = getView().findViewById(R.id.dateDP);
         totalHours = getView().findViewById(R.id.totalHoursText);
         sign = getView().findViewById(R.id.signButton);
         addText = getView().findViewById(R.id.additionalText);
+        firstET = getView().findViewById(R.id.firstNameET);
+        lastET = getView().findViewById(R.id.lastNameET);
+        customerET = getView().findViewById(R.id.customerET);
+        jobNoET = getView().findViewById(R.id.jobNumberET);
 
         drawer = getActivity().findViewById(R.id.drawer_layout);
         navBtn = getView().findViewById(R.id.navButton);
+
+        startTimeTP.setIs24HourView( true );
+        endTimeTP.setIs24HourView( true );
 
         navBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 drawer.openDrawer(Gravity.START);
+            }
+        });
+
+        jobNoET.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {      //hide job number hint on click
+                if (hasFocus)
+                    jobNoET.setHint("");
+                else
+                    jobNoET.setHint(R.string.jobNo);
+            }
+        });
+
+        customerET.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {      //hide customer hint on click
+                if (hasFocus)
+                    customerET.setHint("");
+                else
+                    customerET.setHint(R.string.customer);
+            }
+        });
+
+        firstET.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {      //hide first name hint on click
+                if (hasFocus)
+                    firstET.setHint("");
+                else
+                    firstET.setHint(R.string.firstName);
+            }
+        });
+
+        lastET.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            public void onFocusChange(View v, boolean hasFocus) {      //hide last name hint on click
+                if (hasFocus)
+                    lastET.setHint("");
+                else
+                    lastET.setHint(R.string.lastName);
             }
         });
 
@@ -126,91 +173,89 @@ public class JobReporterFragment extends Fragment {
             }
         });
 
-        startTimeET.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+//        startTimeTP.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                Calendar calendar = Calendar.getInstance();
+//                int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+//                int currentMinute = calendar.get(Calendar.MINUTE);
+//
+//                TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
+//                    @Override
+//                    public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
+//
+////                        startTimeET.setText(String.format("%02d:%02d", hourOfDay, minutes));
+//
+//                        startMinute = minutes;
+//                        startHour = hourOfDay;
+//
+//                        setTotalHours();
+//                    }
+//                }, currentHour, currentMinute, false);
+//
+//                timePickerDialog.show();
+//
+//            }
+//        });
 
-                Calendar calendar = Calendar.getInstance();
-                int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
-                int currentMinute = calendar.get(Calendar.MINUTE);
+        startTimeTP.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
 
-                TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
+            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+                startMinute = minute;
+                startHour = hourOfDay;
 
-                        startTimeET.setText(String.format("%02d:%02d", hourOfDay, minutes));
-
-                        startMinute = minutes;
-                        startHour = hourOfDay;
-
-                        setTotalHours();
-                    }
-                }, currentHour, currentMinute, false);
-
-                timePickerDialog.show();
-
+                setTotalHours();
             }
         });
 
-        endTimeET.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        endTimeTP.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
 
-                Calendar calendar = Calendar.getInstance();
-                int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
-                int currentMinute = calendar.get(Calendar.MINUTE);
+            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
+                endMinute = minute;
+                endHour = hourOfDay;
 
-                TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
-
-                        endTimeET.setText(String.format("%02d:%02d", hourOfDay, minutes));
-
-                        endMinute = minutes;
-                        endHour = hourOfDay;
-
-                        setTotalHours();
-                    }
-                }, currentHour, currentMinute, false);
-
-                timePickerDialog.show();
-
+                setTotalHours();
             }
         });
 
-        dateET.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Calendar calendar = Calendar.getInstance();
-                int year = calendar.get(Calendar.YEAR);
-                int month = calendar.get(Calendar.MONTH);
-                int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-
-                                dateET.setText(day + "/" + (month + 1) + "/" + year);
-
-                            }
-                        }, year, month, dayOfMonth);
-
-                datePickerDialog.show();
-
-            }
-        });
+//        endTimeTP.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                Calendar calendar = Calendar.getInstance();
+//                int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+//                int currentMinute = calendar.get(Calendar.MINUTE);
+//
+//                TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
+//                    @Override
+//                    public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
+//
+////                        endTimeET.setText(String.format("%02d:%02d", hourOfDay, minutes));
+//
+//                        endMinute = minutes;
+//                        endHour = hourOfDay;
+//
+//                        setTotalHours();
+//                    }
+//                }, currentHour, currentMinute, false);
+//
+//                timePickerDialog.show();
+//
+//            }
+//        });
 
     }
 
     private void setTotalHours() {
 
-        if ( ( endMinute > 0 | endHour > 0 ) & ( startMinute > 0 | startHour > 0 ) )  {
-            if ( startMinute > endMinute ) {
-                totalHours.setText( ( ( endHour - startHour ) -1 ) + "h " + ( 60 + ( endMinute - startMinute ) ) + "m" );
+        Toast.makeText(getActivity().getApplicationContext(),"Total time CALLED",Toast.LENGTH_SHORT).show();
+
+        if ( ( endMinute > 0 | endHour > 0 ) & ( startMinute > 0 | startHour > 0 ) ) {
+            if (startMinute > endMinute) {
+                totalHours.setText(((endHour - startHour) - 1) + "h " + (60 + (endMinute - startMinute)) + "m");
             } else {
-                totalHours.setText( ( endHour - startHour ) + "h " + ( endMinute - startMinute ) + "m" );
+                totalHours.setText((endHour - startHour) + "h " + (endMinute - startMinute) + "m");
             }
         }
 

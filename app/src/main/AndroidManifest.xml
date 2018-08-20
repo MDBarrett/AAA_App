@@ -13,7 +13,6 @@
         android:theme="@style/darkTheme">
         <activity
             android:name=".MainActivity"
-            android:theme="@style/darkTheme"
             android:label="AAA">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

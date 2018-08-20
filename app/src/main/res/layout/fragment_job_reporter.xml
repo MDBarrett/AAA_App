@@ -61,12 +61,13 @@
                 android:textSize="20sp" />
 
             <EditText
-                android:id="@+id/jobNumberText"
+                android:id="@+id/jobNumberET"
                 android:hint="@string/jobNo"
                 android:textColorHint="?attr/invisibleHint"
                 android:paddingTop="30dp"
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
+                android:textColor="?attr/editTextColor"
                 android:gravity="center"
                 android:inputType="number" />
 
@@ -164,26 +165,27 @@
 
             <TextView
                 android:id="@+id/startTimeTV"
-                android:layout_width="231dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:paddingStart="50dp"
                 android:paddingEnd="50dp"
                 android:paddingTop="30dp"
                 android:text="@string/startTimeTV"
                 android:textSize="20sp" />
 
-            <EditText
-                android:id="@+id/startTimeText"
-                android:hint="@string/startTime"
-                android:textColorHint="?attr/invisibleHint"
-                android:paddingTop="30dp"
-                android:layout_width="120dp"
+            <TextView
+                android:id="@+id/endTimeTV"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:focusableInTouchMode="false"
-                android:gravity="center"
-                android:inputType="text"/>
+                android:layout_weight="1"
+                android:paddingStart="50dp"
+                android:paddingEnd="50dp"
+                android:paddingTop="30dp"
+                android:text="@string/endTimeTV"
+                android:textSize="20sp" />
 
-        </LinearLayout> <!-- start time -->
+        </LinearLayout> <!-- start time and end time -->
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -191,26 +193,23 @@
             android:orientation="horizontal"
             android:clickable="false">
 
-            <TextView
-                android:id="@+id/endTimeTV"
-                android:layout_width="231dp"
+            <TimePicker
+                android:id="@+id/startTimeTP"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:paddingStart="50dp"
-                android:paddingEnd="50dp"
-                android:paddingTop="30dp"
-                android:text="@string/endTimeTV"
-                android:textSize="20sp" />
+                android:layout_weight="1"
+                android:layout_marginStart="10dp">
 
-            <EditText
-                android:id="@+id/endTimeText"
-                android:hint="@string/endTime"
-                android:textColorHint="?attr/invisibleHint"
-                android:paddingTop="30dp"
-                android:layout_width="120dp"
+            </TimePicker>
+
+            <TimePicker
+                android:id="@+id/endTimeTP"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:focusableInTouchMode="false"
-                android:gravity="center"
-                android:inputType="text"/>
+                android:layout_weight="1"
+                android:layout_marginEnd="10dp">
+
+            </TimePicker>
 
         </LinearLayout> <!-- end time -->
 
@@ -247,11 +246,12 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:gravity="center"
             android:clickable="false">
 
             <TextView
                 android:id="@+id/dateTV"
-                android:layout_width="231dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingStart="50dp"
                 android:paddingEnd="50dp"
@@ -259,18 +259,23 @@
                 android:text="@string/dateTV"
                 android:textSize="20sp" />
 
-            <EditText
-                android:id="@+id/dateText"
-                android:hint="@string/date"
-                android:textColorHint="?attr/invisibleHint"
-                android:paddingTop="30dp"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:focusableInTouchMode="false"
-                android:gravity="center"
-                android:inputType="date" />
-
         </LinearLayout> <!-- date -->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:clickable="false">
+
+        <DatePicker
+            android:id="@+id/dateDP"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:datePickerMode="spinner"
+            android:calendarViewShown="false"/>
+
+    </LinearLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -286,6 +291,7 @@
                 android:layout_height="170dp"
                 android:background="?attr/box"
                 android:hint="@string/addComments"
+                android:textColor="?attr/editTextColor"
                 android:inputType="textMultiLine"
 
                 android:overScrollMode="always"
