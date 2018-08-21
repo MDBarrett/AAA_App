@@ -42,6 +42,8 @@
                 android:textColor="@color/white"
                 android:textSize="30sp" />
 
+
+
         </LinearLayout> <!-- nav button and title -->
 
         <LinearLayout
@@ -70,7 +72,7 @@
                 android:textColor="?attr/editTextColor"
                 android:gravity="center"
                 android:inputType="number" />
-
+            
         </LinearLayout> <!-- job number -->
 
         <LinearLayout
@@ -161,6 +163,121 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:clickable="false"
+            android:padding="15dp"
+            android:gravity="center" >
+
+            <EditText
+                android:id="@+id/additionalText"
+                android:layout_width="320dp"
+                android:layout_height="170dp"
+                android:background="?attr/box"
+                android:hint="@string/addComments"
+                android:textColor="?attr/editTextColor"
+                android:inputType="textMultiLine"
+
+                android:overScrollMode="always"
+                android:scrollbarStyle="insideInset"
+                android:scrollbars="vertical"
+
+                android:verticalScrollbarPosition="right"
+                android:gravity="top"
+                android:padding="5dp" />
+
+        </LinearLayout> <!-- additional comments -->
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:gravity="center"
+            android:padding="15dp">
+
+            <Button
+                android:id="@+id/chooseGalleryButton"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="5dp"
+                android:text="@string/chooseGalleryBtn"/>
+
+            <Button
+                android:id="@+id/takePhotoButton"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="5dp"
+                android:text="@string/takePhotoBtn"/>
+
+        </LinearLayout> <!-- photo buttons -->
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_height="1dp"
+            android:background="@color/lightGrey" /> <!--divider-->
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:clickable="false"
+            android:padding="15dp">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="fill_parent"
+                android:layout_height="500dp"
+                android:paddingEnd="5dp"
+                android:paddingStart="5dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:background="@drawable/box"/>
+
+        </LinearLayout> <!-- imageView -->
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:clickable="false">
+
+            <TextView
+                android:id="@+id/dateTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="50dp"
+                android:paddingEnd="50dp"
+                android:paddingTop="30dp"
+                android:text="@string/dateTV"
+                android:textSize="20sp" />
+
+        </LinearLayout> <!-- date -->
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:clickable="false">
+
+            <DatePicker
+                android:id="@+id/dateDP"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:datePickerMode="spinner"
+                android:calendarViewShown="false"/>
+
+        </LinearLayout> <!-- datePicker -->
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
             android:clickable="false">
 
             <TextView
@@ -211,7 +328,7 @@
 
             </TimePicker>
 
-        </LinearLayout> <!-- end time -->
+        </LinearLayout> <!-- timePickers -->
 
         <LinearLayout
             android:layout_width="fill_parent"
@@ -241,68 +358,6 @@
                 android:inputType="text"/>
 
         </LinearLayout> <!-- total hours -->
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:clickable="false">
-
-            <TextView
-                android:id="@+id/dateTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingStart="50dp"
-                android:paddingEnd="50dp"
-                android:paddingTop="30dp"
-                android:text="@string/dateTV"
-                android:textSize="20sp" />
-
-        </LinearLayout> <!-- date -->
-
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:clickable="false">
-
-        <DatePicker
-            android:id="@+id/dateDP"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:datePickerMode="spinner"
-            android:calendarViewShown="false"/>
-
-    </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:clickable="false"
-            android:padding="15dp"
-            android:gravity="center" >
-
-            <EditText
-                android:id="@+id/additionalText"
-                android:layout_width="320dp"
-                android:layout_height="170dp"
-                android:background="?attr/box"
-                android:hint="@string/addComments"
-                android:textColor="?attr/editTextColor"
-                android:inputType="textMultiLine"
-
-                android:overScrollMode="always"
-                android:scrollbarStyle="insideInset"
-                android:scrollbars="vertical"
-
-                android:verticalScrollbarPosition="right"
-                android:gravity="top"
-                android:padding="5dp" />
-
-        </LinearLayout> <!-- additional comments -->
 
         <LinearLayout
             android:layout_width="fill_parent"

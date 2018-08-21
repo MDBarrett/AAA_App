@@ -67,6 +67,8 @@
     <string name="signBtn">Sign</string>
     <string name="submitBtn">Submit</string>
     <string name="loginBtn">Login</string>
+    <string name="takePhotoBtn">Take Photo</string>
+    <string name="chooseGalleryBtn">Choose from Gallery</string>
 
     <string name="signLine">%1$s%2$s%3$s%4$d%5$s</string>
 

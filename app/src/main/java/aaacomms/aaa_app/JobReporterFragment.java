@@ -1,15 +1,14 @@
 package aaacomms.aaa_app;
 
 import android.Manifest;
-import android.animation.ArgbEvaluator;
-import android.animation.ObjectAnimator;
-import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -29,11 +28,12 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import java.util.Calendar;
-
 public class JobReporterFragment extends Fragment {
 
-    Button submit, sign;
+    SharedPreferences prefs;
+    String jobPrefs = "JobPreferences";
+
+    Button submit, sign, takePhoto, chooseGallery;
 
     EditText addText, firstET, lastET, customerET, jobNoET;
 
@@ -44,6 +44,10 @@ public class JobReporterFragment extends Fragment {
     TextView totalHours;
 
     ImageButton navBtn;
+
+    ImageView imageView;
+
+    Context context;
 
     private DrawerLayout drawer;
 
@@ -86,9 +90,14 @@ public class JobReporterFragment extends Fragment {
         lastET = getView().findViewById(R.id.lastNameET);
         customerET = getView().findViewById(R.id.customerET);
         jobNoET = getView().findViewById(R.id.jobNumberET);
+        takePhoto = getView().findViewById(R.id.takePhotoButton);
+        chooseGallery = getView().findViewById(R.id.chooseGalleryButton);
+        imageView = getView().findViewById(R.id.imageView);
 
         drawer = getActivity().findViewById(R.id.drawer_layout);
         navBtn = getView().findViewById(R.id.navButton);
+
+//        prefs = context.getSharedPreferences( jobPrefs , Context.MODE_PRIVATE);
 
         startTimeTP.setIs24HourView( true );
         endTimeTP.setIs24HourView( true );
@@ -140,6 +149,14 @@ public class JobReporterFragment extends Fragment {
             ActivityCompat.requestPermissions( getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, WRITE_EXTERNAL_STORAGE );
         }
 
+        takePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, 0);
+            }
+        });
+
         addText.setOnTouchListener(new View.OnTouchListener() {
 
             public boolean onTouch(View view, MotionEvent event) {
@@ -169,35 +186,8 @@ public class JobReporterFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
-                Toast.makeText(getActivity().getApplicationContext(),"Job submitted",Toast.LENGTH_SHORT).show();
             }
         });
-
-//        startTimeTP.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                Calendar calendar = Calendar.getInstance();
-//                int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
-//                int currentMinute = calendar.get(Calendar.MINUTE);
-//
-//                TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
-//                    @Override
-//                    public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
-//
-////                        startTimeET.setText(String.format("%02d:%02d", hourOfDay, minutes));
-//
-//                        startMinute = minutes;
-//                        startHour = hourOfDay;
-//
-//                        setTotalHours();
-//                    }
-//                }, currentHour, currentMinute, false);
-//
-//                timePickerDialog.show();
-//
-//            }
-//        });
 
         startTimeTP.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
 
@@ -219,37 +209,16 @@ public class JobReporterFragment extends Fragment {
             }
         });
 
-//        endTimeTP.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//                Calendar calendar = Calendar.getInstance();
-//                int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
-//                int currentMinute = calendar.get(Calendar.MINUTE);
-//
-//                TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
-//                    @Override
-//                    public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
-//
-////                        endTimeET.setText(String.format("%02d:%02d", hourOfDay, minutes));
-//
-//                        endMinute = minutes;
-//                        endHour = hourOfDay;
-//
-//                        setTotalHours();
-//                    }
-//                }, currentHour, currentMinute, false);
-//
-//                timePickerDialog.show();
-//
-//            }
-//        });
+    }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Bitmap bitmap = (Bitmap)data.getExtras().get("data");
+        imageView.setImageBitmap(bitmap);
     }
 
     private void setTotalHours() {
-
-        Toast.makeText(getActivity().getApplicationContext(),"Total time CALLED",Toast.LENGTH_SHORT).show();
 
         if ( ( endMinute > 0 | endHour > 0 ) & ( startMinute > 0 | startHour > 0 ) ) {
             if (startMinute > endMinute) {
