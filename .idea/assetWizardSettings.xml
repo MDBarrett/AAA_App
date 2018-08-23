@@ -18,23 +18,12 @@
                                 <PersistentState>
                                   <option name="children">
                                     <map>
-                                      <entry key="clipArt">
-                                        <value>
-                                          <PersistentState>
-                                            <option name="values">
-                                              <map>
-                                                <entry key="paddingPercent" value="15" />
-                                              </map>
-                                            </option>
-                                          </PersistentState>
-                                        </value>
-                                      </entry>
                                       <entry key="clipartAsset">
                                         <value>
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/editor/ic_format_list_bulleted_black_24dp.xml" />
+                                                <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_description_black_24dp.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -45,8 +34,9 @@
                                   <option name="values">
                                     <map>
                                       <entry key="imageAsset" value="C:\Users\matthew.barrett\Pictures\AAA Logo\check-form_white.png" />
-                                      <entry key="outputName" value="ic_action_form" />
-                                      <entry key="theme" value="HOLO_DARK" />
+                                      <entry key="outputName" value="ic_document" />
+                                      <entry key="theme" value="CUSTOM" />
+                                      <entry key="themeColor" value="ffffff" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -57,6 +47,44 @@
                         <option name="values">
                           <map>
                             <entry key="outputIconType" value="ACTIONBAR" />
+                          </map>
+                        </option>
+                      </PersistentState>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </PersistentState>
+          </value>
+        </entry>
+        <entry key="vectorWizard">
+          <value>
+            <PersistentState>
+              <option name="children">
+                <map>
+                  <entry key="vectorAssetStep">
+                    <value>
+                      <PersistentState>
+                        <option name="children">
+                          <map>
+                            <entry key="clipartAsset">
+                              <value>
+                                <PersistentState>
+                                  <option name="values">
+                                    <map>
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/content/ic_send_black_24dp.xml" />
+                                    </map>
+                                  </option>
+                                </PersistentState>
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                        <option name="values">
+                          <map>
+                            <entry key="color" value="ffffff" />
+                            <entry key="outputName" value="ic_send_white_24dp" />
+                            <entry key="sourceFile" value="C:\Users\matthew.barrett" />
                           </map>
                         </option>
                       </PersistentState>

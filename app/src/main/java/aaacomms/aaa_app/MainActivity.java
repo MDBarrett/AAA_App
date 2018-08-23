@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()) {
             case R.id.nav_job_reporter:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new JobReporterFragment()).commit();
+                        new JobSheetFragment()).commit();
                 break;
             case R.id.nav_home:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,

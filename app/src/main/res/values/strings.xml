@@ -71,5 +71,12 @@
     <string name="chooseGalleryBtn">Choose from Gallery</string>
 
     <string name="signLine">%1$s%2$s%3$s%4$d%5$s</string>
+    <string name="title_activity_fragment_job_sheet">fragment_job_sheet</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_job_sheet">JobSheet</string>
+    <string name="title_activity_test">TEST</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 
 </resources>

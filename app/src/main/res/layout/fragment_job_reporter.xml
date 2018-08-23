@@ -72,7 +72,7 @@
                 android:textColor="?attr/editTextColor"
                 android:gravity="center"
                 android:inputType="number" />
-            
+
         </LinearLayout> <!-- job number -->
 
         <LinearLayout
