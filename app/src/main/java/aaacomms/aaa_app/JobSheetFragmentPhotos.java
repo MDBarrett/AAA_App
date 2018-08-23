@@ -2,10 +2,10 @@ package aaacomms.aaa_app;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -17,7 +17,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -26,11 +25,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -47,10 +44,17 @@ public class JobSheetFragmentPhotos extends Fragment {
 
     public static final int REQUEST_IMAGE = 100;
 
+    Button[] buttons = new Button[0];
+
+    LinearLayout photosLL;
+
     ImageButton navBtn;
     private DrawerLayout drawer;
 
-    Button but1,but2,but3,but4,but5,but6,but7,but8,but9,but10, takePhoto;
+    Button takePhoto;
+
+    SharedPreferences prefs;
+    String imagePrefs = "imagePreferences";
 
     ImageView img;
 
@@ -67,6 +71,7 @@ public class JobSheetFragmentPhotos extends Fragment {
         super.onActivityCreated(savedInstanceState);
 
         takePhoto = getView().findViewById(R.id.takePhotoButton);
+        photosLL = getView().findViewById(R.id.photosLL);
         drawer = getActivity().findViewById(R.id.drawer_layout);
         navBtn = getView().findViewById(R.id.navButton);
         navBtn.setOnClickListener(new View.OnClickListener() {
@@ -78,92 +83,14 @@ public class JobSheetFragmentPhotos extends Fragment {
 
         img = getView().findViewById(R.id.imageView);
 
-        but1 = getView().findViewById(R.id.but1);
-        but2 = getView().findViewById(R.id.but2);
-        but3 = getView().findViewById(R.id.but3);
-        but4 = getView().findViewById(R.id.but4);
-        but5 = getView().findViewById(R.id.but5);
-        but6 = getView().findViewById(R.id.but6);
-        but7 = getView().findViewById(R.id.but7);
-        but8 = getView().findViewById(R.id.but8);
-        but9 = getView().findViewById(R.id.but9);
-        but10 = getView().findViewById(R.id.but10);
+        prefs = this.getActivity().getSharedPreferences(imagePrefs, Context.MODE_PRIVATE);
 
-        but1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.one);
-                img.setImageBitmap( bm );
-            }
-        });
+//        photoIndex = prefs.getInt("photo_index", 0);
 
-        but2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.two);
-                img.setImageBitmap( bm );
-            }
-        });
-
-        but3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.three);
-                img.setImageBitmap( bm );
-            }
-        });
-
-        but4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.four);
-                img.setImageBitmap( bm );
-            }
-        });
-
-        but5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.five);
-                img.setImageBitmap( bm );
-            }
-        });
-
-        but6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.six);
-                img.setImageBitmap( bm );
-            }
-        });
-        but7.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.seven);
-                img.setImageBitmap( bm );
-            }
-        });
-        but8.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.eight);
-                img.setImageBitmap( bm );
-            }
-        });
-        but9.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.nine);
-                img.setImageBitmap( bm );
-            }
-        });
-        but10.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.ten);
-                img.setImageBitmap( bm );
-            }
-        });
+        if ( buttons.length == 0 ) {
+            newButton();
+            Toast.makeText(getActivity(), "button 0 created", Toast.LENGTH_SHORT).show();
+        }
 
         BottomNavigationView bottomNavigationView = getView().findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -216,6 +143,14 @@ public class JobSheetFragmentPhotos extends Fragment {
         if (requestCode == REQUEST_IMAGE) {
             if (resultCode == RESULT_OK) {
                 img.setImageURI(Uri.parse(imageFilePath));
+
+//                int id = getView().getId();
+//
+//
+//
+//                Button currentBtn = getView().findViewById(R.id.id);
+
+                newButton();
             } else if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(getActivity(), "You cancelled the operation", Toast.LENGTH_SHORT).show();
             }
@@ -250,6 +185,38 @@ public class JobSheetFragmentPhotos extends Fragment {
         imageFilePath = image.getAbsolutePath();
 
         return image;
+    }
+
+    private void newButton() {
+        Button newBtn = new Button( getActivity() );
+        newBtn.setId( buttons.length );
+        newBtn.setBackgroundResource(R.drawable.ic_add_photo);
+        photosLL.addView( newBtn );
+        newBtn = (Button) getView().findViewById( buttons.length );
+
+        ViewGroup.LayoutParams params = newBtn.getLayoutParams();
+        params.width = 400;
+        params.height = 400;
+        newBtn.setLayoutParams(params);
+
+        Toast.makeText(getContext(),"Button clicked index = " + (buttons.length ), Toast.LENGTH_SHORT).show();
+//        buttons[ buttons.length ] = newBtn;
+
+        if ( buttons.length > 0 ) {
+            final Button lastBtn = (Button) getView().findViewById( buttons.length );
+            lastBtn.setBackgroundResource(R.drawable.ic_add_photo);
+        }
+
+        int id = newBtn.getId();
+
+        newBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Toast.makeText(view.getContext(),"Button clicked index = " + (buttons.length ), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putInt("photo_index", buttons.length ).apply();
     }
 
 }
