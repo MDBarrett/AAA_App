@@ -13,23 +13,23 @@
         android:clickable="false">
 
         <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:clickable="false">
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:clickable="false">
 
-        <ImageButton
-            android:id="@+id/navButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="15dp"
-            android:scaleType="centerCrop"
-            android:background="@null"
-            app:srcCompat="?attr/navButton"
-            android:contentDescription="@string/navButtonCD"/>
+            <ImageButton
+                android:id="@+id/navButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:scaleType="centerCrop"
+                android:background="@null"
+                app:srcCompat="?attr/navButton"
+                android:contentDescription="@string/navButtonCD"/>
 
-    </LinearLayout> <!-- nav button -->
+        </LinearLayout> <!-- nav button -->
 
         <LinearLayout
             android:orientation="vertical"
@@ -55,7 +55,15 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="115dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:paddingStart="5dp"
+            android:paddingEnd="5dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/box"
             android:id="@+id/linearLayout">
 
             <HorizontalScrollView
@@ -64,85 +72,10 @@
                 android:id="@+id/horizontalScrollView" >
 
                 <LinearLayout
+                    android:id="@+id/photosLL"
                     android:orientation="horizontal"
-                    android:background="@drawable/box"
-                    android:paddingTop="5dp"
-                    android:paddingBottom="5dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="10dp">
-
-
-                    <Button
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:layout_marginStart="5dp"
-                        android:background="@drawable/one"
-                        android:id="@+id/but1" />
-
-                    <Button
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:layout_marginStart="5dp"
-                        android:background="@drawable/two"
-                        android:id="@+id/but2" />
-
-                    <Button
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:layout_marginStart="5dp"
-                        android:background="@drawable/three"
-                        android:id="@+id/but3" />
-
-                    <Button
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:layout_marginStart="5dp"
-                        android:background="@drawable/four"
-                        android:id="@+id/but4" />
-
-                    <Button
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:layout_marginStart="5dp"
-                        android:background="@drawable/five"
-                        android:id="@+id/but5" />
-
-                    <Button
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:layout_marginStart="5dp"
-                        android:background="@drawable/six"
-                        android:id="@+id/but6" />
-
-                    <Button
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:background="@drawable/seven"
-                        android:layout_marginStart="5dp"
-                        android:id="@+id/but7" />
-
-                    <Button
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:background="@drawable/eight"
-                        android:layout_marginStart="5dp"
-                        android:id="@+id/but8" />
-
-                    <Button
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:background="@drawable/nine"
-                        android:layout_marginStart="5dp"
-                        android:id="@+id/but9" />
-
-                    <Button
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:layout_marginStart="5dp"
-                        android:layout_marginEnd="5dp"
-                        android:background="@drawable/ten"
-                        android:id="@+id/but10" />
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent">
 
                 </LinearLayout>
 
