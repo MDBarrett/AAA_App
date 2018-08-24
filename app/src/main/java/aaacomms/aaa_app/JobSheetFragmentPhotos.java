@@ -2,7 +2,9 @@ package aaacomms.aaa_app;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -21,15 +23,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.io.File;
 import java.io.IOException;
@@ -60,8 +65,6 @@ public class JobSheetFragmentPhotos extends Fragment {
     ImageButton navBtn;
     private DrawerLayout drawer;
 
-    Button takePhoto;
-
     SharedPreferences prefs;
     String imagePrefs = "imagePreferences";
 
@@ -79,7 +82,6 @@ public class JobSheetFragmentPhotos extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        takePhoto = getView().findViewById(R.id.takePhotoButton);
         photosLL = getView().findViewById(R.id.photosLL);
         drawer = getActivity().findViewById(R.id.drawer_layout);
         navBtn = getView().findViewById(R.id.navButton);
@@ -97,6 +99,7 @@ public class JobSheetFragmentPhotos extends Fragment {
         if ( buttons.size() == 0 ) {
             newButton("");
         }
+
 
         BottomNavigationView bottomNavigationView = getView().findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -118,25 +121,6 @@ public class JobSheetFragmentPhotos extends Fragment {
                         break;
                 }
                 return true;
-            }
-        });
-
-        takePhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[]{Manifest.permission.CAMERA},
-                            MY_CAMERA_PERMISSION_CODE);
-                } else if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                            EXTERNAL_REQUEST_CODE);
-                } else {
-                    openCameraIntent();
-                }
-
             }
         });
 
@@ -240,8 +224,6 @@ public class JobSheetFragmentPhotos extends Fragment {
             newBtn.setBackgroundResource(R.drawable.ic_add_photo);
         }
 
-        int id = newBtn.getId();
-
         newBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
 
@@ -282,21 +264,59 @@ public class JobSheetFragmentPhotos extends Fragment {
                         break;
                 }
 
-//                Toast.makeText(view.getContext(),"index: " + ( index ) + " button size: " + buttons.size(), Toast.LENGTH_SHORT).show();
                 if ( index != ( buttons.size() - 1 ) ) {
                     img.setImageURI(Uri.parse(imagePaths.get(index + 1)));
                 } else {
-                    Intent i = new Intent(
-                            Intent.ACTION_PICK,
-                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
-                    startActivityForResult(i, RESULT_LOAD_IMAGE);
+                    showDialog(getActivity(), null, null);
+
                 }
             }
         });
 
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt("photo_index", index ).apply();
+    }
+
+    public void showDialog(Activity activity, String title, CharSequence message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(activity, R.style.DialogTheme);
+
+        if (title != null) builder.setTitle(title);
+
+        builder.setMessage(message);
+        builder.setPositiveButton("Take Photo", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                takePhoto();
+            }
+        });
+        builder.setNeutralButton("Choose from Gallery", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                chooseGallery();
+            }
+        });
+        builder.show();
+    }
+
+    private void takePhoto() {
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.CAMERA},
+                    MY_CAMERA_PERMISSION_CODE);
+        } else if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    EXTERNAL_REQUEST_CODE);
+        } else {
+            openCameraIntent();
+        }
+    }
+
+    private void chooseGallery() {
+        Intent i = new Intent(
+                Intent.ACTION_PICK,
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+        startActivityForResult(i, RESULT_LOAD_IMAGE);
     }
 
 }
