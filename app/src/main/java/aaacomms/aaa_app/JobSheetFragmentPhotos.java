@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -44,6 +45,9 @@ public class JobSheetFragmentPhotos extends Fragment {
 
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     private static final int EXTERNAL_REQUEST_CODE = 200;
+
+    private static int RESULT_LOAD_IMAGE = 1;
+
     private String imageFilePath = "";
 
     public static final int REQUEST_IMAGE = 100;
@@ -89,8 +93,6 @@ public class JobSheetFragmentPhotos extends Fragment {
         img = getView().findViewById(R.id.imageView);
 
         prefs = this.getActivity().getSharedPreferences(imagePrefs, Context.MODE_PRIVATE);
-
-//        photoIndex = prefs.getInt("photo_index", 0);
 
         if ( buttons.size() == 0 ) {
             newButton("");
@@ -151,6 +153,23 @@ public class JobSheetFragmentPhotos extends Fragment {
             } else if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(getActivity(), "You cancelled the operation", Toast.LENGTH_SHORT).show();
             }
+        }
+
+        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+
+            Cursor cursor = getActivity().getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            cursor.close();
+
+            img.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+            newButton( picturePath );
+
         }
 
     }
@@ -266,6 +285,12 @@ public class JobSheetFragmentPhotos extends Fragment {
 //                Toast.makeText(view.getContext(),"index: " + ( index ) + " button size: " + buttons.size(), Toast.LENGTH_SHORT).show();
                 if ( index != ( buttons.size() - 1 ) ) {
                     img.setImageURI(Uri.parse(imagePaths.get(index + 1)));
+                } else {
+                    Intent i = new Intent(
+                            Intent.ACTION_PICK,
+                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
+                    startActivityForResult(i, RESULT_LOAD_IMAGE);
                 }
             }
         });
