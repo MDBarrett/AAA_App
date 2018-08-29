@@ -30,25 +30,20 @@
             android:contentDescription="@string/navButtonCD"/>
 
             <TextView
-                android:id="@+id/totalTimeTV"
-                android:layout_width="231dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="50dp"
-                android:paddingEnd="50dp"
-                android:paddingTop="30dp"
-                android:text="@string/totalTimeTV"
-                android:textSize="20sp" />
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="15dp"
+                android:textSize="28sp"
+                android:text="@string/jobNoTV"/>
 
-            <EditText
-                android:id="@+id/totalHoursText"
-                android:hint="@string/totalTime"
-                android:textColorHint="?attr/invisibleHint"
-                android:paddingTop="30dp"
-                android:layout_width="120dp"
+            <TextView
+                android:id="@+id/jobNoTV"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:focusableInTouchMode="false"
-                android:gravity="center"
-                android:inputType="text"/>
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="10dp"
+                android:textSize="28sp"/>
 
     </LinearLayout> <!-- nav button -->
 
@@ -115,32 +110,62 @@
             android:gravity="center"
             android:clickable="false">
 
-            <Button
-                android:id="@+id/signButton"
-                style="?android:attr/borderlessButtonStyle"
-                android:background="@drawable/box"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:ems="5"
-                android:layout_marginStart="50dp"
-                android:text="@string/signBtn"/>
-
             <DatePicker
                 android:id="@+id/dateDP"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:scaleX=".8"
-                android:scaleY=".8"
+                android:scaleX=".9"
+                android:scaleY=".9"
                 android:datePickerMode="spinner"
                 android:calendarViewShown="false"/>
 
-        </LinearLayout> <!-- sign and datePicker -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/totalTimeTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:paddingTop="30dp"
+                    android:text="@string/totalTimeTV"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/totalHoursText"
+                    android:hint="@string/totalTime"
+                    android:textColorHint="?attr/invisibleHint"
+                    android:paddingTop="30dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:focusableInTouchMode="false"
+                    android:gravity="center"
+                    android:inputType="text"/>
+
+                </LinearLayout>
+
+        </LinearLayout> <!-- datePicker -->
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:clickable="false"
             android:padding="15dp">
+
+            <Button
+                android:id="@+id/signButton"
+                style="?android:attr/borderlessButtonStyle"
+                android:background="@drawable/box"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:layout_weight="1"
+                android:text="@string/signBtn"/>
 
             <Button
                 android:id="@+id/submitButton"

@@ -24,6 +24,7 @@
             android:layout_height="wrap_content"
             android:text="@string/clearJobData"
             android:textAlignment="textStart"
+            android:textColor="@color/black"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
     </LinearLayout>

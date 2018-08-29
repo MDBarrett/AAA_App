@@ -54,6 +54,50 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textColor="@color/colorAccent"
+                android:text="@string/draftJobsTV"
+                android:textSize="16sp"
+                android:layout_marginTop="5dp"
+                android:gravity="center"/>
+
+        </LinearLayout> <!--Scheduled jobs textView-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="200dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp">
+
+            <ListView
+                android:id="@+id/draftJobsLV"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/box"
+                android:dividerHeight="2dp">
+
+            </ListView>
+
+        </LinearLayout> <!--Scheduled jobs listView-->
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_height="1dp"
+            android:background="@color/lightGrey" /> <!--divider-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/colorAccent"
                 android:text="@string/scheduledJobsTV"
                 android:textSize="16sp"
                 android:layout_marginTop="5dp"

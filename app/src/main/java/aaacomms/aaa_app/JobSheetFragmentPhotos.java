@@ -60,6 +60,8 @@ public class JobSheetFragmentPhotos extends Fragment {
     ArrayList<Button> buttons = new ArrayList<>();
     ArrayList<String> imagePaths = new ArrayList<>();
 
+    TextView jobNoTV;
+
     LinearLayout photosLL;
 
     ImageButton navBtn;
@@ -82,6 +84,7 @@ public class JobSheetFragmentPhotos extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        jobNoTV = getView().findViewById(R.id.jobNoTV);
         photosLL = getView().findViewById(R.id.photosLL);
         drawer = getActivity().findViewById(R.id.drawer_layout);
         navBtn = getView().findViewById(R.id.navButton);
@@ -95,6 +98,8 @@ public class JobSheetFragmentPhotos extends Fragment {
         img = getView().findViewById(R.id.imageView);
 
         prefs = this.getActivity().getSharedPreferences(imagePrefs, Context.MODE_PRIVATE);
+
+        jobNoTV.setText( String.valueOf( getCurrentJob() ) );
 
         if ( buttons.size() == 0 ) {
             newButton("");
@@ -189,7 +194,6 @@ public class JobSheetFragmentPhotos extends Fragment {
 
     private void newButton(String imageFilePath) {
         int index = buttons.size();
-        Toast.makeText(getContext(),"buttons = " + ( index + 1 ) , Toast.LENGTH_SHORT).show();
 
         Button newBtn = new Button( getActivity() );
         newBtn.setId( index );
@@ -317,6 +321,11 @@ public class JobSheetFragmentPhotos extends Fragment {
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
         startActivityForResult(i, RESULT_LOAD_IMAGE);
+    }
+
+    private int getCurrentJob(){
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) , Context.MODE_PRIVATE);
+        return prefs.getInt( getResources().getString(R.string.currentJobString) , 0);
     }
 
 }

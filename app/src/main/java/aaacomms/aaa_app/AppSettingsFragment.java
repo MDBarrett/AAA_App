@@ -92,12 +92,13 @@ public class AppSettingsFragment extends Fragment {
             public void onClick(View view) {
                 final LayoutInflater li = LayoutInflater.from(context);
                 View promptsView = li.inflate(R.layout.warning_reset, null);
-                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context, R.style.DialogTheme);
                 alertDialogBuilder.setView(promptsView);
 
-                alertDialogBuilder.setCancelable(false).setPositiveButton("OK",
+                alertDialogBuilder.setCancelable(true).setPositiveButton("OK",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int id) {
+                                clearAllData();
                                 Toast.makeText(getActivity().getApplicationContext(),"Job Sheet Data Cleared",Toast.LENGTH_SHORT).show();
                             }
                         })
@@ -143,6 +144,25 @@ public class AppSettingsFragment extends Fragment {
             }
         });
 
+    }
+
+    private void clearAllData() {
+        int numJobs = getNumJobs();
+
+        for ( int i = 0; i < numJobs; i++ ) {
+            SharedPreferences prefs = getContext().getSharedPreferences( getResources().getString(R.string.jobsPrefsString) + i , Context.MODE_PRIVATE );
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.clear().apply();
+        }
+        SharedPreferences prefs = getContext().getSharedPreferences( getResources().getString(R.string.jobsPrefsString), Context.MODE_PRIVATE );
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.clear().apply();
+
+    }
+
+    private int getNumJobs() {
+        SharedPreferences prefs = getContext().getSharedPreferences( getResources().getString(R.string.jobsPrefsString) , Context.MODE_PRIVATE);
+        return prefs.getInt( getResources().getString(R.string.numJobsString), 0 );
     }
 
 }

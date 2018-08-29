@@ -50,7 +50,7 @@
     <string name="scheduledJobsTV">Scheduled Jobs</string>
     <string name="inProgressJobsTV">In Progress Jobs</string>
     <string name="completedJobsTV">Completed Jobs</string>
-
+    <string name="draftJobsTV">Draft Jobs</string>
 
     <string name="jobNo">Job Number</string>                  <!--edit texts-->
     <string name="customer">Customer</string>
@@ -69,6 +69,7 @@
     <string name="loginBtn">Login</string>
     <string name="takePhotoBtn">Take Photo</string>
     <string name="chooseGalleryBtn">Choose from Gallery</string>
+    <string name="createNewJob">New Job</string>
 
     <string name="signLine">%1$s%2$s%3$s%4$d%5$s</string>
     <string name="title_activity_fragment_job_sheet">fragment_job_sheet</string>
@@ -78,5 +79,14 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+
+    <string name="jobsPrefsString">jobPreferences</string>      <!--SharedPreferences-->
+    <string name="jobNumString">jobNo</string>
+    <string name="numJobsString">numJobs</string>
+    <string name="customerString">customer</string>
+    <string name="firstNameString">firstName</string>
+    <string name="lastNameString">lastName</string>
+    <string name="additionalCommentsString">additionalComments</string>
+    <string name="currentJobString">currentJob</string>
 
 </resources>

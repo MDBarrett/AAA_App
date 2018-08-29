@@ -1,7 +1,9 @@
 package aaacomms.aaa_app;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -29,7 +31,7 @@ public class JobSheetFragmentFinalize extends Fragment {
 
     int startMinute, startHour, endMinute, endHour;
 
-    TextView totalHours;
+    TextView totalHours, jobNoTV;
 
     @Nullable
     @Override
@@ -49,6 +51,7 @@ public class JobSheetFragmentFinalize extends Fragment {
         navBtn = getView().findViewById(R.id.navButton);
         totalHours = getView().findViewById(R.id.totalHoursText);
         sign = getView().findViewById(R.id.signButton);
+        jobNoTV = getView().findViewById(R.id.jobNoTV);
 
         startTimeTP.setIs24HourView( true );
         endTimeTP.setIs24HourView( true );
@@ -111,6 +114,8 @@ public class JobSheetFragmentFinalize extends Fragment {
             }
         });
 
+        jobNoTV.setText( String.valueOf( getCurrentJob() ) );
+
     }
 
     private void setTotalHours() {
@@ -123,6 +128,11 @@ public class JobSheetFragmentFinalize extends Fragment {
             }
         }
 
+    }
+
+    private int getCurrentJob(){
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) , Context.MODE_PRIVATE);
+        return prefs.getInt( getResources().getString(R.string.currentJobString) , 0);
     }
 
 }
