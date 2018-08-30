@@ -16,10 +16,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
+
+import java.sql.Time;
+import java.util.Calendar;
+import java.util.Date;
 
 public class JobSheetFragmentFinalize extends Fragment {
 
@@ -28,6 +34,7 @@ public class JobSheetFragmentFinalize extends Fragment {
     private DrawerLayout drawer;
 
     TimePicker startTimeTP, endTimeTP;
+    DatePicker datePicker;
 
     int startMinute, startHour, endMinute, endHour;
 
@@ -45,6 +52,7 @@ public class JobSheetFragmentFinalize extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        datePicker = getView().findViewById(R.id.dateDP);
         startTimeTP = getView().findViewById(R.id.startTimeTP);
         endTimeTP = getView().findViewById(R.id.endTimeTP);
         drawer = getActivity().findViewById(R.id.drawer_layout);
@@ -53,8 +61,34 @@ public class JobSheetFragmentFinalize extends Fragment {
         sign = getView().findViewById(R.id.signButton);
         jobNoTV = getView().findViewById(R.id.jobNoTV);
 
-        startTimeTP.setIs24HourView( true );
         endTimeTP.setIs24HourView( true );
+        startTimeTP.setIs24HourView( true );
+
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int minutes = cal.get(Calendar.MINUTE);
+        int hours = cal.get(Calendar.HOUR_OF_DAY);
+
+        startMinute = minutes;
+        startHour = hours;
+        endMinute = minutes;
+        endHour = hours;
+
+        setStartTime(getCurrentJob(), String.valueOf(startHour) + String.valueOf(startMinute) );
+        setEndTime(getCurrentJob(), String.valueOf(endHour) + String.valueOf(endMinute) );
+
+        setTotalHours();
+
+        datePicker.init(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(),new DatePicker.OnDateChangedListener() {
+
+            @Override
+            public void onDateChanged(DatePicker arg0, int arg1, int arg2, int arg3) {
+                String s = " "+arg3+ "/"+ (arg2+1) + "/"+arg1;
+                setDate( getCurrentJob(), s );
+//                Toast.makeText(getActivity(), s ,Toast.LENGTH_SHORT).show();
+            }
+        } );
 
         navBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +103,19 @@ public class JobSheetFragmentFinalize extends Fragment {
                 startMinute = minute;
                 startHour = hourOfDay;
 
+                if ( startMinute < 10 && startHour < 10 ) {
+                    setStartTime(getCurrentJob(), 0 + String.valueOf(startHour) + String.valueOf(startMinute) + 0);
+                }
+                if ( startMinute >= 10 && startHour < 10 ) {
+                    setStartTime(getCurrentJob(), 0 + String.valueOf(startHour) + String.valueOf(startMinute));
+                }
+                if ( startMinute < 10 && startHour >= 10 ) {
+                    setStartTime( getCurrentJob(), String.valueOf(startHour) + String.valueOf(startMinute) + 0);
+                }
+                if ( startMinute >= 10 && startHour >= 10 ) {
+                    setStartTime( getCurrentJob(), String.valueOf(startHour) + String.valueOf(startMinute) );
+                }
+
                 setTotalHours();
             }
         });
@@ -78,6 +125,19 @@ public class JobSheetFragmentFinalize extends Fragment {
             public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
                 endMinute = minute;
                 endHour = hourOfDay;
+
+                if ( endMinute < 10 && endHour < 10 ) {
+                    setEndTime(getCurrentJob(), 0 + String.valueOf(endHour) + String.valueOf(endMinute) + 0);
+                }
+                if ( endMinute >= 10 && endHour < 10 ) {
+                    setEndTime(getCurrentJob(), 0 + String.valueOf(endHour) + String.valueOf(endMinute));
+                }
+                if ( endMinute < 10 && endHour >= 10 ) {
+                    setEndTime( getCurrentJob(), String.valueOf(endHour) + String.valueOf(endMinute) + 0);
+                }
+                if ( endMinute >= 10 && endHour >= 10 ) {
+                    setEndTime( getCurrentJob(), String.valueOf(endHour) + String.valueOf(endMinute) );
+                }
 
                 setTotalHours();
             }
@@ -120,19 +180,63 @@ public class JobSheetFragmentFinalize extends Fragment {
 
     private void setTotalHours() {
 
-        if ( ( endMinute > 0 | endHour > 0 ) & ( startMinute > 0 | startHour > 0 ) ) {
-            if (startMinute > endMinute) {
-                totalHours.setText(((endHour - startHour) - 1) + "h " + (60 + (endMinute - startMinute)) + "m");
-            } else {
-                totalHours.setText((endHour - startHour) + "h " + (endMinute - startMinute) + "m");
+        if (startMinute > endMinute) {
+            String s = ( ( endHour - startHour ) - 1 ) + "h " + ( 60 + ( endMinute - startMinute ) ) + "m";
+            totalHours.setText( s );
+            setTotalTime( getCurrentJob(), s );
+        } else {
+            String s = ( endHour - startHour ) + "h " + ( endMinute - startMinute ) + "m";
+            totalHours.setText( s );
+            setTotalTime( getCurrentJob(), s );
+        }
+    }
+
+    private int getNumJobs() {
+        SharedPreferences prefs = getContext().getSharedPreferences( getResources().getString(R.string.jobsPrefsString) , Context.MODE_PRIVATE);
+        return prefs.getInt( getResources().getString(R.string.numJobsString), 0 );
+    }
+
+    private int getIndex(int jobNo) {
+        int index = 0;
+        int numJobs = getNumJobs();
+
+        for ( int i = 0; i < numJobs; i++ ) {
+            SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + i , Context.MODE_PRIVATE);
+            int jobNum = prefs.getInt( getResources().getString(R.string.jobNumString) , 0);
+            if ( jobNo == jobNum ) {
+                index = i;
             }
         }
-
+        return index;
     }
 
     private int getCurrentJob(){
         SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) , Context.MODE_PRIVATE);
         return prefs.getInt( getResources().getString(R.string.currentJobString) , 0);
+    }
+
+    private void setStartTime(int jobNo, String startTime) {
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString( getResources().getString(R.string.startTimeString) , startTime ).apply();
+    }
+
+    private void setEndTime(int jobNo, String endTime) {
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString( getResources().getString(R.string.endTimeString) , endTime ).apply();
+    }
+
+    private void setTotalTime(int jobNo, String totalTime) {
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString( getResources().getString(R.string.totalTimeString) , totalTime ).apply();
+    }
+
+    private void setDate(int jobNo, String date) {
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString( getResources().getString(R.string.dateString) , date ).apply();
     }
 
 }

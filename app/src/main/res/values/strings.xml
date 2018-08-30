@@ -71,7 +71,15 @@
     <string name="chooseGalleryBtn">Choose from Gallery</string>
     <string name="createNewJob">New Job</string>
 
-    <string name="signLine">%1$s%2$s%3$s%4$d%5$s</string>
+    <string name="signLine">
+        %1$s
+        %2$s
+        %3$s
+        %4$s
+        %5$d
+        %6$s
+    </string>
+
     <string name="title_activity_fragment_job_sheet">fragment_job_sheet</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_job_sheet">JobSheet</string>
@@ -88,5 +96,9 @@
     <string name="lastNameString">lastName</string>
     <string name="additionalCommentsString">additionalComments</string>
     <string name="currentJobString">currentJob</string>
+    <string name="startTimeString">startTime</string>
+    <string name="endTimeString">endTime</string>
+    <string name="totalTimeString">totalTime</string>
+    <string name="dateString">date</string>
 
 </resources>

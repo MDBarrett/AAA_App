@@ -4,6 +4,8 @@ import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.gesture.GestureOverlayView;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -13,12 +15,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class Esignature extends Activity {
     GestureOverlayView gestureView;
@@ -32,6 +39,7 @@ public class Esignature extends Activity {
     int jobNo;
 
     TextView signLine;
+    TextView start, end, total, date;
 
     LinearLayout buttonBar;
 
@@ -47,6 +55,11 @@ public class Esignature extends Activity {
         Button cancel = findViewById(R.id.cancelButton);
         buttonBar = findViewById(R.id.buttonBarRL);
         signLine = findViewById(R.id.signLine);
+        start = findViewById(R.id.startTimeESTV);
+        end = findViewById(R.id.endTimeESTV);
+        total = findViewById(R.id.totalHoursESTV);
+        date = findViewById(R.id.dataESTV);
+
 
         path= Environment.getExternalStorageDirectory()+"/signature.png";
         file = new File(path);
@@ -145,6 +158,20 @@ public class Esignature extends Activity {
             }
         });
 
+        setSignatureLine( getFirstName( getCurrentJob() ), getLastName( getCurrentJob() ), getCurrentJob() );
+
+        start.setText( getStartTime( getCurrentJob() ) );
+        end.setText( getEndTime( getCurrentJob() ) );
+        total.setText( getTotalTime( getCurrentJob() ) );
+
+        if ( getDate( getCurrentJob() ) != null ) {
+            date.setText( getDate( getCurrentJob() ) );
+        } else {
+            Date c = Calendar.getInstance().getTime();
+            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yy");
+            String formattedDate = df.format(c);
+            date.setText( formattedDate );
+        }
     }
 
     private void redColorAnimation(View v) {
@@ -173,13 +200,68 @@ public class Esignature extends Activity {
         colorAnim.start();
     }
 
-    private void setSignatureLine(String name, int jobNo) {
+    private void setSignatureLine(String firstName, String lastName, int jobNo) {
         String s;
 
-        s = getString(R.string.signLine, "I, ", name, " accept that job #", jobNo, " has been completed" );
+        s = getString(R.string.signLine, "I, ", firstName, lastName , " accept that job #", jobNo, " has been completed" );
 
         signLine.setText( s );
 
     }
+
+    private int getCurrentJob(){
+        SharedPreferences prefs = getSharedPreferences(getResources().getString(R.string.jobsPrefsString) , MODE_PRIVATE);
+        return prefs.getInt( getResources().getString(R.string.currentJobString) , 0);
+    }
+
+    private int getIndex(int jobNo) {
+        int index = 0;
+        int numJobs = getNumJobs();
+
+        for ( int i = 0; i < numJobs; i++ ) {
+            SharedPreferences prefs = getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + i , MODE_PRIVATE);
+            int jobNum = prefs.getInt( getResources().getString(R.string.jobNumString) , 0);
+            if ( jobNo == jobNum ) {
+                index = i;
+            }
+        }
+        return index;
+    }
+
+    private int getNumJobs() {
+        SharedPreferences prefs = getSharedPreferences( getResources().getString(R.string.jobsPrefsString) , MODE_PRIVATE);
+        return prefs.getInt( getResources().getString(R.string.numJobsString), 0 );
+    }
+
+    private String getFirstName(int jobNo) {
+        SharedPreferences prefs = getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , MODE_PRIVATE);
+        return prefs.getString( getResources().getString(R.string.firstNameString) , null);
+    }
+
+    private String getLastName(int jobNo) {
+        SharedPreferences prefs = getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , MODE_PRIVATE);
+        return prefs.getString( getResources().getString(R.string.lastNameString) , null);
+    }
+
+    private String getStartTime(int jobNo) {
+        SharedPreferences prefs = getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , MODE_PRIVATE);
+        return prefs.getString( getResources().getString(R.string.startTimeString) , null);
+    }
+
+    private String getEndTime(int jobNo) {
+        SharedPreferences prefs = getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , MODE_PRIVATE);
+        return prefs.getString( getResources().getString(R.string.endTimeString) , null);
+    }
+
+    private String getTotalTime(int jobNo) {
+        SharedPreferences prefs = getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , MODE_PRIVATE);
+        return prefs.getString( getResources().getString(R.string.totalTimeString) , null);
+    }
+
+    private String getDate(int jobNo) {
+        SharedPreferences prefs = getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , MODE_PRIVATE);
+        return prefs.getString( getResources().getString(R.string.dateString) , null);
+    }
+
 
 }
