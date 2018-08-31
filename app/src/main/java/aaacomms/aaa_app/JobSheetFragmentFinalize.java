@@ -66,17 +66,17 @@ public class JobSheetFragmentFinalize extends Fragment {
 
         Date date = new Date();
         Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        int minutes = cal.get(Calendar.MINUTE);
-        int hours = cal.get(Calendar.HOUR_OF_DAY);
+        cal.setTime( date );
+        int minutes = cal.get( Calendar.MINUTE );
+        int hours = cal.get( Calendar.HOUR_OF_DAY );
 
         startMinute = minutes;
         startHour = hours;
         endMinute = minutes;
         endHour = hours;
 
-        setStartTime(getCurrentJob(), String.valueOf(startHour) + String.valueOf(startMinute) );
-        setEndTime(getCurrentJob(), String.valueOf(endHour) + String.valueOf(endMinute) );
+        setTime( startMinute , startHour , true );
+        setTime( endMinute , endHour , false );
 
         setTotalHours();
 
@@ -103,18 +103,7 @@ public class JobSheetFragmentFinalize extends Fragment {
                 startMinute = minute;
                 startHour = hourOfDay;
 
-                if ( startMinute < 10 && startHour < 10 ) {
-                    setStartTime(getCurrentJob(), 0 + String.valueOf(startHour) + String.valueOf(startMinute) + 0);
-                }
-                if ( startMinute >= 10 && startHour < 10 ) {
-                    setStartTime(getCurrentJob(), 0 + String.valueOf(startHour) + String.valueOf(startMinute));
-                }
-                if ( startMinute < 10 && startHour >= 10 ) {
-                    setStartTime( getCurrentJob(), String.valueOf(startHour) + String.valueOf(startMinute) + 0);
-                }
-                if ( startMinute >= 10 && startHour >= 10 ) {
-                    setStartTime( getCurrentJob(), String.valueOf(startHour) + String.valueOf(startMinute) );
-                }
+                setTime( startMinute, startHour , true);
 
                 setTotalHours();
             }
@@ -126,18 +115,7 @@ public class JobSheetFragmentFinalize extends Fragment {
                 endMinute = minute;
                 endHour = hourOfDay;
 
-                if ( endMinute < 10 && endHour < 10 ) {
-                    setEndTime(getCurrentJob(), 0 + String.valueOf(endHour) + String.valueOf(endMinute) + 0);
-                }
-                if ( endMinute >= 10 && endHour < 10 ) {
-                    setEndTime(getCurrentJob(), 0 + String.valueOf(endHour) + String.valueOf(endMinute));
-                }
-                if ( endMinute < 10 && endHour >= 10 ) {
-                    setEndTime( getCurrentJob(), String.valueOf(endHour) + String.valueOf(endMinute) + 0);
-                }
-                if ( endMinute >= 10 && endHour >= 10 ) {
-                    setEndTime( getCurrentJob(), String.valueOf(endHour) + String.valueOf(endMinute) );
-                }
+                setTime( endMinute, endHour , false);
 
                 setTotalHours();
             }
@@ -237,6 +215,34 @@ public class JobSheetFragmentFinalize extends Fragment {
         SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString( getResources().getString(R.string.dateString) , date ).apply();
+    }
+
+    private void setTime(int minutes, int hours, boolean start){
+
+        if ( minutes < 10 && hours < 10 )
+            if ( start )
+                setStartTime(getCurrentJob(), 0 + String.valueOf( hours ) + 0 + String.valueOf( minutes ) );
+            else
+                setEndTime(getCurrentJob(), 0 + String.valueOf( hours ) + 0 + String.valueOf( minutes ) );
+
+        if ( minutes >= 10 && hours < 10 )
+            if ( start )
+                setStartTime(getCurrentJob(), 0 + String.valueOf( hours ) + String.valueOf( minutes ));
+            else
+                setEndTime(getCurrentJob(), 0 + String.valueOf( hours ) + String.valueOf( minutes ));
+
+        if ( minutes < 10 && hours >= 10 )
+            if ( start )
+                setStartTime( getCurrentJob(), String.valueOf( hours ) + 0 + String.valueOf( minutes ) );
+            else
+                setEndTime( getCurrentJob(), String.valueOf( hours ) + 0 + String.valueOf( minutes ) );
+
+        if ( minutes >= 10 && hours >= 10 )
+            if ( start )
+                setStartTime( getCurrentJob(), String.valueOf( hours ) + String.valueOf( minutes ) );
+            else
+                setEndTime( getCurrentJob(), String.valueOf( hours ) + String.valueOf( minutes ) );
+
     }
 
 }

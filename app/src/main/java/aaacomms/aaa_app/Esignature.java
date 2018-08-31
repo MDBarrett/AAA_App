@@ -203,7 +203,7 @@ public class Esignature extends Activity {
     private void setSignatureLine(String firstName, String lastName, int jobNo) {
         String s;
 
-        s = getString(R.string.signLine, "I, ", firstName, lastName , " accept that job #", jobNo, " has been completed" );
+        s = getString(R.string.signLine, "I, ", firstName, lastName , " confirm that job #", jobNo, " has been completed" );
 
         signLine.setText( s );
 

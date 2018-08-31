@@ -51,23 +51,24 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_horizontal"
+            android:layout_marginTop="15dp"
             android:clickable="false">
 
             <Button
                 android:id="@+id/newJobBtn"
+                style="?android:attr/borderlessButtonStyle"
+                android:background="@drawable/box"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="@string/createNewJob"
-                android:textColor="@color/black"
-                android:layout_marginEnd="60dp"
-                android:textSize="20sp" />
+                android:layout_marginStart="50dp"/>
 
             <Spinner
                 android:id="@+id/jobNumberSP"
                 android:spinnerMode="dropdown"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"/>
+                android:layout_marginStart="92dp"
+                android:layout_width="170dp"
+                android:layout_height="match_parent"/>
 
         </LinearLayout> <!-- job number -->
 
