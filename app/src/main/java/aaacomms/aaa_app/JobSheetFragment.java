@@ -91,19 +91,22 @@ public class JobSheetFragment extends Fragment {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int id) {
                                 String num = result.getText().toString();
-                                int jobNumber = Integer.parseInt( num );
-                                storeJobNo( jobNumber );
-                                ArrayAdapter<Integer> dropAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, getJobNumbers());
-                                spinner.setAdapter(dropAdapter);
-                                setEditable( true );
-                                jobNoTV.setText( num );
-                                customerET.setText("");
-                                firstET.setText("");
-                                lastET.setText("");
-                                additionalTextET.setText("");
-                                spinner.setSelection( getIndex( Integer.valueOf( num ) ) );
-                                setCurrentJob( Integer.valueOf( num ) );
-                                newJob = true;
+                                int jobNumber = Integer.parseInt(num);
+                                if ( jobAccepted( num ) ) {
+                                    storeJobNo(jobNumber);
+                                    ArrayAdapter<Integer> dropAdapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_item, getJobNumbers());
+                                    dropAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+                                    spinner.setAdapter(dropAdapter);
+                                    setEditable(true);
+                                    jobNoTV.setText(num);
+                                    customerET.setText("");
+                                    firstET.setText("");
+                                    lastET.setText("");
+                                    additionalTextET.setText("");
+                                    spinner.setSelection(getIndex(Integer.valueOf(num)));
+                                    setCurrentJob(Integer.valueOf(num));
+                                    newJob = true;
+                                }
                             }
                         })
                         .setNegativeButton("Cancel",
@@ -399,6 +402,25 @@ public class JobSheetFragment extends Fragment {
     private int getCurrentJob(){
         SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) , Context.MODE_PRIVATE);
         return prefs.getInt( getResources().getString(R.string.currentJobString) , 0);
+    }
+
+    private Boolean jobAccepted(String jobNo) {
+        ArrayList<Integer> jobNumbers = getJobNumbers();
+
+        if ( jobNo.length() != 5 ) {
+            Toast.makeText(getActivity(), "job numbers require 5 digits", Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        int num = Integer.parseInt( jobNo );
+
+        for ( int i = 0; i < getNumJobs(); i++ )
+            if ( jobNumbers.get( i ) == num ) {
+                Toast.makeText(getActivity(), "job number already exists", Toast.LENGTH_LONG).show();
+                return false;
+            }
+
+        return true;
     }
 
 }

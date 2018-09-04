@@ -226,7 +226,7 @@ public class JobSheetFragmentPhotos extends Fragment {
                     params2.leftMargin = 20;
                 }
 
-                lastBtn.setBackground(ob);
+                lastBtn.setBackground( ob );
                 newBtn.setBackgroundResource(R.drawable.ic_add_photo);
                 setButtonListener( lastBtn );
             }
@@ -401,7 +401,7 @@ public class JobSheetFragmentPhotos extends Fragment {
                     default:
                         break;
                 }
-                                
+
                 if ( index != ( buttons.size() -1 ) ) {
                     SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex(getCurrentJob()), Context.MODE_PRIVATE);
                     img.setImageURI(Uri.parse(prefs.getString(getResources().getString(R.string.imagePrefsString) + index, null)));
