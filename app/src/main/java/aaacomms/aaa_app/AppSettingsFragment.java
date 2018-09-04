@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -158,6 +159,9 @@ public class AppSettingsFragment extends Fragment {
         SharedPreferences.Editor editor = prefs.edit();
         editor.clear().apply();
 
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences( getActivity() );
+        SharedPreferences.Editor editor2 = preferences.edit();
+        editor2.clear().apply();
     }
 
     private int getNumJobs() {

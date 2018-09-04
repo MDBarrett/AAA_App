@@ -34,6 +34,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.io.File;
@@ -53,12 +54,9 @@ public class JobSheetFragmentPhotos extends Fragment {
 
     private static int RESULT_LOAD_IMAGE = 1;
 
-    private String imageFilePath = "";
+    String imageFilePath = "";
 
     public static final int REQUEST_IMAGE = 100;
-
-    ArrayList<Button> buttons = new ArrayList<>();
-    ArrayList<String> imagePaths = new ArrayList<>();
 
     TextView jobNoTV;
 
@@ -69,6 +67,9 @@ public class JobSheetFragmentPhotos extends Fragment {
 
     SharedPreferences prefs;
     String imagePrefs = "imagePreferences";
+
+    ArrayList<Button> buttons = new ArrayList<>();
+
 
     ImageView img;
 
@@ -101,11 +102,6 @@ public class JobSheetFragmentPhotos extends Fragment {
 
         jobNoTV.setText( String.valueOf( getCurrentJob() ) );
 
-        if ( buttons.size() == 0 ) {
-            newButton("");
-        }
-
-
         BottomNavigationView bottomNavigationView = getView().findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -129,6 +125,16 @@ public class JobSheetFragmentPhotos extends Fragment {
             }
         });
 
+        if ( getCurrentJob() != 0 ) {
+            if ( getNumImages() > 0 ) {
+                newImage(null, false);
+                setStoredImages( getCurrentJob() );
+//                Toast.makeText(getActivity(), "Images: " + getNumImages(), Toast.LENGTH_SHORT).show();
+            } else {
+                newImage(null, false);
+            }
+        }
+
     }
 
     @Override
@@ -138,7 +144,7 @@ public class JobSheetFragmentPhotos extends Fragment {
         if (requestCode == REQUEST_IMAGE) {
             if (resultCode == RESULT_OK) {
                 img.setImageURI(Uri.parse(imageFilePath));
-                newButton( imageFilePath );
+                newImage( imageFilePath, false );
             } else if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(getActivity(), "You cancelled the operation", Toast.LENGTH_SHORT).show();
             }
@@ -157,7 +163,7 @@ public class JobSheetFragmentPhotos extends Fragment {
             cursor.close();
 
             img.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-            newButton( picturePath );
+            newImage( picturePath, false );
 
         }
 
@@ -192,94 +198,51 @@ public class JobSheetFragmentPhotos extends Fragment {
         return image;
     }
 
-    private void newButton(String imageFilePath) {
-        int index = buttons.size();
+    private void newImage(final String imageFilePath, boolean storedImages ) {
+        Button newBtn = new Button( getActivity() );               //Create the new button
+        newBtn.setId( buttons.size() );
+        newBtn.setBackgroundResource(R.drawable.ic_add_photo);     //new buttons background is set to the add photo icon
+        photosLL.addView( newBtn );                                //new button is added to the listView
 
-        Button newBtn = new Button( getActivity() );
-        newBtn.setId( index );
-        newBtn.setBackgroundResource(R.drawable.ic_add_photo);
-        photosLL.addView( newBtn );
-        newBtn = (Button) getView().findViewById( index );
-
-        ViewGroup.LayoutParams params = newBtn.getLayoutParams();
+        ViewGroup.LayoutParams params = newBtn.getLayoutParams();  //new button is set to roughly 100 x 100 dp
         params.width = 400;
         params.height = 400;
         newBtn.setLayoutParams(params);
 
-        buttons.add( newBtn );
-        imagePaths.add( imageFilePath );
+        setButtonListener( newBtn );
 
-        if ( index > 0 ) {
-            final Button lastBtn = (Button) getView().findViewById( index - 1 );
+        if ( imageFilePath != null ) {
 
-            Bitmap bitmap = BitmapFactory.decodeFile( imageFilePath );
+            final Button lastBtn = getView().findViewById(buttons.size() - 1);
 
-            Bitmap resizedBitmap = Bitmap.createScaledBitmap(
-                    bitmap, 400, 400, false);
+            Bitmap bitmap = BitmapFactory.decodeFile(imageFilePath);
 
-            BitmapDrawable ob = new BitmapDrawable(getResources(), resizedBitmap);
+            if (bitmap != null) {
+                Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, 400, 400, false);
+                BitmapDrawable ob = new BitmapDrawable(getResources(), resizedBitmap);
 
-            if ( index > 1 ) {
-                ViewGroup.MarginLayoutParams params2 = (ViewGroup.MarginLayoutParams) lastBtn.getLayoutParams();
-                params2.leftMargin = 20;
+                if (buttons.size() > 1) {
+                    ViewGroup.MarginLayoutParams params2 = (ViewGroup.MarginLayoutParams) lastBtn.getLayoutParams();
+                    params2.leftMargin = 20;
+                }
+
+                lastBtn.setBackground(ob);
+                newBtn.setBackgroundResource(R.drawable.ic_add_photo);
+                setButtonListener( lastBtn );
             }
 
-            lastBtn.setBackgroundDrawable( ob );
-            newBtn.setBackgroundResource(R.drawable.ic_add_photo);
+            if ( !storedImages ) {
+                storeImage(imageFilePath, getCurrentJob());
+
+            } else {
+
+            }
+
         }
 
-        newBtn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
+        buttons.add( newBtn );
 
-                int index = 0;
-
-                switch( view.getId() ) {
-                    case 0:
-                        index = 0;
-                        break;
-                    case 1:
-                        index = 1;
-                        break;
-                    case 2:
-                        index = 2;
-                        break;
-                    case 3:
-                        index = 3;
-                        break;
-                    case 4:
-                        index = 4;
-                        break;
-                    case 5:
-                        index = 5;
-                        break;
-                    case 6:
-                        index = 6;
-                        break;
-                    case 7:
-                        index = 7;
-                        break;
-                    case 8:
-                        index = 8;
-                        break;
-                    case 9:
-                        index = 9;
-                        break;
-                    default:
-                        break;
-                }
-
-                if ( index != ( buttons.size() - 1 ) ) {
-                    img.setImageURI(Uri.parse(imagePaths.get(index + 1)));
-                } else {
-
-                    showDialog(getActivity(), null, null);
-
-                }
-            }
-        });
-
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt("photo_index", index ).apply();
+//            Toast.makeText(getActivity(), "Buttons: " + buttons.size() + " Images: " + getNumImages(), Toast.LENGTH_SHORT).show();
     }
 
     public void showDialog(Activity activity, String title, CharSequence message) {
@@ -323,9 +286,133 @@ public class JobSheetFragmentPhotos extends Fragment {
         startActivityForResult(i, RESULT_LOAD_IMAGE);
     }
 
+    private int getIndex(int jobNo) {
+        int index = 0;
+        int numJobs = getNumJobs();
+
+        for ( int i = 0; i < numJobs; i++ ) {
+            SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + i , Context.MODE_PRIVATE);
+            int jobNum = prefs.getInt( getResources().getString(R.string.jobNumString) , 0);
+            if ( jobNo == jobNum ) {
+                index = i;
+            }
+        }
+        return index;
+    }
+
+    private int getImageIndex(String filePath) {
+        int index = 0;
+        int numImages = getNumImages();
+
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString), Context.MODE_PRIVATE);
+        for ( int i = 0; i < numImages; i++ ) {
+            String storedFilePath = prefs.getString( getResources().getString(R.string.imagePrefsString) + i , null);
+            if ( filePath.equals( storedFilePath ) ) {
+                index = i;
+            }
+        }
+        return index;
+    }
+
     private int getCurrentJob(){
         SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) , Context.MODE_PRIVATE);
         return prefs.getInt( getResources().getString(R.string.currentJobString) , 0);
+    }
+
+    private void storeImage( String filePath, int jobNo ){
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+
+        int index = getNumImages();
+
+        editor.putString( getResources().getString(R.string.imagePrefsString) + index , filePath ).apply();
+
+        incrementNumImages();
+    }
+
+    private void setStoredImages( int jobNo ) {
+        int numImages = getNumImages();
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
+
+        for ( int i = 0; i < numImages; i++ ) {
+            String filePath = prefs.getString( getResources().getString(R.string.imagePrefsString) + i , null);
+            newImage( filePath , true );
+        }
+
+    }
+
+    private int getNumImages(){
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( getCurrentJob() ) , Context.MODE_PRIVATE);
+        return prefs.getInt( getResources().getString(R.string.numImagesString), 0);
+    }
+
+    private int getNumJobs() {
+        SharedPreferences prefs = getContext().getSharedPreferences( getResources().getString(R.string.jobsPrefsString) , Context.MODE_PRIVATE);
+        return prefs.getInt( getResources().getString(R.string.numJobsString), 0 );
+    }
+
+    private void incrementNumImages() {
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( getCurrentJob() ), Context.MODE_PRIVATE);
+
+        int numJobs = prefs.getInt( getResources().getString(R.string.numImagesString), 0 );
+
+        SharedPreferences.Editor editor2 = prefs.edit();
+        editor2.putInt( getResources().getString(R.string.numImagesString), numJobs + 1 ).apply();
+    }
+
+    private void setButtonListener(final Button button) {
+
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+
+                int index = 0;
+
+                switch (view.getId()) {
+                    case 0:
+                        index = 0;
+                        break;
+                    case 1:
+                        index = 1;
+                        break;
+                    case 2:
+                        index = 2;
+                        break;
+                    case 3:
+                        index = 3;
+                        break;
+                    case 4:
+                        index = 4;
+                        break;
+                    case 5:
+                        index = 5;
+                        break;
+                    case 6:
+                        index = 6;
+                        break;
+                    case 7:
+                        index = 7;
+                        break;
+                    case 8:
+                        index = 8;
+                        break;
+                    case 9:
+                        index = 9;
+                        break;
+                    default:
+                        break;
+                }
+                                
+                if ( index != ( buttons.size() -1 ) ) {
+                    SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex(getCurrentJob()), Context.MODE_PRIVATE);
+                    img.setImageURI(Uri.parse(prefs.getString(getResources().getString(R.string.imagePrefsString) + index, null)));
+                } else {
+
+                    showDialog(getActivity(), null, null);
+
+                }
+            }
+        });
+
     }
 
 }

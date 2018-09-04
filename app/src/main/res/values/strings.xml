@@ -100,5 +100,8 @@
     <string name="endTimeString">endTime</string>
     <string name="totalTimeString">totalTime</string>
     <string name="dateString">date</string>
+    <string name="imagePrefsString">imagePreferences</string>
+    <string name="numImagesString">numImages</string>
+
 
 </resources>
