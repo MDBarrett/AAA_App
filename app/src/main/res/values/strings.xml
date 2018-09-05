@@ -105,6 +105,7 @@
     <string name="yearString">year</string>
     <string name="imagePrefsString">imagePreferences</string>
     <string name="numImagesString">numImages</string>
-
+    <string name="jobStatusString">jobStatus</string>
+    <string name="signedString">signed</string>
 
 </resources>

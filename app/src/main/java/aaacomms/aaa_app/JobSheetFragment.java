@@ -93,6 +93,7 @@ public class JobSheetFragment extends Fragment {
                                 int jobNumber = Integer.parseInt(num);
                                 if ( jobAccepted( num ) ) {
                                     storeJobNo(jobNumber);
+                                    setJobStatus( jobNumber, "draft" );
                                     ArrayAdapter<Integer> dropAdapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_item, getJobNumbers());
                                     dropAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
                                     spinner.setAdapter(dropAdapter);
@@ -442,6 +443,12 @@ public class JobSheetFragment extends Fragment {
             jobNoTV.setTextSize( 28 );
             jobNoTV.setTextColor(Color.parseColor("#FFFFFF") );
         }
+    }
+
+    private void setJobStatus(int jobNo, String jobStatus) {
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString( getResources().getString(R.string.jobStatusString) , jobStatus ).apply();
     }
 
 }

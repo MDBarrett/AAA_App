@@ -5,12 +5,15 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.gesture.GestureOverlayView;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -23,9 +26,11 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class Esignature extends Activity {
     GestureOverlayView gestureView;
@@ -35,7 +40,7 @@ public class Esignature extends Activity {
     Bitmap bitmap;
     public boolean gestureTouch=false;
 
-    int jobNo;
+    String imageFilePath = "";
 
     TextView signLine;
     TextView start, end, total, date;
@@ -110,7 +115,14 @@ public class Esignature extends Activity {
             @Override
             public void onClick(View v) {
                 greenColorAnimation(buttonBar);
+
+                SharedPreferences prefs = getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( getCurrentJob() ) , MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean( getResources().getString(R.string.signedString), true ).apply();
+
                 try {
+//                    Toast.makeText(getApplicationContext(), "SAVED", Toast.LENGTH_LONG).show();
+
                     bitmap = Bitmap.createBitmap(signPad.getDrawingCache());
                     file.createNewFile();
                     FileOutputStream fos = new FileOutputStream(file);
@@ -267,6 +279,17 @@ public class Esignature extends Activity {
 
     private String getDate() {
         return getDay( getCurrentJob() ) + "/" + getMonth( getCurrentJob() ) + "/" + getYear( getCurrentJob() );
+    }
+
+    private File createImageFile() throws IOException {
+
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+        String imageFileName = "IMG_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
+        imageFilePath = image.getAbsolutePath();
+
+        return image;
     }
 
 

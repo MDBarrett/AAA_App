@@ -24,14 +24,16 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import java.sql.Array;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 public class JobSheetFragmentFinalize extends Fragment {
 
     ImageButton navBtn;
-    Button sign;
+    Button sign, submit;
     private DrawerLayout drawer;
 
     TimePicker startTimeTP, endTimeTP;
@@ -60,6 +62,7 @@ public class JobSheetFragmentFinalize extends Fragment {
         navBtn = getView().findViewById(R.id.navButton);
         totalHours = getView().findViewById(R.id.totalHoursText);
         sign = getView().findViewById(R.id.signButton);
+        submit = getView().findViewById(R.id.submitButton);
         jobNoTV = getView().findViewById(R.id.jobNoTV);
 
         endTimeTP.setIs24HourView( true );
@@ -147,8 +150,37 @@ public class JobSheetFragmentFinalize extends Fragment {
             }
         });
 
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setJobStatus( getCurrentJob(),  "completed" );
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new HomeFragment()).commit();
+            }
+        });
+
         setJobNoTV( getCurrentJob() );
 
+        if ( getCurrentJob() != 0 ) {
+            if (fieldsComplete(getCurrentJob())) {
+                submit.setEnabled(true);
+            } else {
+                submit.setEnabled(false);
+            }
+        }
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if ( getCurrentJob() != 0 ) {
+            if (fieldsComplete(getCurrentJob())) {
+                submit.setEnabled(true);
+            } else {
+                submit.setEnabled(false);
+            }
+        }
     }
 
     private void setTotalHours() {
@@ -329,6 +361,51 @@ public class JobSheetFragmentFinalize extends Fragment {
         endTimeTP.setMinute(endMinute);
 
         setTotalHours();
+    }
+
+    private Boolean fieldsComplete(int jobNo) {
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
+        ArrayList<String> missingFields = new ArrayList<>();
+
+        if ( prefs.getString( getResources().getString(R.string.customerString), null).equals("") ) {
+            missingFields.add( "customer name" );
+            Toast.makeText(getActivity(), "missing CUSTOMER NAME", Toast.LENGTH_LONG).show();
+        }
+        if ( prefs.getString( getResources().getString(R.string.firstNameString), null).equals("") ) {
+            missingFields.add( "first name" );
+            Toast.makeText(getActivity(), "missing FIRST NAME", Toast.LENGTH_LONG).show();
+        }
+        if ( prefs.getString( getResources().getString(R.string.lastNameString), null).equals("") ) {
+            missingFields.add( "last name" );
+            Toast.makeText(getActivity(), "missing LAST", Toast.LENGTH_LONG).show();
+        }
+        if ( !jobSheetSigned( getCurrentJob() ) ) {
+            missingFields.add( "customer signature" );
+            Toast.makeText(getActivity(), "missing CUSTOMER NAME", Toast.LENGTH_LONG).show();
+        }
+
+        if ( missingFields.size() > 0 ) {
+            String listString = "missing ";
+            for ( String s : missingFields ) {
+                listString += s + ", ";
+            }
+            Toast.makeText(getActivity(), listString.substring(0, (listString.length() - 2) ), Toast.LENGTH_LONG).show();
+            missingFields.clear();
+            return  false;
+        }
+
+        return true;
+    }
+
+    private Boolean jobSheetSigned(int jobNo) {
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
+        return prefs.getBoolean( getResources().getString(R.string.signedString), false);
+    }
+
+    private void setJobStatus(int jobNo, String jobStatus) {
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString( getResources().getString(R.string.jobStatusString) , jobStatus ).apply();
     }
 
 }
