@@ -35,7 +35,6 @@ public class Esignature extends Activity {
     Bitmap bitmap;
     public boolean gestureTouch=false;
 
-    String customerName;
     int jobNo;
 
     TextView signLine;
@@ -164,14 +163,7 @@ public class Esignature extends Activity {
         end.setText( getEndTime( getCurrentJob() ) );
         total.setText( getTotalTime( getCurrentJob() ) );
 
-        if ( getDate( getCurrentJob() ) != null ) {
-            date.setText( getDate( getCurrentJob() ) );
-        } else {
-            Date c = Calendar.getInstance().getTime();
-            SimpleDateFormat df = new SimpleDateFormat("dd/MM/yy");
-            String formattedDate = df.format(c);
-            date.setText( formattedDate );
-        }
+        date.setText( getDate() );
     }
 
     private void redColorAnimation(View v) {
@@ -258,9 +250,23 @@ public class Esignature extends Activity {
         return prefs.getString( getResources().getString(R.string.totalTimeString) , null);
     }
 
-    private String getDate(int jobNo) {
+    private int getDay(int jobNo) {
         SharedPreferences prefs = getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , MODE_PRIVATE);
-        return prefs.getString( getResources().getString(R.string.dateString) , null);
+        return prefs.getInt( getResources().getString(R.string.dayString) , 0);
+    }
+
+    private int getMonth(int jobNo) {
+        SharedPreferences prefs = getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , MODE_PRIVATE);
+        return prefs.getInt( getResources().getString(R.string.monthString) , 0) + 1;
+    }
+
+    private int getYear(int jobNo) {
+        SharedPreferences prefs = getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , MODE_PRIVATE);
+        return prefs.getInt( getResources().getString(R.string.yearString) , 0);
+    }
+
+    private String getDate() {
+        return getDay( getCurrentJob() ) + "/" + getMonth( getCurrentJob() ) + "/" + getYear( getCurrentJob() );
     }
 
 

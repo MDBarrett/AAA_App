@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -100,7 +101,7 @@ public class JobSheetFragmentPhotos extends Fragment {
 
         prefs = this.getActivity().getSharedPreferences(imagePrefs, Context.MODE_PRIVATE);
 
-        jobNoTV.setText( String.valueOf( getCurrentJob() ) );
+        setJobNoTV( getCurrentJob() );
 
         BottomNavigationView bottomNavigationView = getView().findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -413,6 +414,18 @@ public class JobSheetFragmentPhotos extends Fragment {
             }
         });
 
+    }
+
+    private void setJobNoTV(int jobNo) {
+        if ( jobNo == 0 ) {
+            jobNoTV.setText(R.string.noJobSelectedTV);
+            jobNoTV.setTextSize( 18 );
+            jobNoTV.setTextColor(Color.parseColor("#FF0000") );
+        } else {
+            jobNoTV.setText(String.valueOf(jobNo));
+            jobNoTV.setTextSize( 28 );
+            jobNoTV.setTextColor(Color.parseColor("#FFFFFF") );
+        }
     }
 
 }

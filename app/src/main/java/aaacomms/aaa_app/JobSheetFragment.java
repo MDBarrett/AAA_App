@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -26,8 +27,6 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class JobSheetFragment extends Fragment {
@@ -98,7 +97,7 @@ public class JobSheetFragment extends Fragment {
                                     dropAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
                                     spinner.setAdapter(dropAdapter);
                                     setEditable(true);
-                                    jobNoTV.setText(num);
+                                    setJobNoTV( jobNumber );
                                     customerET.setText("");
                                     firstET.setText("");
                                     lastET.setText("");
@@ -126,7 +125,7 @@ public class JobSheetFragment extends Fragment {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 ArrayList<Integer> jobNumbers = getJobNumbers();
                 if ( !newJob ) {
-                    jobNoTV.setText(String.valueOf(jobNumbers.get(position)));
+                    setJobNoTV( jobNumbers.get(position) );
                 } else {
                     newJob = false;
                 }
@@ -261,7 +260,7 @@ public class JobSheetFragment extends Fragment {
             }
         });   //additional comments LISTENER
 
-        jobNoTV.setText( String.valueOf( getCurrentJob() ) );
+        setJobNoTV( getCurrentJob() );
         spinner.setSelection( getIndex( getCurrentJob() ) );
 
     }
@@ -421,6 +420,18 @@ public class JobSheetFragment extends Fragment {
             }
 
         return true;
+    }
+
+    private void setJobNoTV(int jobNo) {
+        if ( jobNo == 0 ) {
+            jobNoTV.setText(R.string.noJobSelectedTV);
+            jobNoTV.setTextSize( 18 );
+            jobNoTV.setTextColor(Color.parseColor("#FF0000") );
+        } else {
+            jobNoTV.setText(String.valueOf(jobNo));
+            jobNoTV.setTextSize( 28 );
+            jobNoTV.setTextColor(Color.parseColor("#FFFFFF") );
+        }
     }
 
 }

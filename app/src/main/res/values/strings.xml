@@ -51,6 +51,7 @@
     <string name="inProgressJobsTV">In Progress Jobs</string>
     <string name="completedJobsTV">Completed Jobs</string>
     <string name="draftJobsTV">Draft Jobs</string>
+    <string name="noJobSelectedTV">no job selected</string>
 
     <string name="jobNo">Job Number</string>                  <!--edit texts-->
     <string name="customer">Customer</string>
@@ -99,7 +100,9 @@
     <string name="startTimeString">startTime</string>
     <string name="endTimeString">endTime</string>
     <string name="totalTimeString">totalTime</string>
-    <string name="dateString">date</string>
+    <string name="dayString">day</string>
+    <string name="monthString">month</string>
+    <string name="yearString">year</string>
     <string name="imagePrefsString">imagePreferences</string>
     <string name="numImagesString">numImages</string>
 

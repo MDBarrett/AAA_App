@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -64,29 +65,23 @@ public class JobSheetFragmentFinalize extends Fragment {
         endTimeTP.setIs24HourView( true );
         startTimeTP.setIs24HourView( true );
 
-        Date date = new Date();
-        Calendar cal = Calendar.getInstance();
-        cal.setTime( date );
-        int minutes = cal.get( Calendar.MINUTE );
-        int hours = cal.get( Calendar.HOUR_OF_DAY );
+        if ( getCurrentJob() != 0 ) {
 
-        startMinute = minutes;
-        startHour = hours;
-        endMinute = minutes;
-        endHour = hours;
+            initializeFields();
 
-        setTime( startMinute , startHour , true );
-        setTime( endMinute , endHour , false );
+        } else {
+            startTimeTP.setEnabled( false );
+            endTimeTP.setEnabled( false );
+            datePicker.setEnabled( false );
 
-        setTotalHours();
+            sign.setEnabled( false );
+        }
 
         datePicker.init(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(),new DatePicker.OnDateChangedListener() {
 
             @Override
             public void onDateChanged(DatePicker arg0, int arg1, int arg2, int arg3) {
-                String s = " "+arg3+ "/"+ (arg2+1) + "/"+arg1;
-                setDate( getCurrentJob(), s );
-//                Toast.makeText(getActivity(), s ,Toast.LENGTH_SHORT).show();
+                setDate( getCurrentJob(), arg3, arg2+1, arg1 );
             }
         } );
 
@@ -152,7 +147,7 @@ public class JobSheetFragmentFinalize extends Fragment {
             }
         });
 
-        jobNoTV.setText( String.valueOf( getCurrentJob() ) );
+        setJobNoTV( getCurrentJob() );
 
     }
 
@@ -211,10 +206,12 @@ public class JobSheetFragmentFinalize extends Fragment {
         editor.putString( getResources().getString(R.string.totalTimeString) , totalTime ).apply();
     }
 
-    private void setDate(int jobNo, String date) {
+    private void setDate(int jobNo, int day, int month, int year) {
         SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putString( getResources().getString(R.string.dateString) , date ).apply();
+        editor.putInt( getResources().getString(R.string.dayString) , day );
+        editor.putInt( getResources().getString(R.string.monthString) , month );
+        editor.putInt( getResources().getString(R.string.yearString) , year ).apply();
     }
 
     private void setTime(int minutes, int hours, boolean start){
@@ -243,6 +240,95 @@ public class JobSheetFragmentFinalize extends Fragment {
             else
                 setEndTime( getCurrentJob(), String.valueOf( hours ) + String.valueOf( minutes ) );
 
+    }
+
+    private void setJobNoTV(int jobNo) {
+        if ( jobNo == 0 ) {
+            jobNoTV.setText(R.string.noJobSelectedTV);
+            jobNoTV.setTextSize( 18 );
+            jobNoTV.setTextColor(Color.parseColor("#FF0000") );
+        } else {
+            jobNoTV.setText(String.valueOf(jobNo));
+            jobNoTV.setTextSize( 28 );
+            jobNoTV.setTextColor(Color.parseColor("#FFFFFF") );
+        }
+    }
+
+    private String getStartTime(int jobNo) {
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
+        return prefs.getString( getResources().getString(R.string.startTimeString) , null);
+    }
+
+    private String getEndTime(int jobNo) {
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
+        return prefs.getString( getResources().getString(R.string.endTimeString) , null);
+    }
+
+    private int getDay(int jobNo) {
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
+        return prefs.getInt( getResources().getString(R.string.dayString) , 0);
+    }
+
+    private int getMonth(int jobNo) {
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
+        return prefs.getInt( getResources().getString(R.string.monthString) , 0);
+    }
+
+    private int getYear(int jobNo) {
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
+        return prefs.getInt( getResources().getString(R.string.yearString) , 0);
+    }
+
+    private void initializeFields() {
+        startTimeTP.setEnabled( true );
+        endTimeTP.setEnabled( true );
+        datePicker.setEnabled( true );
+
+        sign.setEnabled( true );
+
+        if ( getDay( getCurrentJob() ) == 0 && getMonth( getCurrentJob() ) == 0 && getYear( getCurrentJob() ) == 0 ) {
+            Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+
+            datePicker.updateDate(year, month, day);
+            setDate( getCurrentJob(), day, month, year);
+        } else {
+            datePicker.updateDate( getYear( getCurrentJob() ), getMonth( getCurrentJob() ) - 1, getDay( getCurrentJob() ) );
+        }
+
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int minutes = cal.get(Calendar.MINUTE);
+        int hours = cal.get(Calendar.HOUR_OF_DAY);
+
+        startMinute = minutes;
+        startHour = hours;
+        endMinute = minutes;
+        endHour = hours;
+
+        if (getStartTime(getCurrentJob()) != null && getEndTime(getCurrentJob()) != null) {
+            String startTime = getStartTime(getCurrentJob());
+            startHour = Integer.valueOf(startTime.substring(0, startTime.length() / 2));
+            startMinute = Integer.valueOf(startTime.substring(startTime.length() / 2));
+
+            String endTime = getEndTime(getCurrentJob());
+            endHour = Integer.valueOf(endTime.substring(0, startTime.length() / 2));
+            endMinute = Integer.valueOf(endTime.substring(startTime.length() / 2));
+        }
+
+        setTime(startMinute, startHour, true);
+        setTime(endMinute, endHour, false);
+
+        startTimeTP.setHour(startHour);
+        startTimeTP.setMinute(startMinute);
+
+        endTimeTP.setHour(endHour);
+        endTimeTP.setMinute(endMinute);
+
+        setTotalHours();
     }
 
 }
