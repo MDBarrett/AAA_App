@@ -411,6 +411,16 @@ public class JobSheetFragment extends Fragment {
             return false;
         }
 
+        if ( jobNo.equals( "00000" ) ) {
+            Toast.makeText(getActivity(), "job number is invalid", Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        if ( jobNo.startsWith( "0" ) ) {
+            Toast.makeText(getActivity(), "job numbers cannot start with 0", Toast.LENGTH_LONG).show();
+            return false;
+        }
+
         int num = Integer.parseInt( jobNo );
 
         for ( int i = 0; i < getNumJobs(); i++ )
