@@ -200,15 +200,20 @@ public class JobSheetFragmentPhotos extends Fragment {
     }
 
     private void newImage(final String imageFilePath, boolean storedImages ) {
-        Button newBtn = new Button( getActivity() );               //Create the new button
+        final Button newBtn = new Button( getActivity() );               //Create the new button
         newBtn.setId( buttons.size() );
         newBtn.setBackgroundResource(R.drawable.ic_add_photo);     //new buttons background is set to the add photo icon
         photosLL.addView( newBtn );                                //new button is added to the listView
 
-        ViewGroup.LayoutParams params = newBtn.getLayoutParams();  //new button is set to roughly 100 x 100 dp
-        params.width = 400;
-        params.height = 400;
-        newBtn.setLayoutParams(params);
+        final ViewGroup.LayoutParams params = newBtn.getLayoutParams();
+        photosLL.post(new Runnable(){
+            public void run(){
+//                Toast.makeText(getActivity(), "height: " + photosLL.getHeight(), Toast.LENGTH_SHORT).show();
+                params.width = photosLL.getHeight();
+                params.height = photosLL.getHeight();
+                newBtn.setLayoutParams(params);
+            }
+        });
 
         setButtonListener( newBtn );
 
@@ -419,8 +424,8 @@ public class JobSheetFragmentPhotos extends Fragment {
     private void setJobNoTV(int jobNo) {
         if ( jobNo == 0 ) {
             jobNoTV.setText(R.string.noJobSelectedTV);
-            jobNoTV.setTextSize( 18 );
-            jobNoTV.setTextColor(Color.parseColor("#FF0000") );
+            jobNoTV.setTextSize( 28 );
+            jobNoTV.setTextColor(Color.parseColor("#FFFFFF") );
         } else {
             jobNoTV.setText(String.valueOf(jobNo));
             jobNoTV.setTextSize( 28 );

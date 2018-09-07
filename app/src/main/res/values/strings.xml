@@ -37,12 +37,12 @@
     <string name="start">Start:</string>                      <!--text views-->
     <string name="end">End:</string>
     <string name="total">Total:</string>
-    <string name="jobNoTV">Job Number:</string>
+    <string name="jobNoTV">Job No.</string>
     <string name="customerTV">Customer:</string>
     <string name="firstNameTV">First Name:</string>
     <string name="lastNameTV">Last Name:</string>
-    <string name="startTimeTV">Start Time:</string>
-    <string name="endTimeTV">End Time:</string>
+    <string name="startTimeTV">Start Time</string>
+    <string name="endTimeTV">End Time</string>
     <string name="totalTimeTV">Total Time:</string>
     <string name="dateTV">Date:</string>
     <string name="nameTV">Name:</string>
@@ -51,7 +51,7 @@
     <string name="inProgressJobsTV">In Progress Jobs</string>
     <string name="completedJobsTV">Completed Jobs</string>
     <string name="draftJobsTV">Draft Jobs</string>
-    <string name="noJobSelectedTV">no job selected</string>
+    <string name="noJobSelectedTV"> - - - - -</string>
 
     <string name="jobNo">Job Number</string>                  <!--edit texts-->
     <string name="customer">Customer</string>

@@ -15,12 +15,13 @@
             android:layout_height="wrap_content"
             android:background="@color/darkBackground"
             android:orientation="vertical"
+            android:gravity="center_vertical|center"
             android:paddingBottom="15dp"
             android:paddingTop="15dp">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp">
@@ -63,6 +64,7 @@
                     android:paddingEnd="5dp"
                     android:paddingStart="5dp"
                     android:paddingTop="5dp"
+                    android:layout_marginEnd="20dp"
                     android:textSize="20sp" />
 
             </LinearLayout> <!--start and end-->
@@ -138,20 +140,19 @@
 
             <TextView
                 android:id="@+id/signLine"
-                android:layout_width="wrap_content"
+                android:layout_width="360dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:gravity="center"
                 android:layout_marginTop="420dp"
                 android:paddingEnd="20dp"
                 android:paddingStart="20dp"
                 android:textColor="@color/darkGrey" />
 
             <View
-                android:layout_width="fill_parent"
+                android:layout_width="380dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="420dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
                 android:layout_height="1dp"
                 android:background="@color/darkGrey" />
 

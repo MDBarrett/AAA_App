@@ -7,39 +7,48 @@
     tools:context=".JobSheetFragment">
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:clickable="false">
-
-        <LinearLayout
+        android:id="@+id/navigationBar"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:clickable="false">
 
-        <ImageButton
-            android:id="@+id/navButton"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="15dp"
-            android:scaleType="centerCrop"
-            android:background="@null"
-            app:srcCompat="?attr/navButton"
-            android:contentDescription="@string/navButtonCD"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageButton
+                android:id="@+id/navButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:scaleType="centerCrop"
+                android:background="@null"
+                app:srcCompat="?attr/navButton"
+                android:contentDescription="@string/navButtonCD"/>
+
+            ></LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5">
+        </LinearLayout>
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="3"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
-            android:layout_marginStart="15dp"
+            android:gravity="end"
             android:textSize="28sp"
             android:text="@string/jobNoTV"/>
 
         <TextView
             android:id="@+id/jobNoTV"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="4"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:layout_marginStart="10dp"
@@ -47,28 +56,52 @@
 
     </LinearLayout> <!-- nav button -->
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:clickable="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="70dp"
+            android:gravity="bottom"
+            android:orientation="vertical">
+
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="15dp"
-            android:clickable="false">
+            android:clickable="false"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"></LinearLayout>
 
             <Button
                 android:id="@+id/newJobBtn"
                 style="?android:attr/borderlessButtonStyle"
-                android:background="@drawable/box"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:text="@string/createNewJob"
-                android:layout_marginStart="50dp"/>
+                android:layout_weight="3"
+                android:background="@drawable/box"
+                android:text="@string/createNewJob" />
 
             <Spinner
                 android:id="@+id/jobNumberSP"
-                android:spinnerMode="dropdown"
-                android:layout_marginStart="92dp"
-                android:layout_width="170dp"
-                android:layout_height="match_parent"/>
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:layout_weight="5"
+                android:spinnerMode="dropdown" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"></LinearLayout>
 
         </LinearLayout> <!-- job number -->
 
@@ -78,12 +111,17 @@
             android:orientation="horizontal"
             android:clickable="false">
 
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/customerTV"
-                android:layout_width="231dp"
+                android:layout_width="0dp"
+                android:layout_weight="5"
                 android:layout_height="wrap_content"
-                android:paddingStart="50dp"
-                android:paddingEnd="50dp"
                 android:paddingTop="30dp"
                 android:text="@string/customerTV"
                 android:textSize="20sp" />
@@ -93,10 +131,17 @@
                 android:hint="@string/customer"
                 android:textColorHint="?attr/invisibleHint"
                 android:paddingTop="30dp"
-                android:layout_width="120dp"
+                android:layout_width="0dp"
+                android:layout_weight="5"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:inputType="text"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+            </LinearLayout>
 
         </LinearLayout> <!-- customer -->
 
@@ -106,12 +151,17 @@
             android:orientation="horizontal"
             android:clickable="false">
 
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/firstNameTV"
-                android:layout_width="231dp"
+                android:layout_width="0dp"
+                android:layout_weight="5"
                 android:layout_height="wrap_content"
-                android:paddingStart="50dp"
-                android:paddingEnd="50dp"
                 android:paddingTop="30dp"
                 android:text="@string/firstNameTV"
                 android:textSize="20sp" />
@@ -121,10 +171,17 @@
                 android:hint="@string/firstName"
                 android:textColorHint="?attr/invisibleHint"
                 android:paddingTop="30dp"
-                android:layout_width="120dp"
+                android:layout_width="0dp"
+                android:layout_weight="5"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:inputType="text"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+            </LinearLayout>
 
         </LinearLayout> <!-- first name -->
 
@@ -134,12 +191,17 @@
             android:orientation="horizontal"
             android:clickable="false">
 
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+            </LinearLayout>
+
             <TextView
                 android:id="@+id/lastNameTV"
-                android:layout_width="231dp"
+                android:layout_width="0dp"
+                android:layout_weight="5"
                 android:layout_height="wrap_content"
-                android:paddingStart="50dp"
-                android:paddingEnd="50dp"
                 android:paddingTop="30dp"
                 android:text="@string/lastNameTV"
                 android:textSize="20sp" />
@@ -149,30 +211,49 @@
                 android:hint="@string/lastName"
                 android:textColorHint="?attr/invisibleHint"
                 android:paddingTop="30dp"
-                android:layout_width="120dp"
+                android:layout_width="0dp"
+                android:layout_weight="5"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:inputType="text"/>
 
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+            </LinearLayout>
+
         </LinearLayout> <!-- last name -->
 
+        </LinearLayout>
+
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_marginBottom="60dp"
             android:orientation="horizontal"
             android:clickable="false"
             android:layout_marginTop="20dp"
-            android:padding="15dp"
-            android:gravity="center" >
+            android:layout_gravity="center"
+            android:padding="15dp" >
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+            </LinearLayout>
 
             <EditText
                 android:id="@+id/additionalText"
-                android:layout_width="320dp"
-                android:layout_height="210dp"
+                android:layout_width="0dp"
+                android:layout_weight="20"
+                android:layout_height="match_parent"
                 android:background="?attr/box"
                 android:hint="@string/addComments"
                 android:textColor="?attr/editTextColor"
                 android:inputType="textMultiLine"
+                android:layout_marginBottom="10dp"
 
                 android:overScrollMode="always"
                 android:scrollbarStyle="insideInset"
@@ -181,6 +262,12 @@
                 android:verticalScrollbarPosition="right"
                 android:gravity="top"
                 android:padding="5dp" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+            </LinearLayout>
 
         </LinearLayout> <!-- additional comments -->
 
@@ -193,6 +280,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         app:itemBackground="@color/colorAccent"
+        android:background="@color/colorAccent"
         app:itemIconTint="@drawable/nav_item_color_state"
         app:itemTextColor="@drawable/nav_item_color_state"
         app:menu="@menu/bottom_navigation_main" /> <!-- navigation bar -->

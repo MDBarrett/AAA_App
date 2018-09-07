@@ -277,8 +277,8 @@ public class JobSheetFragmentFinalize extends Fragment {
     private void setJobNoTV(int jobNo) {
         if ( jobNo == 0 ) {
             jobNoTV.setText(R.string.noJobSelectedTV);
-            jobNoTV.setTextSize( 18 );
-            jobNoTV.setTextColor(Color.parseColor("#FF0000") );
+            jobNoTV.setTextSize( 28 );
+            jobNoTV.setTextColor(Color.parseColor("#FFFFFF") );
         } else {
             jobNoTV.setText(String.valueOf(jobNo));
             jobNoTV.setTextSize( 28 );
