@@ -19,70 +19,94 @@
         app:srcCompat="@mipmap/menu_icon"
         android:contentDescription="@string/navButtonCD"/>
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="159dp"
-        android:layout_height="187dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
-        android:background="@null"
-        app:srcCompat="@mipmap/aaa_transparent_small"
-        android:contentDescription="@string/appLogoCD"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/editText"
-        android:layout_width="250dp"
-        android:layout_height="40dp"
-        android:background="#11000000"
-        android:drawableStart="@drawable/ic_action_user"
-        android:ems="10"
-        android:hint="@string/username"
-        android:inputType="textPersonName"
-        android:textSize="16sp"
-        android:layout_marginBottom="35dp"
-        android:layout_above="@+id/editText2"
-        android:layout_centerHorizontal="true" />
-
-    <EditText
-        android:id="@+id/editText2"
-        android:layout_width="250dp"
-        android:layout_height="40dp"
-        android:background="#11000000"
-        android:drawableStart="@drawable/ic_action_pass"
-        android:ems="10"
-        android:hint="@string/password"
-        android:inputType="textPassword"
-        android:layout_marginBottom="130dp"
-        android:layout_alignBottom="@+id/cardView"
-        android:layout_alignParentStart="@+id/editText"
-        android:layout_alignStart="@+id/editText" />
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/cardView"
-        android:layout_width="300dp"
-        android:layout_height="50dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="127dp"
-        app:cardBackgroundColor="@color/colorAccent"
-        app:cardCornerRadius="25dp"
-        app:cardElevation="10dp">
-
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:background="@null"
-            android:layout_height="match_parent">
+            android:layout_height="0dp"
+            android:layout_weight="0.2">
+        </LinearLayout> <!--padding-->
 
-            <TextView
-                android:id="@+id/loginButton"
-                android:layout_width="wrap_content"
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_gravity="center"
+            android:layout_width="10000dp"
+            android:layout_height="0dp"
+            android:layout_weight="2"
+            android:background="@null"
+            app:srcCompat="@mipmap/aaa_transparent_small"
+            android:contentDescription="@string/appLogoCD"/> <!--logo-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5">
+        </LinearLayout> <!--padding-->
+
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:background="#11000000"
+            android:drawableStart="@drawable/ic_action_user"
+            android:ems="10"
+            android:hint="@string/username"
+            android:inputType="textPersonName"
+            android:textSize="16sp"
+            android:layout_marginBottom="35dp"/> <!--username-->
+
+        <EditText
+            android:id="@+id/editText2"
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:background="#11000000"
+            android:drawableStart="@drawable/ic_action_pass"
+            android:ems="10"
+            android:hint="@string/password"
+            android:inputType="textPassword"/> <!--password-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5">
+        </LinearLayout> <!--padding-->
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="300dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            app:cardBackgroundColor="@color/colorAccent"
+            app:cardCornerRadius="25dp"
+            app:cardElevation="10dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:background="@null"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="@string/loginBtn"
-                android:textSize="18sp" />
-        </RelativeLayout>
-    </android.support.v7.widget.CardView>
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/loginButton"
+                    android:layout_width="wrap_content"
+                    android:background="@null"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:text="@string/loginBtn"
+                    android:textSize="18sp" />
+            </RelativeLayout>
+        </android.support.v7.widget.CardView> <!--login button-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+        </LinearLayout> <!--padding-->
+
+    </LinearLayout>
 
 </RelativeLayout>
