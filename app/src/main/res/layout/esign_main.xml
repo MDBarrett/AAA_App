@@ -6,37 +6,38 @@
     <LinearLayout
         android:id="@+id/signPad"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/jobInfo"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:background="@color/darkBackground"
-            android:orientation="vertical"
-            android:gravity="center_vertical|center"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="20dp"
+            android:orientation="horizontal"
+            android:gravity="center"
             android:paddingBottom="15dp"
             android:paddingTop="15dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp">
+                android:orientation="vertical"
+                android:layout_marginEnd="30dp"
+                >
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingStart="0dp"
-                    android:paddingEnd="10dp"
                     android:text="@string/start"
                     android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/startTimeESTV"
-                    android:layout_width="100dp"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/box"
                     android:gravity="center"
@@ -49,45 +50,38 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingEnd="15dp"
-                    android:paddingStart="15dp"
-                    android:text="@string/end"
-                    android:textSize="20sp" />
-
-                <TextView
-                    android:id="@+id/endTimeESTV"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/box"
-                    android:gravity="center"
-                    android:paddingBottom="5dp"
-                    android:paddingEnd="5dp"
-                    android:paddingStart="5dp"
-                    android:paddingTop="5dp"
-                    android:layout_marginEnd="20dp"
-                    android:textSize="20sp" />
-
-            </LinearLayout> <!--start and end-->
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:paddingTop="15dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="0dp"
-                    android:paddingEnd="7dp"
                     android:text="@string/total"
                     android:textSize="20sp" />
 
                 <TextView
                     android:id="@+id/totalHoursESTV"
-                    android:layout_width="100dp"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/box"
+                    android:gravity="center"
+                    android:paddingBottom="5dp"
+                    android:paddingEnd="5dp"
+                    android:paddingStart="5dp"
+                    android:paddingTop="5dp"
+                    android:textSize="20sp" />
+
+            </LinearLayout> <!--start and total-->
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/end"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/endTimeESTV"
+                    android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:background="@drawable/box"
                     android:gravity="center"
@@ -100,8 +94,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingEnd="7dp"
-                    android:paddingStart="15dp"
                     android:text="@string/dateTV"
                     android:textSize="20sp" />
 
@@ -117,14 +109,15 @@
                     android:paddingTop="5dp"
                     android:textSize="20sp" />
 
-            </LinearLayout> <!--total hours and date-->
+            </LinearLayout> <!--end and date-->
 
         </LinearLayout> <!--job information-->
 
         <android.gesture.GestureOverlayView
             android:id="@+id/signaturePad"
             android:layout_width="match_parent"
-            android:layout_height="10000dp"
+            android:layout_height="0dp"
+            android:layout_weight="2.2"
             android:background="@android:color/white"
             android:clickable="false"
             android:eventsInterceptionEnabled="true"
@@ -138,23 +131,51 @@
             android:splitMotionEvents="true"
             android:uncertainGestureColor="#000000">
 
-            <TextView
-                android:id="@+id/signLine"
-                android:layout_width="360dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:gravity="center"
-                android:layout_marginTop="420dp"
-                android:paddingEnd="20dp"
-                android:paddingStart="20dp"
-                android:textColor="@color/darkGrey" />
+                android:orientation="horizontal">
 
-            <View
-                android:layout_width="380dp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="420dp"
-                android:layout_height="1dp"
-                android:background="@color/darkGrey" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="5">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_height="1dp"
+                        android:background="@color/darkGrey" />
+
+                    <TextView
+                        android:id="@+id/signLine"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center"
+                        android:paddingEnd="20dp"
+                        android:paddingStart="20dp"
+                        android:textColor="@color/darkGrey" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+                </LinearLayout>
+
+        </LinearLayout> <!--sign info-->
 
         </android.gesture.GestureOverlayView> <!--signature pad-->
 
