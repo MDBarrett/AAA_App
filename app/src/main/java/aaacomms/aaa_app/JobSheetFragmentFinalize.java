@@ -93,6 +93,7 @@ public class JobSheetFragmentFinalize extends Fragment {
             datePicker.setEnabled( false );
 
             sign.setEnabled( false );
+            submit.setEnabled( false );
         }
 
         datePicker.init(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(),new DatePicker.OnDateChangedListener() {

@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,10 +48,30 @@ public class Esignature extends Activity {
 
     LinearLayout buttonBar;
 
+    Boolean appTheme;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        SharedPreferences prefs = getApplicationContext().getSharedPreferences( "ApplicationPreferences" , MODE_PRIVATE);
+        appTheme = prefs.getBoolean("appTheme", false);
+
+        if ( appTheme ) {
+            setTheme( R.style.darkTheme );
+        } else {
+            setTheme( R.style.lightTheme );
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.esign_main);
+
+        RelativeLayout activity = findViewById(R.id.activity_main);
+
+        if ( appTheme ) {
+            activity.setBackgroundResource( R.color.darkBackground );
+        } else {
+            activity.setBackgroundResource( R.color.lightBackground );
+        }
 
         Button donebutton = (Button) findViewById(R.id.DoneButton);
         donebutton.setText("Done");
