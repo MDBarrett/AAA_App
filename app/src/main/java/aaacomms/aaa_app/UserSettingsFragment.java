@@ -20,7 +20,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -47,6 +49,19 @@ public class UserSettingsFragment extends Fragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+
+        SharedPreferences prefs = getActivity().getApplicationContext().getSharedPreferences( "ApplicationPreferences" , Context.MODE_PRIVATE);
+        Boolean appTheme = prefs.getBoolean("appTheme", false);
+        LinearLayout activity = getView().findViewById(R.id.activity_main);
+
+        if ( appTheme ) {
+            getActivity().setTheme( R.style.darkTheme );
+            activity.setBackgroundResource( R.color.darkBackground );
+        } else {
+            getActivity().setTheme( R.style.lightTheme );
+            activity.setBackgroundResource( R.color.lightBackground );
+        }
+
         super.onActivityCreated(savedInstanceState);
 
         drawer = getActivity().findViewById(R.id.drawer_layout);

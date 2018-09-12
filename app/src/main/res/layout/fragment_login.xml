@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.2">
-        </LinearLayout> <!--padding-->
+        </LinearLayout> <!--PADDING-->
 
         <ImageView
             android:id="@+id/imageView"
@@ -44,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.5">
-        </LinearLayout> <!--padding-->
+        </LinearLayout> <!--PADDING-->
 
         <EditText
             android:id="@+id/editText"
@@ -74,7 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.5">
-        </LinearLayout> <!--padding-->
+        </LinearLayout> <!--PADDING-->
 
         <android.support.v7.widget.CardView
             android:id="@+id/cardView"
@@ -105,8 +105,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
-        </LinearLayout> <!--padding-->
+        </LinearLayout> <!--PADDING-->
 
-    </LinearLayout>
+    </LinearLayout> <!--logo, username, password and login button-->
 
 </RelativeLayout>

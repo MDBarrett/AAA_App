@@ -24,6 +24,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,6 +53,19 @@ public class JobSheetFragment extends Fragment {
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+
+        SharedPreferences prefs = getActivity().getApplicationContext().getSharedPreferences( "ApplicationPreferences" , Context.MODE_PRIVATE);
+        Boolean appTheme = prefs.getBoolean("appTheme", false);
+        RelativeLayout activity = getView().findViewById(R.id.activity_main);
+
+        if ( appTheme ) {
+            getActivity().setTheme( R.style.darkTheme );
+            activity.setBackgroundResource( R.color.darkBackground );
+        } else {
+            getActivity().setTheme( R.style.lightTheme );
+            activity.setBackgroundResource( R.color.lightBackground );
+        }
+
         super.onActivityCreated(savedInstanceState);
 
         drawer = getActivity().findViewById(R.id.drawer_layout);
@@ -437,11 +452,9 @@ public class JobSheetFragment extends Fragment {
         if ( jobNo == 0 ) {
             jobNoTV.setText(R.string.noJobSelectedTV);
             jobNoTV.setTextSize( 28 );
-            jobNoTV.setTextColor(Color.parseColor("#FFFFFF") );
         } else {
             jobNoTV.setText(String.valueOf(jobNo));
             jobNoTV.setTextSize( 28 );
-            jobNoTV.setTextColor(Color.parseColor("#FFFFFF") );
         }
     }
 

@@ -36,6 +36,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.io.File;
@@ -71,6 +72,8 @@ public class JobSheetFragmentPhotos extends Fragment {
 
     ArrayList<Button> buttons = new ArrayList<>();
 
+    Boolean appTheme;
+
 
     ImageView img;
 
@@ -84,6 +87,19 @@ public class JobSheetFragmentPhotos extends Fragment {
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+
+        SharedPreferences prefs = getActivity().getApplicationContext().getSharedPreferences( "ApplicationPreferences" , Context.MODE_PRIVATE);
+        appTheme = prefs.getBoolean("appTheme", false);
+        LinearLayout activity = getView().findViewById(R.id.activity_main);
+
+        if ( appTheme ) {
+            getActivity().setTheme( R.style.darkTheme );
+            activity.setBackgroundResource( R.color.darkBackground );
+        } else {
+            getActivity().setTheme( R.style.lightTheme );
+            activity.setBackgroundResource( R.color.lightBackground );
+        }
+
         super.onActivityCreated(savedInstanceState);
 
         jobNoTV = getView().findViewById(R.id.jobNoTV);
@@ -202,7 +218,13 @@ public class JobSheetFragmentPhotos extends Fragment {
     private void newImage(final String imageFilePath, boolean storedImages ) {
         final Button newBtn = new Button( getActivity() );               //Create the new button
         newBtn.setId( buttons.size() );
-        newBtn.setBackgroundResource(R.drawable.ic_add_photo);     //new buttons background is set to the add photo icon
+
+        if ( appTheme ) {
+            newBtn.setBackgroundResource(R.drawable.ic_add_photo);
+        } else {
+            newBtn.setBackgroundResource(R.drawable.ic_add_photo_light);
+        }
+
         photosLL.addView( newBtn );                                //new button is added to the listView
 
         final ViewGroup.LayoutParams params = newBtn.getLayoutParams();
@@ -233,7 +255,11 @@ public class JobSheetFragmentPhotos extends Fragment {
                 }
 
                 lastBtn.setBackground( ob );
-                newBtn.setBackgroundResource(R.drawable.ic_add_photo);
+                if ( appTheme ) {
+                    newBtn.setBackgroundResource(R.drawable.ic_add_photo);
+                } else {
+                    newBtn.setBackgroundResource(R.drawable.ic_add_photo_light);
+                }
                 setButtonListener( lastBtn );
             }
 
@@ -425,11 +451,9 @@ public class JobSheetFragmentPhotos extends Fragment {
         if ( jobNo == 0 ) {
             jobNoTV.setText(R.string.noJobSelectedTV);
             jobNoTV.setTextSize( 28 );
-            jobNoTV.setTextColor(Color.parseColor("#FFFFFF") );
         } else {
             jobNoTV.setText(String.valueOf(jobNo));
             jobNoTV.setTextSize( 28 );
-            jobNoTV.setTextColor(Color.parseColor("#FFFFFF") );
         }
     }
 

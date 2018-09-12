@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
+import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -17,6 +18,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,15 +45,46 @@ public class HomeFragment extends Fragment {
     SharedPreferences jobPrefs;
     String jobPreferences = "jobPreferences";
 
+    Boolean appTheme;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_home, container, false);
+
+        // create ContextThemeWrapper from the original Activity Context with the custom theme
+        Context contextThemeWrapper = new ContextThemeWrapper();
+
+        SharedPreferences prefs = getActivity().getApplicationContext().getSharedPreferences( "ApplicationPreferences" , Context.MODE_PRIVATE);
+        Boolean appTheme = prefs.getBoolean("appTheme", false);
+
+        if ( appTheme ) {
+            contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.darkTheme);
+        } else {
+            contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.lightTheme);
+        }
+
+        // clone the inflater using the ContextThemeWrapper
+        LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
+
+        return localInflater.inflate(R.layout.fragment_home, container, false);
     }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+
+        SharedPreferences prefs = getActivity().getApplicationContext().getSharedPreferences( "ApplicationPreferences" , Context.MODE_PRIVATE);
+        appTheme = prefs.getBoolean("appTheme", false);
+        ScrollView activity = getView().findViewById(R.id.activity_main);
+
+        if ( appTheme ) {
+            getActivity().setTheme( R.style.darkTheme );
+            activity.setBackgroundResource( R.color.darkBackground );
+        } else {
+            getActivity().setTheme( R.style.lightTheme );
+            activity.setBackgroundResource( R.color.lightBackground );
+        }
+
         super.onActivityCreated(savedInstanceState);
 
         drawer = getActivity().findViewById(R.id.drawer_layout);
@@ -140,7 +174,11 @@ public class HomeFragment extends Fragment {
             public View getView(int position, View convertView, ViewGroup parent){
                 View view = super.getView(position, convertView, parent);
                 TextView tv = (TextView) view.findViewById(android.R.id.text1);
-                tv.setTextColor(Color.WHITE);
+                if ( appTheme ) {
+                    tv.setTextColor(Color.WHITE);
+                } else {
+                    tv.setTextColor(Color.BLACK);
+                }
                 return view;
             }
         };

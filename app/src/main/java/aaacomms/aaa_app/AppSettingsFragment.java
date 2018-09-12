@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDelegate;
@@ -26,6 +27,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -63,6 +65,19 @@ public class AppSettingsFragment extends Fragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+
+        prefs = getActivity().getApplicationContext().getSharedPreferences( appPrefs , Context.MODE_PRIVATE);
+        appTheme = prefs.getBoolean("appTheme", false);
+        RelativeLayout activity = getView().findViewById(R.id.activity_main);
+
+        if ( appTheme ) {
+            getActivity().setTheme( R.style.darkTheme );
+            activity.setBackgroundResource( R.color.darkBackground );
+        } else {
+            getActivity().setTheme( R.style.lightTheme );
+            activity.setBackgroundResource( R.color.lightBackground );
+        }
+
         super.onActivityCreated(savedInstanceState);
 
         drawer = getActivity().findViewById(R.id.drawer_layout);
@@ -73,10 +88,7 @@ public class AppSettingsFragment extends Fragment {
 
         context = getActivity();
 
-        prefs = context.getSharedPreferences( appPrefs , Context.MODE_PRIVATE);
-
         savePhotos = prefs.getBoolean("savePhotos", false);      //FALSE for LIGHT, TRUE for DARK
-        appTheme = prefs.getBoolean("appTheme", false);
 
         savePhotosSW.setChecked(savePhotos);
         appThemeSW.setChecked(appTheme);
@@ -137,11 +149,17 @@ public class AppSettingsFragment extends Fragment {
                     appTheme = true;
                     //noinspection ConstantConditions
                     editor.putBoolean("appTheme", appTheme).apply();
+                    getActivity().setTheme( R.style.darkTheme );
                 } else {
                     appTheme = false;
                     //noinspection ConstantConditions
                     editor.putBoolean("appTheme", appTheme).apply();
+                    getActivity().setTheme( R.style.lightTheme );
                 }
+
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new AppSettingsFragment()).commit();
+
             }
         });
 
