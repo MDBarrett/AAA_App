@@ -195,7 +195,11 @@ public class HomeFragment extends Fragment {
             public View getView(int position, View convertView, ViewGroup parent){
                 View view = super.getView(position, convertView, parent);
                 TextView tv = (TextView) view.findViewById(android.R.id.text1);
-                tv.setTextColor(Color.WHITE);
+                if ( appTheme ) {
+                    tv.setTextColor(Color.WHITE);
+                } else {
+                    tv.setTextColor(Color.BLACK);
+                }
                 return view;
             }
         };

@@ -220,9 +220,9 @@ public class JobSheetFragmentPhotos extends Fragment {
         newBtn.setId( buttons.size() );
 
         if ( appTheme ) {
-            newBtn.setBackgroundResource(R.drawable.ic_add_photo);
+            newBtn.setBackgroundResource(R.drawable.ic_add_photo_dark_background);
         } else {
-            newBtn.setBackgroundResource(R.drawable.ic_add_photo_light);
+            newBtn.setBackgroundResource(R.drawable.ic_add_photo);
         }
 
         photosLL.addView( newBtn );                                //new button is added to the listView
@@ -234,6 +234,11 @@ public class JobSheetFragmentPhotos extends Fragment {
                 params.width = photosLL.getHeight();
                 params.height = photosLL.getHeight();
                 newBtn.setLayoutParams(params);
+                if ( appTheme ) {
+                    newBtn.setBackgroundResource(R.drawable.ic_add_photo);
+                } else {
+                    newBtn.setBackgroundResource(R.drawable.ic_add_photo_light);
+                }
             }
         });
 
