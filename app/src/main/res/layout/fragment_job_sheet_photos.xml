@@ -16,23 +16,6 @@
         android:clickable="false">
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <ImageButton
-                android:id="@+id/navButton"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:scaleType="centerCrop"
-                android:background="@null"
-                app:srcCompat="?attr/navButton"
-                android:contentDescription="@string/navButtonCD"/>
-
-            ></LinearLayout>
-
-        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.5">
@@ -40,9 +23,8 @@
 
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="3"
+            android:layout_weight="5"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
             android:gravity="end"
             android:textSize="28sp"
             android:text="@string/jobNoTV"/>
@@ -52,9 +34,14 @@
             android:layout_width="0dp"
             android:layout_weight="4"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
             android:layout_marginStart="10dp"
             android:textSize="28sp"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5">
+            </LinearLayout>
 
     </LinearLayout> <!-- nav button -->
 
@@ -113,14 +100,5 @@
 
     </LinearLayout> <!-- gallery -->
 
-        <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:itemBackground="@color/colorAccent"
-        android:background="@color/colorAccent"
-        app:itemIconTint="@drawable/nav_item_color_state"
-        app:itemTextColor="@drawable/nav_item_color_state"
-        app:menu="@menu/bottom_navigation_main" /> <!-- navigation bar -->
 
 </LinearLayout>

@@ -34,9 +34,7 @@ import java.util.Date;
 
 public class JobSheetFragmentFinalize extends Fragment {
 
-    ImageButton navBtn;
     Button sign, submit;
-    private DrawerLayout drawer;
 
     TimePicker startTimeTP, endTimeTP;
     DatePicker datePicker;
@@ -73,8 +71,6 @@ public class JobSheetFragmentFinalize extends Fragment {
         datePicker = getView().findViewById(R.id.dateDP);
         startTimeTP = getView().findViewById(R.id.startTimeTP);
         endTimeTP = getView().findViewById(R.id.endTimeTP);
-        drawer = getActivity().findViewById(R.id.drawer_layout);
-        navBtn = getView().findViewById(R.id.navButton);
         totalHours = getView().findViewById(R.id.totalHoursText);
         sign = getView().findViewById(R.id.signButton);
         submit = getView().findViewById(R.id.submitButton);
@@ -104,13 +100,6 @@ public class JobSheetFragmentFinalize extends Fragment {
             }
         } );
 
-        navBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawer.openDrawer(Gravity.START);
-            }
-        });
-
         startTimeTP.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
 
             public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
@@ -132,29 +121,6 @@ public class JobSheetFragmentFinalize extends Fragment {
                 setTime( endMinute, endHour , false);
 
                 setTotalHours();
-            }
-        });
-
-        BottomNavigationView bottomNavigationView = getView().findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId())
-                {
-                    case R.id.action_details:
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                new JobSheetFragment()).commit();
-                        break;
-                    case R.id.action_photos:
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                new JobSheetFragmentPhotos()).commit();
-                        break;
-                    case R.id.action_finalize:
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                new JobSheetFragmentFinalize()).commit();
-                        break;
-                }
-                return true;
             }
         });
 

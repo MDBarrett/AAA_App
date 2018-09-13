@@ -64,9 +64,6 @@ public class JobSheetFragmentPhotos extends Fragment {
 
     LinearLayout photosLL;
 
-    ImageButton navBtn;
-    private DrawerLayout drawer;
-
     SharedPreferences prefs;
     String imagePrefs = "imagePreferences";
 
@@ -104,43 +101,12 @@ public class JobSheetFragmentPhotos extends Fragment {
 
         jobNoTV = getView().findViewById(R.id.jobNoTV);
         photosLL = getView().findViewById(R.id.photosLL);
-        drawer = getActivity().findViewById(R.id.drawer_layout);
-        navBtn = getView().findViewById(R.id.navButton);
-        navBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawer.openDrawer(Gravity.START);
-            }
-        });
 
         img = getView().findViewById(R.id.imageView);
 
         prefs = this.getActivity().getSharedPreferences(imagePrefs, Context.MODE_PRIVATE);
 
         setJobNoTV( getCurrentJob() );
-
-        BottomNavigationView bottomNavigationView = getView().findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId())
-                {
-                    case R.id.action_details:
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                new JobSheetFragment()).commit();
-                        break;
-                    case R.id.action_photos:
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                new JobSheetFragmentPhotos()).commit();
-                        break;
-                    case R.id.action_finalize:
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                new JobSheetFragmentFinalize()).commit();
-                        break;
-                }
-                return true;
-            }
-        });
 
         if ( getCurrentJob() != 0 ) {
             if ( getNumImages() > 0 ) {
@@ -258,7 +224,7 @@ public class JobSheetFragmentPhotos extends Fragment {
                     ViewGroup.MarginLayoutParams params2 = (ViewGroup.MarginLayoutParams) lastBtn.getLayoutParams();
                     params2.leftMargin = 20;
                 }
-
+                Toast.makeText(getActivity(), "IMAGE SET", Toast.LENGTH_SHORT).show();
                 lastBtn.setBackground( ob );
                 if ( appTheme ) {
                     newBtn.setBackgroundResource(R.drawable.ic_add_photo);

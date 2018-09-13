@@ -42,6 +42,7 @@ public class JobSheetFragment extends Fragment {
     Button jobNoBtn;
 
     Boolean newJob = false;
+    Boolean appTheme;
 
     @Nullable
     @Override
@@ -55,7 +56,7 @@ public class JobSheetFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 
         SharedPreferences prefs = getActivity().getApplicationContext().getSharedPreferences( "ApplicationPreferences" , Context.MODE_PRIVATE);
-        Boolean appTheme = prefs.getBoolean("appTheme", false);
+        appTheme = prefs.getBoolean("appTheme", false);
         RelativeLayout activity = getView().findViewById(R.id.activity_main);
 
         if ( appTheme ) {
@@ -67,15 +68,6 @@ public class JobSheetFragment extends Fragment {
         }
 
         super.onActivityCreated(savedInstanceState);
-
-        drawer = getActivity().findViewById(R.id.drawer_layout);
-        navBtn = getView().findViewById(R.id.navButton);
-        navBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawer.openDrawer(Gravity.START);
-            }
-        });
 
         jobNoTV = getView().findViewById(R.id.jobNoTV);
         additionalTextET = getView().findViewById(R.id.additionalText);
@@ -157,29 +149,6 @@ public class JobSheetFragment extends Fragment {
         });   //Spinner Listener
 
         setEditable( false );
-
-        BottomNavigationView bottomNavigationView = getView().findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId())
-                {
-                    case R.id.action_details:
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                new JobSheetFragment()).commit();
-                        break;
-                    case R.id.action_photos:
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                new JobSheetFragmentPhotos()).commit();
-                        break;
-                    case R.id.action_finalize:
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                new JobSheetFragmentFinalize()).commit();
-                        break;
-                }
-                return true;
-            }
-        });
 
         customerET.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             public void onFocusChange(View v, boolean hasFocus) {      //hide customer hint on click

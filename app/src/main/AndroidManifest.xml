@@ -35,6 +35,7 @@
         </activity>
         <activity android:name=".Esignature" />
         <activity android:name=".InternalStorage" />
+        <activity android:name=".ActivityMain" />
     </application>
 
 </manifest>
