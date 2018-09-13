@@ -219,26 +219,22 @@ public class JobSheetFragmentPhotos extends Fragment {
         final Button newBtn = new Button( getActivity() );               //Create the new button
         newBtn.setId( buttons.size() );
 
+        newBtn.setLayoutParams(new LinearLayout.LayoutParams(1,1));
+
         if ( appTheme ) {
-            newBtn.setBackgroundResource(R.drawable.ic_add_photo_dark_background);
-        } else {
             newBtn.setBackgroundResource(R.drawable.ic_add_photo);
+        } else {
+            newBtn.setBackgroundResource(R.drawable.ic_add_photo_light);
         }
 
         photosLL.addView( newBtn );                                //new button is added to the listView
-
+        
         final ViewGroup.LayoutParams params = newBtn.getLayoutParams();
-        photosLL.post(new Runnable(){
-            public void run(){
-//                Toast.makeText(getActivity(), "height: " + photosLL.getHeight(), Toast.LENGTH_SHORT).show();
+        photosLL.post(new Runnable() {
+            public void run() {
                 params.width = photosLL.getHeight();
                 params.height = photosLL.getHeight();
                 newBtn.setLayoutParams(params);
-                if ( appTheme ) {
-                    newBtn.setBackgroundResource(R.drawable.ic_add_photo);
-                } else {
-                    newBtn.setBackgroundResource(R.drawable.ic_add_photo_light);
-                }
             }
         });
 
@@ -270,8 +266,6 @@ public class JobSheetFragmentPhotos extends Fragment {
 
             if ( !storedImages ) {
                 storeImage(imageFilePath, getCurrentJob());
-
-            } else {
 
             }
 
