@@ -24,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
@@ -40,6 +41,8 @@ public class JobSheetFragment extends Fragment {
     EditText additionalTextET, firstET, lastET, customerET;
     Spinner spinner;
     Button jobNoBtn;
+
+    LinearLayout details, photos, finalize;
 
     Boolean newJob = false;
 
@@ -84,6 +87,10 @@ public class JobSheetFragment extends Fragment {
         customerET = getView().findViewById(R.id.customerET);
         spinner = getView().findViewById(R.id.jobNumberSP);
         jobNoBtn = getView().findViewById(R.id.newJobBtn);
+
+        details = getView().findViewById(R.id.detailsBtn);
+        photos = getView().findViewById(R.id.photosBtn);
+        finalize = getView().findViewById(R.id.finalizeBtn);
 
         ArrayAdapter<Integer> dropAdapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_item, getJobNumbers());
         dropAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
@@ -158,26 +165,19 @@ public class JobSheetFragment extends Fragment {
 
         setEditable( false );
 
-        BottomNavigationView bottomNavigationView = getView().findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        photos.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId())
-                {
-                    case R.id.action_details:
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                new JobSheetFragment()).commit();
-                        break;
-                    case R.id.action_photos:
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                new JobSheetFragmentPhotos()).commit();
-                        break;
-                    case R.id.action_finalize:
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                new JobSheetFragmentFinalize()).commit();
-                        break;
-                }
-                return true;
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new JobSheetFragmentPhotos()).commit();
+            }
+        });
+
+        finalize.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new JobSheetFragmentFinalize()).commit();
             }
         });
 

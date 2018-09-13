@@ -74,6 +74,8 @@ public class JobSheetFragmentPhotos extends Fragment {
 
     Boolean appTheme;
 
+    LinearLayout details, photos, finalize;
+
 
     ImageView img;
 
@@ -113,32 +115,29 @@ public class JobSheetFragmentPhotos extends Fragment {
             }
         });
 
+        details = getView().findViewById(R.id.detailsBtn);
+        photos = getView().findViewById(R.id.photosBtn);
+        finalize = getView().findViewById(R.id.finalizeBtn);
+
         img = getView().findViewById(R.id.imageView);
 
         prefs = this.getActivity().getSharedPreferences(imagePrefs, Context.MODE_PRIVATE);
 
         setJobNoTV( getCurrentJob() );
 
-        BottomNavigationView bottomNavigationView = getView().findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        details.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId())
-                {
-                    case R.id.action_details:
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                new JobSheetFragment()).commit();
-                        break;
-                    case R.id.action_photos:
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                new JobSheetFragmentPhotos()).commit();
-                        break;
-                    case R.id.action_finalize:
-                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                                new JobSheetFragmentFinalize()).commit();
-                        break;
-                }
-                return true;
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new JobSheetFragment()).commit();
+            }
+        });
+
+        finalize.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                        new JobSheetFragmentFinalize()).commit();
             }
         });
 
@@ -228,7 +227,7 @@ public class JobSheetFragmentPhotos extends Fragment {
         }
 
         photosLL.addView( newBtn );                                //new button is added to the listView
-        
+
         final ViewGroup.LayoutParams params = newBtn.getLayoutParams();
         photosLL.post(new Runnable() {
             public void run() {

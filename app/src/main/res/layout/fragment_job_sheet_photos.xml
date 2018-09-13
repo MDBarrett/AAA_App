@@ -113,14 +113,111 @@
 
     </LinearLayout> <!-- gallery -->
 
-        <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bottom_navigation"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:itemBackground="@color/colorAccent"
         android:background="@color/colorAccent"
-        app:itemIconTint="@drawable/nav_item_color_state"
-        app:itemTextColor="@drawable/nav_item_color_state"
-        app:menu="@menu/bottom_navigation_main" /> <!-- navigation bar -->
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:orientation="horizontal">
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/detailsBtn"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="bottom"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:background="@drawable/ic_edit_black_28dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/darkBackground"
+                    android:text="Details"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/photosBtn"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/ic_camera"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:text="Photos"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/finalizeBtn"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="bottom"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:background="@drawable/ic_playlist_add_check_black_28dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/darkBackground"
+                    android:text="Finalize"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:orientation="horizontal">
+            </LinearLayout>
+
+        </LinearLayout> <!--buttons-->
+
+    </LinearLayout> <!--NavBar-->
 
 </LinearLayout>

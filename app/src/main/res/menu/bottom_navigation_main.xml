@@ -7,6 +7,7 @@
         android:id="@+id/action_details"
         android:enabled="true"
         android:icon="@drawable/ic_edit"
+        android:iconTint="@color/darkBackground"
         android:title="Details"
         app:showAsAction="ifRoom" />
     <item
@@ -14,11 +15,13 @@
         android:enabled="true"
         android:icon="@drawable/ic_camera"
         android:title="Photos"
+        android:iconTint="@color/white"
         app:showAsAction="ifRoom" />
     <item
         android:id="@+id/action_finalize"
         android:enabled="true"
         android:icon="@drawable/ic_document"
+        android:iconTint="@color/darkBackground"
         android:title="Finalize"
         app:showAsAction="ifRoom" />
 </menu>
