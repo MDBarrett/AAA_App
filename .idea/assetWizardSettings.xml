@@ -40,11 +40,24 @@
                                           </PersistentState>
                                         </value>
                                       </entry>
+                                      <entry key="foregroundImage">
+                                        <value>
+                                          <PersistentState>
+                                            <option name="values">
+                                              <map>
+                                                <entry key="scalingPercent" value="65" />
+                                              </map>
+                                            </option>
+                                          </PersistentState>
+                                        </value>
+                                      </entry>
                                     </map>
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="foregroundAssetType" value="CLIP_ART" />
+                                      <entry key="backgroundAssetType" value="COLOR" />
+                                      <entry key="backgroundColor" value="036a96" />
+                                      <entry key="foregroundImage" value="C:\Users\matthew.barrett\Pictures\AAA Logo\aaa_transparent_outline_white.png" />
                                       <entry key="foregroundLayerName" value="ic_edit_dark" />
                                     </map>
                                   </option>

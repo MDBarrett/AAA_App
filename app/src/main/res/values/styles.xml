@@ -1,15 +1,12 @@
 <resources>
 
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:timePickerStyle">@style/TimePickerTheme</item>
-        <!--<item name="colorControlNormal">@color/white</item>-->
-        <!--<item name="colorControlActivated">@color/colorAccent</item>-->
+        <item name="android:datePickerStyle">@style/DatePickerTheme</item>
     </style>
 
     <style name="SwitchCompatTheme">
@@ -58,8 +55,31 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
-    <style name="TimePickerTheme">
+    <style name="TimePickerTheme" parent="android:Widget.Material.Light.TimePicker">
+        <item name="android:timePickerStyle">@style/TimePickerDialogStyle</item>
+        <item name="android:background">@color/darkBackground</item>
+        <item name="android:numbersBackgroundColor">#262626</item>
+        <item name="android:numbersTextColor">#FFFFFF</item>
+    </style>
+
+    <style name="TimePickerDialogStyle" parent="@android:style/Widget.Material.Light.TimePicker">
+        <item name="colorAccent">#ff2d6073</item>
         <item name="android:timePickerMode">spinner</item>
+        <item name="android:headerBackground">#ff2d6073</item>
+        <item name="android:headerTimeTextAppearance">@style/TextAppearance.TimePickerDialogStyle.TimeLabel</item> <!-- TimePicker Time *TextAppearance* -->
+        <item name="android:numbersSelectorColor">#ff2d6073</item>
+    </style>
+
+    <style name="TextAppearance.TimePickerDialogStyle.TimeLabel" parent="@android:style/TextAppearance.Material">
+        <item name="android:textSize">60sp</item> <!-- from -->
+        <item name="android:textColor">#ffD0D102</item>
+    </style>
+
+    <style name="DatePickerTheme" parent="android:Widget.Material.Light.DatePicker">
+        <item name="android:datePickerMode">calendar</item>
+        <item name="android:timePickerStyle">@style/TimePickerDialogStyle</item>
+        <item name="android:numbersBackgroundColor">#262626</item>
+        <item name="android:numbersTextColor">#FFFFFF</item>
     </style>
 
     <style name="DialogTheme" parent="android:Theme.Dialog">
@@ -72,6 +92,11 @@
         <item name="android:background">@color/white</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:editTextStyle">@style/editTextTheme</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="HoloButtonDark" parent="android:Widget.Holo.Button.Borderless">
+        <item name="android:background">@drawable/box</item>
     </style>
 
     <style name="editTextTheme" parent="android:Widget.EditText">

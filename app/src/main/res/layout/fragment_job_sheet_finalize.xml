@@ -7,320 +7,370 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <ScrollView
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:orientation="vertical">
-
         <LinearLayout
-            android:orientation="vertical"
+            android:id="@+id/navigationBar"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:clickable="false">
 
             <LinearLayout
-                android:id="@+id/navigationBar"
-                android:layout_width="fill_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageButton
+                    android:id="@+id/navButton"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:scaleType="centerCrop"
+                    android:background="@null"
+                    app:srcCompat="?attr/navButton"
+                    android:contentDescription="@string/navButtonCD"/>
+
+                </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5">
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="3"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="end"
+                android:textSize="28sp"
+                android:text="@string/jobNoTV"/>
+
+            <TextView
+                android:id="@+id/jobNoTV"
+                android:layout_width="0dp"
+                android:layout_weight="4"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="10dp"
+                android:textSize="28sp"/>
+
+        </LinearLayout> <!-- nav button -->
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/navigationBar"
+            android:layout_above="@+id/bottomNavigation"
+            android:orientation="vertical"
+            android:clickable="false">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:orientation="vertical">
+            </LinearLayout> <!--PADDING-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="10"
                 android:orientation="horizontal"
                 android:clickable="false">
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <ImageButton
-                        android:id="@+id/navButton"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginTop="15dp"
-                        android:scaleType="centerCrop"
-                        android:background="@null"
-                        app:srcCompat="?attr/navButton"
-                        android:contentDescription="@string/navButtonCD"/>
-
-                    ></LinearLayout>
-
-                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="0.5">
-                </LinearLayout>
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="3"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:gravity="end"
-                    android:textSize="28sp"
-                    android:text="@string/jobNoTV"/>
-
-                <TextView
-                    android:id="@+id/jobNoTV"
-                    android:layout_width="0dp"
-                    android:layout_weight="4"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginStart="10dp"
-                    android:textSize="28sp"/>
-
-            </LinearLayout> <!-- nav button -->
-
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:clickable="false">
+                    android:layout_weight="0.5"
+                    android:orientation="vertical">
+                </LinearLayout> <!--PADDING-->
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:clickable="false">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="20dp"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/startTimeTV"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/startTime"
-                            android:textSize="20sp" />
-
-                        <TimePicker
-                            android:id="@+id/startTimeTP"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginStart="10dp">
-                        </TimePicker>
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/endTimeTV"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/endTime"
-                            android:textSize="20sp" />
-
-                        <TimePicker
-                            android:id="@+id/endTimeTP"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_marginEnd="10dp">
-
-                        </TimePicker>
-
-                    </LinearLayout> <!-- start time and end time -->
-
-                </LinearLayout> <!-- time pickers -->
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="100dp"
                     android:layout_height="match_parent"
-                    android:gravity="center_horizontal"
-                    android:layout_marginStart="25dp"
-                    android:layout_marginEnd="25dp"
-                    android:layout_gravity="center_horizontal"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/startTimeTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/startTime"
+                        android:textSize="20sp" /> <!--start time-->
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                    </LinearLayout> <!--PADDING-->
+
+                    <TextView
+                        android:id="@+id/endTimeTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="@string/endTime"
+                        android:textSize="20sp" /> <!--end time-->
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                    </LinearLayout> <!--PADDING-->
 
                     <TextView
                         android:id="@+id/totalTimeTV"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="50dp"
-                        android:gravity="center"
-                        android:text="@string/totalTimeTV"
-                        android:textSize="20sp" />
+                        android:layout_marginTop="20dp"
+                        android:text="@string/totalTime"
+                        android:textSize="20sp" /> <!--total time-->
 
-                    <EditText
-                        android:id="@+id/totalHoursText"
-                        android:hint="@string/totalTime"
-                        android:textColorHint="?attr/invisibleHint"
-                        android:layout_marginEnd="15dp"
-                        android:gravity="center"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:focusableInTouchMode="false"
-                        android:inputType="text"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                    </LinearLayout> <!--PADDING-->
 
-                </LinearLayout> <!-- total time -->
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:clickable="false">
-
-                    <DatePicker
-                        android:id="@+id/dateDP"
+                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:scaleX="1"
-                        android:scaleY="1"
-                        android:datePickerMode="spinner"
-                        android:calendarViewShown="false"/>
+                        android:layout_marginTop="20dp"
+                        android:text="@string/date"
+                        android:textSize="20sp"/> <!--date-->
 
-                </LinearLayout> <!-- datePicker -->
+                </LinearLayout> <!--left-->
 
                 <LinearLayout
-                    android:layout_width="fill_parent"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                </LinearLayout> <!--PADDING-->
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <EditText
+                        android:id="@+id/startTimeET"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:focusableInTouchMode="false">
+                    </EditText> <!--start time-->
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                    </LinearLayout> <!--PADDING-->
+
+                    <EditText
+                        android:id="@+id/endTimeET"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:focusableInTouchMode="false"/> <!--end time-->
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                    </LinearLayout> <!--PADDING-->
+
+                    <EditText
+                        android:id="@+id/totalTimeET"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:focusableInTouchMode="false"/> <!--total time-->
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                    </LinearLayout> <!--PADDING-->
+
+                    <EditText
+                        android:id="@+id/dateET"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:focusableInTouchMode="false"/> <!--date-->
+
+                </LinearLayout> <!--right-->
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:orientation="vertical">
+                </LinearLayout> <!--PADDING-->
+
+            </LinearLayout> <!--content-->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2"
+                android:orientation="vertical">
+            </LinearLayout> <!--PADDING-->
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:padding="15dp">
+
+                <Button
+                    android:id="@+id/signButton"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:background="?attr/box"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="50dp"
-                    android:clickable="false"
-                    android:padding="15dp">
+                    android:layout_marginStart="20dp"
+                    android:layout_weight="1"
+                    android:text="@string/signBtn"/>
 
-                    <Button
-                        android:id="@+id/signButton"
-                        style="?android:attr/borderlessButtonStyle"
-                        android:background="?attr/box"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_weight="1"
-                        android:text="@string/signBtn"/>
+                <Button
+                    android:id="@+id/submitButton"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:background="?attr/box"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="50dp"
+                    android:layout_marginEnd="20dp"
+                    android:text="@string/submitBtn"/>
 
-                    <Button
-                        android:id="@+id/submitButton"
-                        style="?android:attr/borderlessButtonStyle"
-                        android:background="?attr/box"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:layout_marginStart="50dp"
-                        android:layout_marginEnd="20dp"
-                        android:text="@string/submitBtn"/>
+            </LinearLayout> <!-- submit button -->
 
-                </LinearLayout> <!-- submit button -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+            </LinearLayout> <!--PADDING-->
 
-            </LinearLayout>
-
-        </LinearLayout>
-
-    </ScrollView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:background="@color/colorAccent"
-        android:orientation="vertical">
+        </LinearLayout> <!--content and buttons-->
 
         <LinearLayout
+            android:id="@+id/bottomNavigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
-            android:orientation="horizontal">
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:background="@color/colorAccent"
+            android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:orientation="horizontal">
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/detailsBtn"
-                android:layout_width="50dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_gravity="bottom"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:background="@drawable/ic_edit_black_28dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/darkBackground"
-                    android:text="Details"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:orientation="horizontal">
-            </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/photosBtn"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_gravity="bottom"
-                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:orientation="horizontal">
+                </LinearLayout>
 
-                <ImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:background="@drawable/ic_camera_alt_black_28dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/detailsBtn"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/darkBackground"
-                    android:text="Photos"/>
+                    android:gravity="center"
+                    android:layout_gravity="bottom"
+                    android:orientation="vertical">
 
-            </LinearLayout>
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:background="@drawable/ic_edit_black_28dp"/>
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/darkBackground"
+                        android:text="Details"/>
 
-            <LinearLayout
-                android:id="@+id/finalizeBtn"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
+                </LinearLayout>
 
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/ic_playlist_add_check_white_28dp"/>
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+                </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:id="@+id/photosBtn"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:text="Finalize"/>
+                    android:gravity="center"
+                    android:layout_gravity="bottom"
+                    android:orientation="vertical">
 
-            </LinearLayout>
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="28dp"
+                        android:background="@drawable/ic_camera_alt_black_28dp"/>
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:orientation="horizontal">
-            </LinearLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/darkBackground"
+                        android:text="Photos"/>
 
-        </LinearLayout> <!--buttons-->
+                </LinearLayout>
 
-    </LinearLayout> <!--NavBar-->
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:orientation="horizontal">
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/finalizeBtn"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/ic_playlist_add_check_white_28dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:text="Finalize"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.5"
+                    android:orientation="horizontal">
+                </LinearLayout>
+
+            </LinearLayout> <!--buttons-->
+
+        </LinearLayout> <!--NavBar-->
 
 </RelativeLayout>

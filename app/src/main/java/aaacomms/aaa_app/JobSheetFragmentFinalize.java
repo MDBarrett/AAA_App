@@ -1,6 +1,9 @@
 package aaacomms.aaa_app;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -36,11 +39,12 @@ import java.util.Date;
 public class JobSheetFragmentFinalize extends Fragment {
 
     ImageButton navBtn;
-    Button sign, submit;
     private DrawerLayout drawer;
+    Button sign, submit;
 
     TimePicker startTimeTP, endTimeTP;
-    DatePicker datePicker;
+
+    EditText startTimeET, endTimeET, dateET, totalTimeET;
 
     int startMinute, startHour, endMinute, endHour;
 
@@ -73,12 +77,11 @@ public class JobSheetFragmentFinalize extends Fragment {
 
         super.onActivityCreated(savedInstanceState);
 
-        datePicker = getView().findViewById(R.id.dateDP);
-        startTimeTP = getView().findViewById(R.id.startTimeTP);
-        endTimeTP = getView().findViewById(R.id.endTimeTP);
-        drawer = getActivity().findViewById(R.id.drawer_layout);
-        navBtn = getView().findViewById(R.id.navButton);
+        startTimeET = getView().findViewById(R.id.startTimeET);
+        endTimeET = getView().findViewById(R.id.endTimeET);
+        dateET = getView().findViewById(R.id.dateET);
         totalHours = getView().findViewById(R.id.totalHoursText);
+        totalTimeET = getView().findViewById(R.id.totalTimeET);
         sign = getView().findViewById(R.id.signButton);
         submit = getView().findViewById(R.id.submitButton);
         jobNoTV = getView().findViewById(R.id.jobNoTV);
@@ -87,30 +90,8 @@ public class JobSheetFragmentFinalize extends Fragment {
         photos = getView().findViewById(R.id.photosBtn);
         finalize = getView().findViewById(R.id.finalizeBtn);
 
-        endTimeTP.setIs24HourView( true );
-        startTimeTP.setIs24HourView( true );
-
-        if ( getCurrentJob() != 0 ) {
-
-            initializeFields();
-
-        } else {
-            startTimeTP.setEnabled( false );
-            endTimeTP.setEnabled( false );
-            datePicker.setEnabled( false );
-
-            sign.setEnabled( false );
-            submit.setEnabled( false );
-        }
-
-        datePicker.init(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth(),new DatePicker.OnDateChangedListener() {
-
-            @Override
-            public void onDateChanged(DatePicker arg0, int arg1, int arg2, int arg3) {
-                setDate( getCurrentJob(), arg3, arg2+1, arg1 );
-            }
-        } );
-
+        drawer = getActivity().findViewById(R.id.drawer_layout);
+        navBtn = getView().findViewById(R.id.navButton);
         navBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -118,27 +99,97 @@ public class JobSheetFragmentFinalize extends Fragment {
             }
         });
 
-        startTimeTP.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+        totalTimeET.setEnabled( false );
 
-            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-                startMinute = minute;
-                startHour = hourOfDay;
+        if ( getCurrentJob() != 0 ) {
 
-                setTime( startMinute, startHour , true);
+            initializeFields();
 
-                setTotalHours();
+        } else {
+            sign.setEnabled( false );
+            submit.setEnabled( false );
+            startTimeET.setEnabled( false );
+            endTimeET.setEnabled( false );
+            dateET.setEnabled( false );
+        }
+
+        startTimeET.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Calendar calendar = Calendar.getInstance();
+                int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+                int currentMinute = calendar.get(Calendar.MINUTE);
+
+                TimePickerDialog timePickerDialog = new TimePickerDialog( getActivity(), new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
+                        startMinute = minutes;
+                        startHour = hourOfDay;
+                        setTime( startMinute, startHour, true);
+                        startTimeET.setText( getStartTime( getCurrentJob() ) );
+                        setTotalHours();
+                    }
+                }, currentHour, currentMinute, false);
+
+                timePickerDialog.show();
+
             }
         });
 
-        endTimeTP.setOnTimeChangedListener(new TimePicker.OnTimeChangedListener() {
+        endTimeET.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-            public void onTimeChanged(TimePicker view, int hourOfDay, int minute) {
-                endMinute = minute;
-                endHour = hourOfDay;
+                Calendar calendar = Calendar.getInstance();
+                int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+                int currentMinute = calendar.get(Calendar.MINUTE);
 
-                setTime( endMinute, endHour , false);
+                TimePickerDialog timePickerDialog = new TimePickerDialog(getActivity(), new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
+                        endMinute = minutes;
+                        endHour = hourOfDay;
+                        setTime( endMinute, endHour , false);
+                        endTimeET.setText( getEndTime( getCurrentJob() ) );
+                        setTotalHours();
+                    }
+                }, currentHour, currentMinute, false);
 
-                setTotalHours();
+                timePickerDialog.show();
+
+            }
+        });
+
+        dateET.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int dayOfMonth;
+                int month;
+                int year;
+
+                if ( getDay( getCurrentJob() ) == 0 && getMonth( getCurrentJob() ) == 0 && getYear( getCurrentJob() ) == 0 ) {
+                    Calendar calendar = Calendar.getInstance();
+                    year = calendar.get(Calendar.YEAR);
+                    month = calendar.get(Calendar.MONTH);
+                    dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+                } else {
+                    dayOfMonth = getDay( getCurrentJob() );
+                    month = getMonth( getCurrentJob() );
+                    year = getYear( getCurrentJob() );
+                }
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), AlertDialog.THEME_HOLO_LIGHT ,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                                setDate( getCurrentJob(), day, month + 1, year);
+                                dateET.setText( day + "/" + ( month + 1 ) + "/" + year );
+                            }
+                        }, year, month, dayOfMonth);
+
+                datePickerDialog.show();
+
             }
         });
 
@@ -203,11 +254,11 @@ public class JobSheetFragmentFinalize extends Fragment {
 
         if (startMinute > endMinute) {
             String s = ( ( endHour - startHour ) - 1 ) + "h " + ( 60 + ( endMinute - startMinute ) ) + "m";
-            totalHours.setText( s );
+            totalTimeET.setText( s );
             setTotalTime( getCurrentJob(), s );
         } else {
             String s = ( endHour - startHour ) + "h " + ( endMinute - startMinute ) + "m";
-            totalHours.setText( s );
+            totalTimeET.setText( s );
             setTotalTime( getCurrentJob(), s );
         }
     }
@@ -326,11 +377,11 @@ public class JobSheetFragmentFinalize extends Fragment {
     }
 
     private void initializeFields() {
-        startTimeTP.setEnabled( true );
-        endTimeTP.setEnabled( true );
-        datePicker.setEnabled( true );
 
         sign.setEnabled( true );
+        startTimeET.setEnabled( true );
+        endTimeET.setEnabled( true );
+        dateET.setEnabled( true );
 
         if ( getDay( getCurrentJob() ) == 0 && getMonth( getCurrentJob() ) == 0 && getYear( getCurrentJob() ) == 0 ) {
             Calendar c = Calendar.getInstance();
@@ -338,10 +389,10 @@ public class JobSheetFragmentFinalize extends Fragment {
             int month = c.get(Calendar.MONTH);
             int day = c.get(Calendar.DAY_OF_MONTH);
 
-            datePicker.updateDate(year, month, day);
             setDate( getCurrentJob(), day, month, year);
+            dateET.setText( day + "/" + ( month + 1 )+ "/" + year );
         } else {
-            datePicker.updateDate( getYear( getCurrentJob() ), getMonth( getCurrentJob() ) - 1, getDay( getCurrentJob() ) );
+            dateET.setText( String.valueOf( getDay( getCurrentJob() ) ) + "/" + String.valueOf( getMonth( getCurrentJob() ) ) + "/" + String.valueOf( getYear( getCurrentJob() ) ) );
         }
 
         Date date = new Date();
@@ -355,24 +406,24 @@ public class JobSheetFragmentFinalize extends Fragment {
         endMinute = minutes;
         endHour = hours;
 
-        if (getStartTime(getCurrentJob()) != null && getEndTime(getCurrentJob()) != null) {
+        if ( getStartTime(getCurrentJob()) != null ) {
             String startTime = getStartTime(getCurrentJob());
             startHour = Integer.valueOf(startTime.substring(0, startTime.length() / 2));
             startMinute = Integer.valueOf(startTime.substring(startTime.length() / 2));
+            setTime( startMinute, startHour, true);
+            startTimeET.setText( getStartTime( getCurrentJob() ) );
+        }
 
+        if ( getEndTime(getCurrentJob()) != null ) {
             String endTime = getEndTime(getCurrentJob());
-            endHour = Integer.valueOf(endTime.substring(0, startTime.length() / 2));
-            endMinute = Integer.valueOf(endTime.substring(startTime.length() / 2));
+            endHour = Integer.valueOf(endTime.substring(0, endTime.length() / 2));
+            endMinute = Integer.valueOf(endTime.substring(endTime.length() / 2));
+            setTime( endMinute, endHour, false);
+            endTimeET.setText( getEndTime( getCurrentJob() ) );
         }
 
         setTime(startMinute, startHour, true);
         setTime(endMinute, endHour, false);
-
-        startTimeTP.setHour(startHour);
-        startTimeTP.setMinute(startMinute);
-
-        endTimeTP.setHour(endHour);
-        endTimeTP.setMinute(endMinute);
 
         setTotalHours();
     }
