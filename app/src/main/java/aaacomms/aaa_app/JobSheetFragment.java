@@ -389,15 +389,15 @@ public class JobSheetFragment extends Fragment {
 
     private void setEditable(boolean editable) {
         if ( editable ) {
-            customerET.setFocusableInTouchMode(true);
-            firstET.setFocusableInTouchMode(true);
-            lastET.setFocusableInTouchMode(true);
-            additionalTextET.setFocusableInTouchMode(true);
+            customerET.setEnabled(true);
+            firstET.setEnabled(true);
+            lastET.setEnabled(true);
+            additionalTextET.setEnabled(true);
         } else {
-            customerET.setFocusable(false);
-            firstET.setFocusable(false);
-            lastET.setFocusable(false);
-            additionalTextET.setFocusable(false);
+            customerET.setEnabled(false);
+            firstET.setEnabled(false);
+            lastET.setEnabled(false);
+            additionalTextET.setEnabled(false);
         }
     }
 
