@@ -92,7 +92,7 @@ public class JobSheetFragment extends Fragment {
         photos = getView().findViewById(R.id.photosBtn);
         finalize = getView().findViewById(R.id.finalizeBtn);
 
-        ArrayAdapter<Integer> dropAdapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_item, getJobNumbers());
+        ArrayAdapter<Integer> dropAdapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_item, getJobNumbers() );
         dropAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         spinner.setAdapter(dropAdapter);
 
@@ -168,16 +168,24 @@ public class JobSheetFragment extends Fragment {
         photos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new JobSheetFragmentPhotos()).commit();
+                if ( getCurrentJob() > 0 ) {
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                            new JobSheetFragmentPhotos()).commit();
+                } else {
+                    Toast.makeText(getActivity(), "no job number selected", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         finalize.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new JobSheetFragmentFinalize()).commit();
+                if ( getCurrentJob() > 0 ) {
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                            new JobSheetFragmentFinalize()).commit();
+                } else {
+                    Toast.makeText(getActivity(), "no job number selected", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -309,6 +317,41 @@ public class JobSheetFragment extends Fragment {
             jobNumbers.add( jobNo );
         }
         return jobNumbers;
+    }
+
+    private ArrayList<Integer> getDraftJobs() {
+        ArrayList<Integer> draftjobs = new ArrayList<>();
+
+        int numJobs = getNumJobs();
+
+        for ( int i = 0; i < numJobs; i++ ) {
+            SharedPreferences prefs = this.getActivity().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + i , Context.MODE_PRIVATE);
+            String jobStatus = prefs.getString(getResources().getString(R.string.jobStatusString), null);
+            if ( jobStatus != null && jobStatus.equals( "draft" ) ) {
+                int jobNo = prefs.getInt(getResources().getString(R.string.jobNumString), 0);
+                draftjobs.add( jobNo );
+            }
+        }
+
+        return draftjobs;
+    }
+
+    private ArrayList<String> getCompletedJobs() {
+        ArrayList<String> completedJobs = new ArrayList<>();
+
+        int numJobs = getNumJobs();
+
+        for ( int i = 0; i < numJobs; i++ ) {
+            SharedPreferences prefs = this.getActivity().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + i , Context.MODE_PRIVATE);
+            String jobStatus = prefs.getString(getResources().getString(R.string.jobStatusString), null);
+            if ( jobStatus != null && jobStatus.equals( "completed" ) ) {
+                int jobNo = prefs.getInt(getResources().getString(R.string.jobNumString), 0);
+                String customer = prefs.getString(getResources().getString(R.string.customerString), null);
+                completedJobs.add(jobNo + ": " + customer);
+            }
+        }
+
+        return completedJobs;
     }
 
     private int getNumJobs() {

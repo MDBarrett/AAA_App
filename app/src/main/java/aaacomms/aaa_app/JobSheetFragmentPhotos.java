@@ -19,7 +19,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
@@ -27,16 +26,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.io.File;
@@ -44,8 +39,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
-
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
@@ -53,6 +48,7 @@ public class JobSheetFragmentPhotos extends Fragment {
 
     private static final int MY_CAMERA_PERMISSION_CODE = 100;
     private static final int EXTERNAL_REQUEST_CODE = 200;
+    final private int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
 
     private static int RESULT_LOAD_IMAGE = 1;
 
@@ -66,9 +62,6 @@ public class JobSheetFragmentPhotos extends Fragment {
 
     ImageButton navBtn;
     private DrawerLayout drawer;
-
-    SharedPreferences prefs;
-    String imagePrefs = "imagePreferences";
 
     ArrayList<Button> buttons = new ArrayList<>();
 
@@ -120,8 +113,6 @@ public class JobSheetFragmentPhotos extends Fragment {
         finalize = getView().findViewById(R.id.finalizeBtn);
 
         img = getView().findViewById(R.id.imageView);
-
-        prefs = this.getActivity().getSharedPreferences(imagePrefs, Context.MODE_PRIVATE);
 
         setJobNoTV( getCurrentJob() );
 
@@ -283,29 +274,110 @@ public class JobSheetFragmentPhotos extends Fragment {
         builder.setMessage(message);
         builder.setPositiveButton("Take Photo", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                takePhoto();
+                if ( checkCameraPermissions() )
+                    takePhoto();
             }
         });
         builder.setNeutralButton("Choose from Gallery", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                chooseGallery();
+                if ( checkStoragePermissions() )
+                    chooseGallery();
             }
         });
         builder.show();
     }
 
     private void takePhoto() {
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.CAMERA},
-                    MY_CAMERA_PERMISSION_CODE);
-        } else if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    EXTERNAL_REQUEST_CODE);
-        } else {
-            openCameraIntent();
+        openCameraIntent();
+    }
+
+    private Boolean checkCameraPermissions(){
+        List<String> permissionsNeeded = new ArrayList<String>();
+
+        final List<String> permissionsList = new ArrayList<String>();
+        if (!addPermission(permissionsList, Manifest.permission.CAMERA))
+            permissionsNeeded.add("Camera");
+        if (!addPermission(permissionsList, Manifest.permission.WRITE_EXTERNAL_STORAGE))
+            permissionsNeeded.add("Write External Storage");
+
+        if (permissionsList.size() > 0) {
+            if (permissionsNeeded.size() > 0) {
+                // Need Rationale
+                String message = "To use the Camera Feature you need to grant access to " + permissionsNeeded.get(0);
+                for (int i = 1; i < permissionsNeeded.size(); i++)
+                    message = message + " and " + permissionsNeeded.get(i);
+                showMessageOKCancel(message,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                requestPermissions(permissionsList.toArray(new String[permissionsList.size()]),
+                                        REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
+                            }
+                        });
+                return false;
+            }
+            requestPermissions(permissionsList.toArray(new String[permissionsList.size()]),
+                    REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
+            return false;
         }
+
+        return true;
+    }
+
+    private Boolean checkStoragePermissions(){
+        List<String> permissionsNeeded = new ArrayList<String>();
+
+        final List<String> permissionsList = new ArrayList<String>();
+        if (!addPermission(permissionsList, Manifest.permission.READ_EXTERNAL_STORAGE))
+            permissionsNeeded.add("Write External Storage");
+
+        if (permissionsList.size() > 0) {
+            if (permissionsNeeded.size() > 0) {
+                // Need Rationale
+                String message = "To use the Gallery Feature you need to grant access to " + permissionsNeeded.get(0);
+                for (int i = 1; i < permissionsNeeded.size(); i++)
+                    message = message + " and " + permissionsNeeded.get(i);
+                showMessageOKCancel(message,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                requestPermissions(permissionsList.toArray(new String[permissionsList.size()]),
+                                        REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
+                            }
+                        });
+                return false;
+            }
+            requestPermissions(permissionsList.toArray(new String[permissionsList.size()]),
+                    REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean addPermission(List<String> permissionsList, String permission) {
+        if (getActivity().checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
+            permissionsList.add(permission);
+            // Check for Rationale Option
+            if (!shouldShowRequestPermissionRationale(permission))
+                return false;
+        }
+        return true;
+    }
+
+    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder( getActivity() );
+        builder.setCancelable(false);
+        builder.setMessage(message);
+        builder.setPositiveButton("OK", okListener);
+        builder.setNegativeButton("Cancel", null);
+        AlertDialog alert = builder.create();
+        alert.show();
+
+        Button nbutton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
+        Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+        nbutton.setTextColor(Color.parseColor("#00897B"));
+        pbutton.setTextColor(Color.parseColor("#00897B"));
     }
 
     private void chooseGallery() {

@@ -45,7 +45,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="scalingPercent" value="65" />
+                                                <entry key="scalingPercent" value="54" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -56,8 +56,8 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
-                                      <entry key="backgroundColor" value="036a96" />
-                                      <entry key="foregroundImage" value="C:\Users\matthew.barrett\Pictures\AAA Logo\aaa_transparent_outline_white.png" />
+                                      <entry key="backgroundColor" value="ffffff" />
+                                      <entry key="foregroundImage" value="C:\Users\matthew.barrett\Pictures\AAA Logo\aaa_transparent_small.png" />
                                       <entry key="foregroundLayerName" value="ic_edit_dark" />
                                     </map>
                                   </option>
@@ -89,7 +89,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/image/ic_camera_alt_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/av/ic_playlist_add_check_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -99,12 +99,12 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="222222" />
-                            <entry key="height" value="28" />
-                            <entry key="outputName" value="ic_camera_alt_black_28dp" />
+                            <entry key="color" value="004d40" />
+                            <entry key="height" value="48" />
+                            <entry key="outputName" value="ic_playlist_add_check_dark_cyan_48dp" />
                             <entry key="overrideSize" value="true" />
                             <entry key="sourceFile" value="C:\Users\matthew.barrett" />
-                            <entry key="width" value="28" />
+                            <entry key="width" value="48" />
                           </map>
                         </option>
                       </PersistentState>

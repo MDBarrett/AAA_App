@@ -297,12 +297,12 @@
                     <ImageView
                         android:layout_width="28dp"
                         android:layout_height="28dp"
-                        android:background="@drawable/ic_edit_black_28dp"/>
+                        android:background="@drawable/ic_edit_dark_cyan_48dp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/darkBackground"
+                        android:textColor="@color/colorDarkAccent"
                         android:text="Details"/>
 
                 </LinearLayout>
@@ -325,12 +325,12 @@
                     <ImageView
                         android:layout_width="28dp"
                         android:layout_height="28dp"
-                        android:background="@drawable/ic_camera_alt_black_28dp"/>
+                        android:background="@drawable/ic_camera_alt_dark_cyan_48dp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/darkBackground"
+                        android:textColor="@color/colorDarkAccent"
                         android:text="Photos"/>
 
                 </LinearLayout>
