@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -134,6 +135,11 @@ public class JobSheetFragmentFinalize extends Fragment {
 
                 timePickerDialog.show();
 
+                Button nbutton = timePickerDialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+                Button pbutton = timePickerDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+                nbutton.setTextColor(Color.parseColor("#00897B"));
+                pbutton.setTextColor(Color.parseColor("#00897B"));
+
             }
         });
 
@@ -157,6 +163,11 @@ public class JobSheetFragmentFinalize extends Fragment {
                 }, currentHour, currentMinute, false);
 
                 timePickerDialog.show();
+
+                Button nbutton = timePickerDialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+                Button pbutton = timePickerDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+                nbutton.setTextColor(Color.parseColor("#00897B"));
+                pbutton.setTextColor(Color.parseColor("#00897B"));
 
             }
         });

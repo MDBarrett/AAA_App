@@ -140,6 +140,11 @@ public class JobSheetFragment extends Fragment {
 
                 AlertDialog alertDialog = alertDialogBuilder.create();
                 alertDialog.show();
+
+                Button nbutton = alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+                Button pbutton = alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+                nbutton.setTextColor(Color.parseColor("#00897B"));
+                pbutton.setTextColor(Color.parseColor("#00897B"));
             }
         });
 

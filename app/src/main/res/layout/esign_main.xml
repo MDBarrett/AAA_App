@@ -15,9 +15,9 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
+            android:background="@color/darkBackground"
             android:orientation="horizontal"
+
             android:gravity="center"
             android:paddingBottom="15dp"
             android:paddingTop="15dp">
@@ -32,6 +32,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/white"
                     android:text="@string/start"
                     android:textSize="20sp" />
 
@@ -39,17 +40,19 @@
                     android:id="@+id/startTimeESTV"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:background="?attr/box"
+                    android:background="@drawable/box"
                     android:gravity="center"
                     android:paddingBottom="5dp"
                     android:paddingEnd="5dp"
                     android:paddingStart="5dp"
                     android:paddingTop="5dp"
+                    android:textColor="@color/white"
                     android:textSize="20sp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/white"
                     android:text="@string/total"
                     android:textSize="20sp" />
 
@@ -57,8 +60,9 @@
                     android:id="@+id/totalHoursESTV"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:background="?attr/box"
+                    android:background="@drawable/box"
                     android:gravity="center"
+                    android:textColor="@color/white"
                     android:paddingBottom="5dp"
                     android:paddingEnd="5dp"
                     android:paddingStart="5dp"
@@ -76,6 +80,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/white"
                     android:text="@string/end"
                     android:textSize="20sp" />
 
@@ -83,8 +88,9 @@
                     android:id="@+id/endTimeESTV"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:background="?attr/box"
+                    android:background="@drawable/box"
                     android:gravity="center"
+                    android:textColor="@color/white"
                     android:paddingBottom="5dp"
                     android:paddingEnd="5dp"
                     android:paddingStart="5dp"
@@ -94,6 +100,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/white"
                     android:text="@string/dateTV"
                     android:textSize="20sp" />
 
@@ -101,8 +108,9 @@
                     android:id="@+id/dataESTV"
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
-                    android:background="?attr/box"
+                    android:background="@drawable/box"
                     android:gravity="center"
+                    android:textColor="@color/white"
                     android:paddingBottom="5dp"
                     android:paddingEnd="5dp"
                     android:paddingStart="5dp"
