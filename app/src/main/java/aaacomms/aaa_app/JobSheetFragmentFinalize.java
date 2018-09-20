@@ -12,12 +12,10 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -26,13 +24,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-
-import java.sql.Array;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -42,8 +36,6 @@ public class JobSheetFragmentFinalize extends Fragment {
     ImageButton navBtn;
     private DrawerLayout drawer;
     Button sign, submit;
-
-    TimePicker startTimeTP, endTimeTP;
 
     EditText startTimeET, endTimeET, dateET, totalTimeET;
 
@@ -104,11 +96,15 @@ public class JobSheetFragmentFinalize extends Fragment {
 
         if ( getCurrentJob() != 0 ) {
 
+            sign.setEnabled( false );
+            sign.setBackgroundResource( R.drawable.box_disabled );
             initializeFields();
 
         } else {
             sign.setEnabled( false );
+            sign.setBackgroundResource( R.drawable.box_disabled );
             submit.setEnabled( false );
+            submit.setBackgroundResource( R.drawable.box_disabled );
             startTimeET.setEnabled( false );
             endTimeET.setEnabled( false );
             dateET.setEnabled( false );
@@ -130,6 +126,10 @@ public class JobSheetFragmentFinalize extends Fragment {
                         setTime( startMinute, startHour, true);
                         startTimeET.setText( getStartTime( getCurrentJob() ) );
                         setTotalHours();
+                        if ( getEndTime( getCurrentJob() ) != null ) {
+                            sign.setEnabled(true);
+                            sign.setBackgroundResource( R.drawable.box );
+                        }
                     }
                 }, currentHour, currentMinute, false);
 
@@ -159,6 +159,10 @@ public class JobSheetFragmentFinalize extends Fragment {
                         setTime( endMinute, endHour , false);
                         endTimeET.setText( getEndTime( getCurrentJob() ) );
                         setTotalHours();
+                        if ( getStartTime( getCurrentJob() ) != null ) {
+                            sign.setEnabled(true);
+                            sign.setBackgroundResource( R.drawable.box );
+                        }
                     }
                 }, currentHour, currentMinute, false);
 
@@ -242,8 +246,10 @@ public class JobSheetFragmentFinalize extends Fragment {
         if ( getCurrentJob() > 0 ) {
             if (fieldsComplete(getCurrentJob())) {
                 submit.setEnabled(true);
+                submit.setBackgroundResource( R.drawable.box );
             } else {
                 submit.setEnabled(false);
+                submit.setBackgroundResource( R.drawable.box_disabled );
             }
         }
 
@@ -255,8 +261,10 @@ public class JobSheetFragmentFinalize extends Fragment {
         if ( getCurrentJob() != 0 ) {
             if (fieldsComplete(getCurrentJob())) {
                 submit.setEnabled(true);
+                submit.setBackgroundResource( R.drawable.box );
             } else {
                 submit.setEnabled(false);
+                submit.setBackgroundResource( R.drawable.box_disabled );
             }
         }
     }
@@ -389,7 +397,10 @@ public class JobSheetFragmentFinalize extends Fragment {
 
     private void initializeFields() {
 
-        sign.setEnabled( true );
+        if ( getStartTime( getCurrentJob() ) != null && getEndTime( getCurrentJob() ) != null ) {
+            sign.setEnabled(true);
+            sign.setBackgroundResource( R.drawable.box );
+        }
         startTimeET.setEnabled( true );
         endTimeET.setEnabled( true );
         dateET.setEnabled( true );
@@ -431,12 +442,13 @@ public class JobSheetFragmentFinalize extends Fragment {
             endMinute = Integer.valueOf(endTime.substring(endTime.length() / 2));
             setTime( endMinute, endHour, false);
             endTimeET.setText( getEndTime( getCurrentJob() ) );
+            setTotalHours();
         }
 
-        setTime(startMinute, startHour, true);
-        setTime(endMinute, endHour, false);
+//        setTime(startMinute, startHour, true);
+//        setTime(endMinute, endHour, false);
 
-        setTotalHours();
+
     }
 
     private Boolean fieldsComplete(int jobNo) {
@@ -445,26 +457,24 @@ public class JobSheetFragmentFinalize extends Fragment {
 
         if ( prefs.getString( getResources().getString(R.string.customerString), null).equals("") ) {
             missingFields.add( "customer name" );
-            Toast.makeText(getActivity(), "missing CUSTOMER NAME", Toast.LENGTH_LONG).show();
         }
         if ( prefs.getString( getResources().getString(R.string.firstNameString), null).equals("") ) {
             missingFields.add( "first name" );
-            Toast.makeText(getActivity(), "missing FIRST NAME", Toast.LENGTH_LONG).show();
         }
         if ( prefs.getString( getResources().getString(R.string.lastNameString), null).equals("") ) {
             missingFields.add( "last name" );
-            Toast.makeText(getActivity(), "missing LAST", Toast.LENGTH_LONG).show();
         }
         if ( !jobSheetSigned( getCurrentJob() ) ) {
             missingFields.add( "customer signature" );
-            Toast.makeText(getActivity(), "missing CUSTOMER NAME", Toast.LENGTH_LONG).show();
         }
 
         if ( missingFields.size() > 0 ) {
             String listString = "missing ";
-            for ( String s : missingFields ) {
-                listString += s + ", ";
-            }
+            for ( int i = 0; i < missingFields.size(); i++ )
+                if ( i == missingFields.size() - 2 )
+                    listString += missingFields.get( i ) + " and ";
+                else
+                    listString += missingFields.get( i ) + ", ";
             Toast.makeText(getActivity(), listString.substring(0, (listString.length() - 2) ), Toast.LENGTH_LONG).show();
             missingFields.clear();
             return  false;
