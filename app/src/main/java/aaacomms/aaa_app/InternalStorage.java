@@ -23,7 +23,7 @@ public class InternalStorage extends AppCompatActivity {
 
         jobPrefsString = getResources().getString(R.string.jobsPrefsString);
         jobNumString = getResources().getString(R.string.jobNumString);
-        numJobsString = getResources().getString(R.string.numJobsString);
+//        numJobsString = getResources().getString(R.string.numJobsString);
         customerString = getResources().getString(R.string.customerString);
 
         jobPrefs = getSharedPreferences( jobPrefsString , MODE_PRIVATE);

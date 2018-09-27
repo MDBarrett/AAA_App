@@ -263,6 +263,8 @@
 
                 android:verticalScrollbarPosition="right"
                 android:gravity="top"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:padding="5dp" />
 
             <LinearLayout

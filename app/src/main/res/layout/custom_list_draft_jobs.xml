@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/textTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toStartOf="@id/editBtn"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:textSize="18sp" />
+
+    <ImageButton
+        android:id="@+id/editBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="?editIcon"
+        android:background="@null"
+        android:layout_toStartOf="@id/removeBtn"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="5dp" />
+
+    <ImageButton
+        android:id="@+id/removeBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="?attr/removeIcon"
+        android:background="@null"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="10dp" />
+
+</RelativeLayout>

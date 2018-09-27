@@ -9,25 +9,22 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.ScrollView;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 public class HomeFragment extends Fragment {
 
@@ -37,10 +34,8 @@ public class HomeFragment extends Fragment {
 
     ImageButton navBtn;
 
-    ArrayAdapter<String> draftsAdapter;
-    ArrayList<String> draftJobsList = new ArrayList<>();
-    ArrayAdapter<String> completedAdapter;
-    ArrayList<String> completedJobsList = new ArrayList<>();
+    List<JobsListDataModel> draftJobsList;
+    List<JobsListDataModel> completedJobsList;
 
     SharedPreferences jobPrefs;
     String jobPreferences = "jobPreferences";
@@ -51,8 +46,7 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        // create ContextThemeWrapper from the original Activity Context with the custom theme
-        Context contextThemeWrapper = new ContextThemeWrapper();
+        Context contextThemeWrapper;
 
         SharedPreferences prefs = getActivity().getApplicationContext().getSharedPreferences( "ApplicationPreferences" , Context.MODE_PRIVATE);
         Boolean appTheme = prefs.getBoolean("appTheme", false);
@@ -63,7 +57,6 @@ public class HomeFragment extends Fragment {
             contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.lightTheme);
         }
 
-        // clone the inflater using the ContextThemeWrapper
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
 
         return localInflater.inflate(R.layout.fragment_home, container, false);
@@ -122,89 +115,87 @@ public class HomeFragment extends Fragment {
 
         setDraftJobs();
         setCompletedJobs();
-
     }
 
-    private ArrayList<String> getDraftJobs() {
-        ArrayList<String> draftjobs = new ArrayList<>();
+    public int getIndex(int jobNo) {
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo, Context.MODE_PRIVATE);
+        return prefs.getInt( getResources().getString(R.string.indexString), 0 );
+    }
 
-        int numJobs = getNumJobs();
+    public String[] getOrderedJobs() {
+        LinkedList<String> jobsList = new LinkedList<>();
+        SharedPreferences prefs = getContext().getSharedPreferences( getResources().getString(R.string.jobsPrefsString) , Context.MODE_PRIVATE);
+        Set<String> set = prefs.getStringSet( getResources().getString( R.string.jobsListString), null );
 
-        for ( int i = 0; i < numJobs; i++ ) {
-            SharedPreferences prefs = this.getActivity().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + i , Context.MODE_PRIVATE);
-            String jobStatus = prefs.getString(getResources().getString(R.string.jobStatusString), null);
-            if ( jobStatus != null && jobStatus.equals( "draft" ) ) {
-                int jobNo = prefs.getInt(getResources().getString(R.string.jobNumString), 0);
-                String customer = prefs.getString(getResources().getString(R.string.customerString), null);
-                draftjobs.add(jobNo + ": " + customer);
+        if( set != null ) {
+            ArrayList<Integer> jobIndices = new ArrayList<>();
+
+            for ( String s : set ) {
+                jobIndices.add( getIndex( Integer.valueOf( s ) ) );
+            }
+
+            Collections.sort( jobIndices );
+
+            for( int i = 0; i < jobIndices.size(); i++ ) {
+                for ( String s : set ) {
+                    int index = getIndex( Integer.valueOf( s ) );
+                    if ( index == jobIndices.get( i ) )
+                        jobsList.add( s );
+                }
             }
         }
 
-        return draftjobs;
+        for ( String s : jobsList   )
+            Log.d("orderedJobs", s );
+
+        return jobsList.toArray( new String[ jobsList.size() ] );
     }
 
-    private ArrayList<String> getCompletedJobs() {
-        ArrayList<String> completedJobs = new ArrayList<>();
+    private List<JobsListDataModel> getDraftJobs() {
+        List<JobsListDataModel> draftJobs = new ArrayList<>();
 
-        int numJobs = getNumJobs();
+        String[] set = getOrderedJobs();
 
-        for ( int i = 0; i < numJobs; i++ ) {
-            SharedPreferences prefs = this.getActivity().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + i , Context.MODE_PRIVATE);
-            String jobStatus = prefs.getString(getResources().getString(R.string.jobStatusString), null);
-            if ( jobStatus != null && jobStatus.equals( "completed" ) ) {
-                int jobNo = prefs.getInt(getResources().getString(R.string.jobNumString), 0);
-                String customer = prefs.getString(getResources().getString(R.string.customerString), null);
-                completedJobs.add(jobNo + ": " + customer);
+        if ( set != null )
+            for ( String s : set ) {
+                SharedPreferences prefs = this.getActivity().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + s , Context.MODE_PRIVATE);
+                String jobStatus = prefs.getString(getResources().getString(R.string.jobStatusString), null);
+                if ( jobStatus != null && jobStatus.equals( "draft" ) ) {
+                    String customer = prefs.getString(getResources().getString(R.string.customerString), null);
+                    draftJobs.add( new JobsListDataModel( Integer.valueOf(s), customer ) );
+                }
             }
-        }
+
+        return draftJobs;
+    }
+
+    private List<JobsListDataModel> getCompletedJobs() {
+        List<JobsListDataModel> completedJobs = new ArrayList<>();
+
+        String[] set = getOrderedJobs();
+
+        if ( set != null )
+            for ( String s : set ) {
+                SharedPreferences prefs = this.getActivity().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + s , Context.MODE_PRIVATE);
+                String jobStatus = prefs.getString(getResources().getString(R.string.jobStatusString), null);
+                if ( jobStatus != null && jobStatus.equals( "completed" ) ) {
+                    String customer = prefs.getString(getResources().getString(R.string.customerString), null);
+                    completedJobs.add( new JobsListDataModel( Integer.valueOf(s), customer ) );
+                }
+            }
 
         return completedJobs;
     }
 
-    private int getNumJobs() {
-        SharedPreferences prefs = getContext().getSharedPreferences( getResources().getString(R.string.jobsPrefsString) , Context.MODE_PRIVATE);
-        return prefs.getInt( getResources().getString(R.string.numJobsString), 0 );
-    }
-
     private void setDraftJobs() {
         draftJobsList = getDraftJobs();
-
-        draftsAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, draftJobsList) {
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent){
-                View view = super.getView(position, convertView, parent);
-                TextView tv = (TextView) view.findViewById(android.R.id.text1);
-                if ( appTheme ) {
-                    tv.setTextColor(Color.WHITE);
-                } else {
-                    tv.setTextColor(Color.BLACK);
-                }
-                return view;
-            }
-        };
-        draftJobs.setAdapter( draftsAdapter );
-
-        draftsAdapter.notifyDataSetChanged();
+        DraftsListAdapter adapter = new DraftsListAdapter(getActivity(), R.layout.custom_list_draft_jobs, draftJobsList);
+        draftJobs.setAdapter( adapter );
     }
 
     private void setCompletedJobs() {
         completedJobsList = getCompletedJobs();
-
-        completedAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, completedJobsList) {
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent){
-                View view = super.getView(position, convertView, parent);
-                TextView tv = (TextView) view.findViewById(android.R.id.text1);
-                if ( appTheme ) {
-                    tv.setTextColor(Color.WHITE);
-                } else {
-                    tv.setTextColor(Color.BLACK);
-                }
-                return view;
-            }
-        };
-        completedJobs.setAdapter( completedAdapter );
-
-        completedAdapter.notifyDataSetChanged();
+        DraftsListAdapter adapter = new DraftsListAdapter(getActivity(), R.layout.custom_list_draft_jobs, completedJobsList);
+        completedJobs.setAdapter( adapter );
     }
 }

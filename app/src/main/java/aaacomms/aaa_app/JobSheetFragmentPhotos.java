@@ -41,13 +41,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
+
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 public class JobSheetFragmentPhotos extends Fragment {
 
-    private static final int MY_CAMERA_PERMISSION_CODE = 100;
-    private static final int EXTERNAL_REQUEST_CODE = 200;
     final private int REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS = 124;
 
     private static int RESULT_LOAD_IMAGE = 1;
@@ -388,41 +388,13 @@ public class JobSheetFragmentPhotos extends Fragment {
         startActivityForResult(i, RESULT_LOAD_IMAGE);
     }
 
-    private int getIndex(int jobNo) {
-        int index = 0;
-        int numJobs = getNumJobs();
-
-        for ( int i = 0; i < numJobs; i++ ) {
-            SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + i , Context.MODE_PRIVATE);
-            int jobNum = prefs.getInt( getResources().getString(R.string.jobNumString) , 0);
-            if ( jobNo == jobNum ) {
-                index = i;
-            }
-        }
-        return index;
-    }
-
-    private int getImageIndex(String filePath) {
-        int index = 0;
-        int numImages = getNumImages();
-
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString), Context.MODE_PRIVATE);
-        for ( int i = 0; i < numImages; i++ ) {
-            String storedFilePath = prefs.getString( getResources().getString(R.string.imagePrefsString) + i , null);
-            if ( filePath.equals( storedFilePath ) ) {
-                index = i;
-            }
-        }
-        return index;
-    }
-
     private int getCurrentJob(){
         SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) , Context.MODE_PRIVATE);
         return prefs.getInt( getResources().getString(R.string.currentJobString) , 0);
     }
 
     private void storeImage( String filePath, int jobNo ){
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo , Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
 
         int index = getNumImages();
@@ -434,7 +406,7 @@ public class JobSheetFragmentPhotos extends Fragment {
 
     private void setStoredImages( int jobNo ) {
         int numImages = getNumImages();
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo , Context.MODE_PRIVATE);
 
         for ( int i = 0; i < numImages; i++ ) {
             String filePath = prefs.getString( getResources().getString(R.string.imagePrefsString) + i , null);
@@ -444,17 +416,12 @@ public class JobSheetFragmentPhotos extends Fragment {
     }
 
     private int getNumImages(){
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( getCurrentJob() ) , Context.MODE_PRIVATE);
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getCurrentJob() , Context.MODE_PRIVATE);
         return prefs.getInt( getResources().getString(R.string.numImagesString), 0);
     }
 
-    private int getNumJobs() {
-        SharedPreferences prefs = getContext().getSharedPreferences( getResources().getString(R.string.jobsPrefsString) , Context.MODE_PRIVATE);
-        return prefs.getInt( getResources().getString(R.string.numJobsString), 0 );
-    }
-
     private void incrementNumImages() {
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( getCurrentJob() ), Context.MODE_PRIVATE);
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getCurrentJob() , Context.MODE_PRIVATE);
 
         int numJobs = prefs.getInt( getResources().getString(R.string.numImagesString), 0 );
 
@@ -505,7 +472,7 @@ public class JobSheetFragmentPhotos extends Fragment {
                 }
 
                 if ( index != ( buttons.size() -1 ) ) {
-                    SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex(getCurrentJob()), Context.MODE_PRIVATE);
+                    SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getCurrentJob(), Context.MODE_PRIVATE);
                     img.setImageURI(Uri.parse(prefs.getString(getResources().getString(R.string.imagePrefsString) + index, null)));
                 } else {
 

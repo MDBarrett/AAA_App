@@ -8,15 +8,14 @@ import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -26,11 +25,15 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
 
 public class JobSheetFragment extends Fragment {
 
@@ -70,6 +73,8 @@ public class JobSheetFragment extends Fragment {
         }
 
         super.onActivityCreated(savedInstanceState);
+
+        displaySharedPreferences();
 
         drawer = getActivity().findViewById(R.id.drawer_layout);
         navBtn = getView().findViewById(R.id.navButton);
@@ -111,24 +116,7 @@ public class JobSheetFragment extends Fragment {
                 alertDialogBuilder.setCancelable(false).setPositiveButton("Create Job",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int id) {
-                                String num = result.getText().toString();
-                                int jobNumber = Integer.parseInt(num);
-                                if ( jobAccepted( num ) ) {
-                                    storeJobNo(jobNumber);
-                                    setJobStatus( jobNumber, "draft" );
-                                    ArrayAdapter<Integer> dropAdapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_item, getJobNumbers());
-                                    dropAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
-                                    spinner.setAdapter(dropAdapter);
-                                    setEditable(true);
-                                    setJobNoTV( jobNumber );
-                                    customerET.setText("");
-                                    firstET.setText("");
-                                    lastET.setText("");
-                                    additionalTextET.setText("");
-                                    spinner.setSelection(getIndex(Integer.valueOf(num)));
-                                    setCurrentJob(Integer.valueOf(num));
-                                    newJob = true;
-                                }
+                                createJob( result );
                             }
                         })
                         .setNegativeButton("Cancel",
@@ -229,7 +217,7 @@ public class JobSheetFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                storeCustomer( String.valueOf( s ), Integer.parseInt( String.valueOf( jobNoTV.getText() ) ) );
+                storeCustomer( String.valueOf( s ), getCurrentJob() );
             }
 
             @Override
@@ -246,7 +234,7 @@ public class JobSheetFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                storeFirstName( String.valueOf( s ), Integer.parseInt( String.valueOf( jobNoTV.getText() ) ) );
+                storeFirstName( String.valueOf( s ), getCurrentJob() );
             }
 
             @Override
@@ -263,7 +251,7 @@ public class JobSheetFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                storeLastName( String.valueOf( s ), Integer.parseInt( String.valueOf( jobNoTV.getText() ) ) );
+                storeLastName( String.valueOf( s ), getCurrentJob() );
             }
 
             @Override
@@ -280,7 +268,7 @@ public class JobSheetFragment extends Fragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                storeAdditionalComments( String.valueOf( s ), Integer.parseInt( String.valueOf( jobNoTV.getText() ) ) );
+                storeAdditionalComments( String.valueOf( s ), getCurrentJob() );
             }
 
             @Override
@@ -290,148 +278,142 @@ public class JobSheetFragment extends Fragment {
         });   //additional comments LISTENER
 
         setJobNoTV( getCurrentJob() );
-        spinner.setSelection( getIndex( getCurrentJob() ) );
+        spinner.setSelection( getPosition( getCurrentJob() ) );
+    }
 
+    public void displaySharedPreferences(){
+        Set<String> set = getJobsSet();
+        if ( set != null )
+            Log.d( "numJobs", String.valueOf( set.size() ) );
+    }
+
+    public int getIndex(int jobNo) {
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo, Context.MODE_PRIVATE);
+        return prefs.getInt( getResources().getString(R.string.indexString), 0 );
+    }
+
+    public Set<String> getJobsSet() {
+        SharedPreferences prefs = getContext().getSharedPreferences( getResources().getString(R.string.jobsPrefsString) , Context.MODE_PRIVATE);
+        return prefs.getStringSet( getResources().getString( R.string.jobsListString), null );
     }
 
     public void storeJobNo(int jobNo) {
-        SharedPreferences prefs;
-        SharedPreferences jobPrefs = getContext().getSharedPreferences( getResources().getString(R.string.jobsPrefsString) , Context.MODE_PRIVATE);
-        if ( !( jobExist( jobNo ) ) ) {  //if the job number does NOT exist
-            if ( getNumJobs() != 0 ) {
-                prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getNumJobs(), Context.MODE_PRIVATE);
-            } else {
-                prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + 0, Context.MODE_PRIVATE);
+        if ( !( jobExist( jobNo ) ) ) {   //if the job number does NOT exist
+            Set<String> set = getJobsSet();
+            if ( set != null )
+                set.add( String.valueOf( jobNo ) );
+            else {
+                set = new HashSet<>();
+                set.add( String.valueOf( jobNo ) );
             }
+            SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString), Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
-            editor.putInt( getResources().getString(R.string.jobNumString) , jobNo ).apply();
+            editor.putStringSet( getResources().getString(R.string.jobsListString), set ).apply();
 
-            int numberJobs = getNumJobs();
-            SharedPreferences.Editor editor2 = jobPrefs.edit();
-            editor2.putInt( getResources().getString(R.string.numJobsString) , numberJobs + 1 ).apply();
+            SharedPreferences jobPrefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo, Context.MODE_PRIVATE);
+            SharedPreferences.Editor jobEditor = jobPrefs.edit();
+            jobEditor.putInt( getResources().getString(R.string.indexString), set.size() - 1 ).apply();
         }
     }
 
     private ArrayList<Integer> getJobNumbers() {
         ArrayList<Integer> jobNumbers = new ArrayList<>();
-        int numJobs = getNumJobs();
-
-        for ( int i = 0; i < numJobs; i++ ) {
-            SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + i , Context.MODE_PRIVATE);
-            int jobNo = prefs.getInt( getResources().getString(R.string.jobNumString) , 0);
-            jobNumbers.add( jobNo );
-        }
+        String[] jobs = getOrderedJobs();
+        for( String s : jobs )
+            jobNumbers.add(Integer.valueOf(s));
         return jobNumbers;
     }
 
-    private ArrayList<Integer> getDraftJobs() {
-        ArrayList<Integer> draftjobs = new ArrayList<>();
-
-        int numJobs = getNumJobs();
-
-        for ( int i = 0; i < numJobs; i++ ) {
-            SharedPreferences prefs = this.getActivity().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + i , Context.MODE_PRIVATE);
-            String jobStatus = prefs.getString(getResources().getString(R.string.jobStatusString), null);
-            if ( jobStatus != null && jobStatus.equals( "draft" ) ) {
-                int jobNo = prefs.getInt(getResources().getString(R.string.jobNumString), 0);
-                draftjobs.add( jobNo );
-            }
-        }
-
-        return draftjobs;
+    private String getJobStatus(int jobNo) {
+        SharedPreferences prefs = this.getActivity().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo , Context.MODE_PRIVATE);
+        return prefs.getString(getResources().getString(R.string.jobStatusString), null);
     }
 
-    private ArrayList<String> getCompletedJobs() {
-        ArrayList<String> completedJobs = new ArrayList<>();
-
-        int numJobs = getNumJobs();
-
-        for ( int i = 0; i < numJobs; i++ ) {
-            SharedPreferences prefs = this.getActivity().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + i , Context.MODE_PRIVATE);
-            String jobStatus = prefs.getString(getResources().getString(R.string.jobStatusString), null);
-            if ( jobStatus != null && jobStatus.equals( "completed" ) ) {
-                int jobNo = prefs.getInt(getResources().getString(R.string.jobNumString), 0);
-                String customer = prefs.getString(getResources().getString(R.string.customerString), null);
-                completedJobs.add(jobNo + ": " + customer);
-            }
-        }
-
-        return completedJobs;
-    }
-
-    private int getNumJobs() {
+    public String[] getOrderedJobs() {
+        LinkedList<String> jobsList = new LinkedList<>();
         SharedPreferences prefs = getContext().getSharedPreferences( getResources().getString(R.string.jobsPrefsString) , Context.MODE_PRIVATE);
-        return prefs.getInt( getResources().getString(R.string.numJobsString), 0 );
+        Set<String> set = prefs.getStringSet( getResources().getString( R.string.jobsListString), null );
+
+        if( set != null ) {
+            ArrayList<Integer> jobIndices = new ArrayList<>();
+
+            for ( String s : set ) {
+                jobIndices.add( getIndex( Integer.valueOf( s ) ) );
+            }
+
+            Collections.sort( jobIndices );
+
+            for( int i = 0; i < jobIndices.size(); i++ ) {
+                for ( String s : set ) {
+                    int index = getIndex( Integer.valueOf( s ) );
+                    if ( index == jobIndices.get( i ) )
+                        jobsList.add( s );
+                }
+            }
+        }
+
+        for ( String s : jobsList   )
+            Log.d("orderedJobs", s );
+
+        return jobsList.toArray( new String[ jobsList.size() ] );
     }
 
     private boolean jobExist(int jobNo) {
-        int numJobs = getNumJobs();
+        String[] set = getOrderedJobs();
 
-        for ( int i = 0; i < numJobs; i++ ) {
-            SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + i , Context.MODE_PRIVATE);
-            int jobNum = prefs.getInt( getResources().getString(R.string.jobNumString) , 0);
-            if ( jobNo == jobNum ) {
+        for ( String s : set )
+            Log.d("jobExist", "set: " + s );
+
+        for ( String s : set ) {
+            Log.d("jobExist", "check: " + s + " - " + s );
+            if ( jobNo == Integer.valueOf( s ) ) {
                 return true;
             }
         }
         return false;
     }
 
-    private int getIndex(int jobNo) {
-        int index = 0;
-        int numJobs = getNumJobs();
-
-        for ( int i = 0; i < numJobs; i++ ) {
-            SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + i , Context.MODE_PRIVATE);
-            int jobNum = prefs.getInt( getResources().getString(R.string.jobNumString) , 0);
-            if ( jobNo == jobNum ) {
-                index = i;
-            }
-        }
-        return index;
-    }
-
     private void storeCustomer(String customer, int jobNo) {
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo , Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString( getResources().getString(R.string.customerString) , customer).apply();
     }
 
     private String getCustomer(int jobNo) {
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo , Context.MODE_PRIVATE);
         return prefs.getString( getResources().getString(R.string.customerString) , null);
     }
 
     private void storeFirstName(String firstName, int jobNo) {
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo , Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString( getResources().getString(R.string.firstNameString) , firstName).apply();
     }
 
     private String getFirstName(int jobNo) {
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo , Context.MODE_PRIVATE);
         return prefs.getString( getResources().getString(R.string.firstNameString) , null);
     }
 
     private void storeLastName(String lastName, int jobNo) {
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo , Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString( getResources().getString(R.string.lastNameString) , lastName).apply();
     }
 
     private String getLastName(int jobNo) {
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo , Context.MODE_PRIVATE);
         return prefs.getString( getResources().getString(R.string.lastNameString) , null);
     }
 
     private void storeAdditionalComments(String additionalComments, int jobNo) {
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo , Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString( getResources().getString(R.string.additionalCommentsString) , additionalComments).apply();
     }
 
     private String getAdditionalComments(int jobNo) {
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo , Context.MODE_PRIVATE);
         return prefs.getString( getResources().getString(R.string.additionalCommentsString) , null);
     }
 
@@ -468,7 +450,6 @@ public class JobSheetFragment extends Fragment {
     }
 
     private Boolean jobAccepted(String jobNo) {
-        ArrayList<Integer> jobNumbers = getJobNumbers();
 
         if ( jobNo.length() != 5 ) {
             Toast.makeText(getActivity(), "job numbers require 5 digits", Toast.LENGTH_LONG).show();
@@ -485,13 +466,10 @@ public class JobSheetFragment extends Fragment {
             return false;
         }
 
-        int num = Integer.parseInt( jobNo );
-
-        for ( int i = 0; i < getNumJobs(); i++ )
-            if ( jobNumbers.get( i ) == num ) {
-                Toast.makeText(getActivity(), "job number already exists", Toast.LENGTH_LONG).show();
-                return false;
-            }
+        if ( jobExist( Integer.valueOf( jobNo ) ) ) {
+            Toast.makeText(getActivity(), "job number already exists", Toast.LENGTH_LONG).show();
+            return false;
+        }
 
         return true;
     }
@@ -501,15 +479,48 @@ public class JobSheetFragment extends Fragment {
             jobNoTV.setText(R.string.noJobSelectedTV);
             jobNoTV.setTextSize( 28 );
         } else {
-            jobNoTV.setText(String.valueOf(jobNo));
+            jobNoTV.setText(String.valueOf( jobNo ) );
             jobNoTV.setTextSize( 28 );
         }
     }
 
     private void setJobStatus(int jobNo, String jobStatus) {
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo , Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString( getResources().getString(R.string.jobStatusString) , jobStatus ).apply();
+    }
+
+    public int getPosition(int jobNo) {
+        String[] jobs = getOrderedJobs();
+        int count = 0;
+        for ( String s : jobs ) {
+            if ( String.valueOf( jobNo ).matches( s ) )
+                return count;
+            else
+                count++;
+        }
+        return 0;
+    }
+
+    public void createJob(EditText result) {
+        String num = result.getText().toString();
+        int jobNumber = Integer.parseInt(num);
+        if ( jobAccepted( num ) ) {
+            storeJobNo( jobNumber );
+            setJobStatus( jobNumber, "draft" );
+            ArrayAdapter<Integer> dropAdapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_item, getJobNumbers() );
+            dropAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+            spinner.setAdapter(dropAdapter);
+            setEditable(true);
+            setJobNoTV( jobNumber );
+            customerET.setText("");
+            firstET.setText("");
+            lastET.setText("");
+            additionalTextET.setText("");
+            spinner.setSelection( getIndex( jobNumber ) );
+            setCurrentJob( Integer.valueOf( num ) );
+            newJob = true;
+        }
     }
 
 }

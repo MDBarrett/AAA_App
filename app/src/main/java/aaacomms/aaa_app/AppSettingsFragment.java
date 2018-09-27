@@ -35,11 +35,14 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class AppSettingsFragment extends Fragment {
 
@@ -172,13 +175,13 @@ public class AppSettingsFragment extends Fragment {
     }
 
     private void clearAllData() {
-        int numJobs = getNumJobs();
-
-        for ( int i = 0; i < numJobs; i++ ) {
-            SharedPreferences prefs = getContext().getSharedPreferences( getResources().getString(R.string.jobsPrefsString) + i , Context.MODE_PRIVATE );
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.clear().apply();
-        }
+        Set<String> set = getJobsSet();
+        if ( set != null )
+            for ( String s : set ) {
+                SharedPreferences prefs = getContext().getSharedPreferences( getResources().getString(R.string.jobsPrefsString) + s , Context.MODE_PRIVATE );
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.clear().apply();
+            }
         SharedPreferences prefs = getContext().getSharedPreferences( getResources().getString(R.string.jobsPrefsString), Context.MODE_PRIVATE );
         SharedPreferences.Editor editor = prefs.edit();
         editor.clear().apply();
@@ -188,9 +191,31 @@ public class AppSettingsFragment extends Fragment {
         editor2.clear().apply();
     }
 
-    private int getNumJobs() {
+    public Set<String> getJobsSet() {
         SharedPreferences prefs = getContext().getSharedPreferences( getResources().getString(R.string.jobsPrefsString) , Context.MODE_PRIVATE);
-        return prefs.getInt( getResources().getString(R.string.numJobsString), 0 );
+        return prefs.getStringSet( getResources().getString( R.string.jobsListString), null );
+    }
+
+    public String[] getOrderedJobs() {
+        String[] jobs = new String[ getNumJobs() ];
+        SharedPreferences prefs = getContext().getSharedPreferences( getResources().getString(R.string.jobsPrefsString) , Context.MODE_PRIVATE);
+        Set<String> set = prefs.getStringSet( getResources().getString( R.string.jobsListString), null );
+
+        if( set != null )
+            for( String s : set ) {
+                SharedPreferences jobPrefs = getContext().getSharedPreferences( getResources().getString(R.string.jobsPrefsString) + s , Context.MODE_PRIVATE);
+                int index = jobPrefs.getInt( getResources().getString(R.string.indexString), 0 );
+                jobs[index] = s;
+            }
+        return jobs;
+    }
+
+    public int getNumJobs() {
+        SharedPreferences prefs = getContext().getSharedPreferences( getResources().getString(R.string.jobsPrefsString), Context.MODE_PRIVATE );
+        Set<String> set = prefs.getStringSet( getResources().getString(R.string.jobsListString), null );
+        if ( set != null )
+            return set.size();
+        return 0;
     }
 
 }

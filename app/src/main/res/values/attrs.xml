@@ -6,5 +6,7 @@
         <attr name="box" format="reference" />
         <attr name="buttonTextColor" format="reference" />
         <attr name="invisibleHint" format="reference" />
+        <attr name="editIcon" format="reference" />
+        <attr name="removeIcon" format="reference" />
     </declare-styleable>
 </resources>

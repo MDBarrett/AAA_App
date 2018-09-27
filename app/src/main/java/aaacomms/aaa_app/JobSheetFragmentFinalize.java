@@ -30,6 +30,8 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 public class JobSheetFragmentFinalize extends Fragment {
 
@@ -126,10 +128,7 @@ public class JobSheetFragmentFinalize extends Fragment {
                         setTime( startMinute, startHour, true);
                         startTimeET.setText( getStartTime( getCurrentJob() ) );
                         setTotalHours();
-                        if ( getEndTime( getCurrentJob() ) != null ) {
-                            sign.setEnabled(true);
-                            sign.setBackgroundResource( R.drawable.box );
-                        }
+                        updateSignBtn();
                     }
                 }, currentHour, currentMinute, false);
 
@@ -159,10 +158,7 @@ public class JobSheetFragmentFinalize extends Fragment {
                         setTime( endMinute, endHour , false);
                         endTimeET.setText( getEndTime( getCurrentJob() ) );
                         setTotalHours();
-                        if ( getStartTime( getCurrentJob() ) != null ) {
-                            sign.setEnabled(true);
-                            sign.setBackgroundResource( R.drawable.box );
-                        }
+                        updateSignBtn();
                     }
                 }, currentHour, currentMinute, false);
 
@@ -282,50 +278,31 @@ public class JobSheetFragmentFinalize extends Fragment {
         }
     }
 
-    private int getNumJobs() {
-        SharedPreferences prefs = getContext().getSharedPreferences( getResources().getString(R.string.jobsPrefsString) , Context.MODE_PRIVATE);
-        return prefs.getInt( getResources().getString(R.string.numJobsString), 0 );
-    }
-
-    private int getIndex(int jobNo) {
-        int index = 0;
-        int numJobs = getNumJobs();
-
-        for ( int i = 0; i < numJobs; i++ ) {
-            SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + i , Context.MODE_PRIVATE);
-            int jobNum = prefs.getInt( getResources().getString(R.string.jobNumString) , 0);
-            if ( jobNo == jobNum ) {
-                index = i;
-            }
-        }
-        return index;
-    }
-
     private int getCurrentJob(){
         SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) , Context.MODE_PRIVATE);
         return prefs.getInt( getResources().getString(R.string.currentJobString) , 0);
     }
 
     private void setStartTime(int jobNo, String startTime) {
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo , Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString( getResources().getString(R.string.startTimeString) , startTime ).apply();
     }
 
     private void setEndTime(int jobNo, String endTime) {
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo , Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString( getResources().getString(R.string.endTimeString) , endTime ).apply();
     }
 
     private void setTotalTime(int jobNo, String totalTime) {
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo , Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString( getResources().getString(R.string.totalTimeString) , totalTime ).apply();
     }
 
     private void setDate(int jobNo, int day, int month, int year) {
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo , Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putInt( getResources().getString(R.string.dayString) , day );
         editor.putInt( getResources().getString(R.string.monthString) , month );
@@ -371,36 +348,33 @@ public class JobSheetFragmentFinalize extends Fragment {
     }
 
     private String getStartTime(int jobNo) {
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo , Context.MODE_PRIVATE);
         return prefs.getString( getResources().getString(R.string.startTimeString) , null);
     }
 
     private String getEndTime(int jobNo) {
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo , Context.MODE_PRIVATE);
         return prefs.getString( getResources().getString(R.string.endTimeString) , null);
     }
 
     private int getDay(int jobNo) {
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo , Context.MODE_PRIVATE);
         return prefs.getInt( getResources().getString(R.string.dayString) , 0);
     }
 
     private int getMonth(int jobNo) {
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo , Context.MODE_PRIVATE);
         return prefs.getInt( getResources().getString(R.string.monthString) , 0);
     }
 
     private int getYear(int jobNo) {
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo , Context.MODE_PRIVATE);
         return prefs.getInt( getResources().getString(R.string.yearString) , 0);
     }
 
     private void initializeFields() {
 
-        if ( getStartTime( getCurrentJob() ) != null && getEndTime( getCurrentJob() ) != null ) {
-            sign.setEnabled(true);
-            sign.setBackgroundResource( R.drawable.box );
-        }
+        updateSignBtn();
         startTimeET.setEnabled( true );
         endTimeET.setEnabled( true );
         dateET.setEnabled( true );
@@ -445,14 +419,10 @@ public class JobSheetFragmentFinalize extends Fragment {
             setTotalHours();
         }
 
-//        setTime(startMinute, startHour, true);
-//        setTime(endMinute, endHour, false);
-
-
     }
 
     private Boolean fieldsComplete(int jobNo) {
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo , Context.MODE_PRIVATE);
         ArrayList<String> missingFields = new ArrayList<>();
 
         if ( prefs.getString( getResources().getString(R.string.customerString), null).equals("") ) {
@@ -466,6 +436,12 @@ public class JobSheetFragmentFinalize extends Fragment {
         }
         if ( !jobSheetSigned( getCurrentJob() ) ) {
             missingFields.add( "customer signature" );
+        }
+        if ( prefs.getString( getResources().getString(R.string.startTimeString), null) == null ) {
+            missingFields.add( "start time" );
+        }
+        if ( prefs.getString( getResources().getString(R.string.endTimeString), null) == null ) {
+            missingFields.add( "end time" );
         }
 
         if ( missingFields.size() > 0 ) {
@@ -484,14 +460,31 @@ public class JobSheetFragmentFinalize extends Fragment {
     }
 
     private Boolean jobSheetSigned(int jobNo) {
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo , Context.MODE_PRIVATE);
         return prefs.getBoolean( getResources().getString(R.string.signedString), false);
     }
 
     private void setJobStatus(int jobNo, String jobStatus) {
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getIndex( jobNo ) , Context.MODE_PRIVATE);
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo , Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString( getResources().getString(R.string.jobStatusString) , jobStatus ).apply();
+    }
+
+    private String getFirstName(int jobNo) {
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo, Context.MODE_PRIVATE);
+        return prefs.getString( getResources().getString(R.string.firstNameString) , null);
+    }
+
+    private String getLastName(int jobNo) {
+        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo, Context.MODE_PRIVATE);
+        return prefs.getString( getResources().getString(R.string.lastNameString) , null);
+    }
+
+    private void updateSignBtn() {
+        if( getEndTime( getCurrentJob() ) != null && getEndTime( getCurrentJob() ) != null && !getFirstName( getCurrentJob() ).equals("") && !getLastName( getCurrentJob() ).equals("") ) {
+            sign.setEnabled(true);
+            sign.setBackgroundResource( R.drawable.box );
+        }
     }
 
 }

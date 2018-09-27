@@ -32,6 +32,8 @@
         <item name="android:divider">@color/white</item>
         <item name="android:editTextColor">@color/white</item>
         <item name="buttonTextColor">@color/white</item>
+        <item name="editIcon">@drawable/ic_edit_white_24dp</item>
+        <item name="removeIcon">@drawable/ic_clear_white_24dp</item>
     </style>
 
     <style name="lightTheme" parent="AppTheme">
@@ -49,6 +51,8 @@
         <item name="android:divider">@color/black</item>
         <item name="android:editTextColor">@color/black</item>
         <item name="buttonTextColor">@color/white</item>
+        <item name="editIcon">@drawable/ic_edit_black_24dp</item>
+        <item name="removeIcon">@drawable/ic_clear_black_24dp</item>
     </style>
 
     <style name="spinnerTheme" parent="android:style/Widget.Holo.Light.Spinner">

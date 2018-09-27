@@ -90,8 +90,9 @@
     <string name="title_notifications">Notifications</string>
 
     <string name="jobsPrefsString">jobPreferences</string>      <!--SharedPreferences-->
+    <string name="jobsListString">jobsList</string>
     <string name="jobNumString">jobNo</string>
-    <string name="numJobsString">numJobs</string>
+    <string name="indexString">index</string>
     <string name="customerString">customer</string>
     <string name="firstNameString">firstName</string>
     <string name="lastNameString">lastName</string>
