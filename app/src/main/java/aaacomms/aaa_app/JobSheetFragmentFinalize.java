@@ -242,7 +242,11 @@ public class JobSheetFragmentFinalize extends Fragment {
         if ( getCurrentJob() > 0 ) {
             if (fieldsComplete(getCurrentJob())) {
                 submit.setEnabled(true);
-                submit.setBackgroundResource( R.drawable.box );
+                if ( appTheme ) {
+                    submit.setBackgroundResource( R.drawable.box );
+                } else {
+                    submit.setBackgroundResource( R.drawable.box_light );
+                }
             } else {
                 submit.setEnabled(false);
                 submit.setBackgroundResource( R.drawable.box_disabled );
@@ -257,7 +261,13 @@ public class JobSheetFragmentFinalize extends Fragment {
         if ( getCurrentJob() != 0 ) {
             if (fieldsComplete(getCurrentJob())) {
                 submit.setEnabled(true);
-                submit.setBackgroundResource( R.drawable.box );
+                SharedPreferences prefs = getActivity().getApplicationContext().getSharedPreferences( "ApplicationPreferences" , Context.MODE_PRIVATE);
+                Boolean appTheme = prefs.getBoolean("appTheme", false);
+                if ( appTheme ) {
+                    submit.setBackgroundResource( R.drawable.box );
+                } else {
+                    submit.setBackgroundResource( R.drawable.box_light );
+                }
             } else {
                 submit.setEnabled(false);
                 submit.setBackgroundResource( R.drawable.box_disabled );
@@ -483,7 +493,13 @@ public class JobSheetFragmentFinalize extends Fragment {
     private void updateSignBtn() {
         if( getEndTime( getCurrentJob() ) != null && getEndTime( getCurrentJob() ) != null && !getFirstName( getCurrentJob() ).equals("") && !getLastName( getCurrentJob() ).equals("") ) {
             sign.setEnabled(true);
-            sign.setBackgroundResource( R.drawable.box );
+            SharedPreferences prefs = getActivity().getApplicationContext().getSharedPreferences( "ApplicationPreferences" , Context.MODE_PRIVATE);
+            Boolean appTheme = prefs.getBoolean("appTheme", false);
+            if ( appTheme ) {
+                sign.setBackgroundResource( R.drawable.box );
+            } else {
+                sign.setBackgroundResource( R.drawable.box_light );
+            }
         }
     }
 
