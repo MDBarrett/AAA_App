@@ -123,7 +123,11 @@ public class JobSheetFragment extends Fragment {
                     alertDialogBuilder.setCancelable(false).setPositiveButton("Create Job",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    createJob( result );
+                                    String s = result.getText().toString();
+                                    if ( !s.equals("") )
+                                        createJob( result );
+                                    else
+                                        Toast.makeText( getActivity(), "no job number entered", Toast.LENGTH_SHORT).show();
                                 }
                             })
                             .setNegativeButton("Cancel",
