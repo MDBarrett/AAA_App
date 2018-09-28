@@ -65,7 +65,7 @@ public class JobSheetFragmentPhotos extends Fragment {
 
     Boolean appTheme;
 
-    LinearLayout details, photos, finalize;
+    TextView details, photos, finalize;
 
 
     ImageView img;

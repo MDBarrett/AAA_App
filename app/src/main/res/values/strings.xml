@@ -18,6 +18,7 @@
     <string name="homeIconCD">Home icon</string>
     <string name="appLogoCD">AAA Communications Logo</string>
     <string name="dropdown">Dropdown</string>
+    <string name="photoDisplayCD">Photo Display Window</string>
 
     <string name="appSettingsTitle">App Settings</string>      <!--titles-->
     <string name="jobReporterTitle">Job Reporter</string>
@@ -53,6 +54,9 @@
     <string name="completedJobsTV">Completed Jobs</string>
     <string name="draftJobsTV">Draft Jobs</string>
     <string name="noJobSelectedTV"> - - - - -</string>
+    <string name="detailsTV">Details</string>
+    <string name="photosTV">Photos</string>
+    <string name="finalizeTV">Finalize</string>
 
     <string name="jobNo">Job Number</string>                  <!--edit texts-->
     <string name="customer">Customer</string>

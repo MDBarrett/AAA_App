@@ -44,7 +44,7 @@ public class JobSheetFragment extends Fragment {
     Spinner spinner;
     Button jobNoBtn;
 
-    LinearLayout details, photos, finalize;
+    TextView details, photos, finalize;
 
     Boolean newJob = false;
     Boolean appTheme;

@@ -149,9 +149,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:baselineAligned="false">
 
                 <LinearLayout
+                    android:id="@+id/padding"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
@@ -183,6 +185,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/padding2"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:orientation="vertical"

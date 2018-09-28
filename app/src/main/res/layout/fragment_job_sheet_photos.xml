@@ -8,7 +8,7 @@
     android:layout_height="fill_parent"
     tools:context=".JobSheetFragment">
 
-        <LinearLayout
+    <LinearLayout
         android:id="@+id/navigationBar"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -30,9 +30,11 @@
                 app:srcCompat="?attr/navButton"
                 android:contentDescription="@string/navButtonCD"/>
 
-            ></LinearLayout>
+        </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/padding"
+            android:orientation="horizontal"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.5">
@@ -56,7 +58,7 @@
             android:layout_marginStart="10dp"
             android:textSize="28sp"/>
 
-    </LinearLayout> <!-- nav button -->
+    </LinearLayout> <!--nav button and job number-->
 
         <LinearLayout
             android:orientation="vertical"
@@ -77,7 +79,8 @@
                 android:layout_marginBottom="1dp"
                 android:layout_marginEnd="1dp"
                 android:layout_marginStart="1dp"
-                android:layout_marginTop="1dp" />
+                android:layout_marginTop="1dp"
+                android:contentDescription="@string/photoDisplayCD" />
 
         </LinearLayout> <!-- display window -->
 
@@ -99,7 +102,8 @@
         <HorizontalScrollView
             android:id="@+id/horizontalScrollView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            tools:ignore="UselessParent">
 
             <LinearLayout
                 android:id="@+id/photosLL"
@@ -114,109 +118,76 @@
     </LinearLayout> <!-- gallery -->
 
     <LinearLayout
+        android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
-        android:orientation="vertical">
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:orientation="horizontal"
+        android:baselineAligned="false">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
+            android:id="@+id/padding14"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
             android:orientation="horizontal">
+        </LinearLayout> <!--PADDING-->
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:orientation="horizontal">
-            </LinearLayout>
+        <TextView
+            android:id="@+id/detailsBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorDarkAccent"
+            android:gravity="center"
+            android:layout_gravity="bottom"
+            android:drawableTop="@drawable/ic_edit_dark_accent_28dp"
+            android:text="@string/detailsTV"/> <!--details-->
 
-            <LinearLayout
-                android:id="@+id/detailsBtn"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_gravity="bottom"
-                android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/padding15"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+        </LinearLayout> <!--PADDING-->
 
-                <ImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:background="@drawable/ic_edit_dark_cyan_48dp"/>
+        <TextView
+            android:id="@+id/photosBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/ic_camera_alt_white_28dp"
+            android:textColor="@color/white"
+            android:gravity="center"
+            android:layout_gravity="bottom"
+            android:text="@string/photosTV"/> <!--photos-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorDarkAccent"
-                    android:text="Details"/>
+        <LinearLayout
+            android:id="@+id/padding16"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+        </LinearLayout> <!--PADDING-->
 
-            </LinearLayout>
+        <TextView
+            android:id="@+id/finalizeBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorDarkAccent"
+            android:gravity="center"
+            android:layout_gravity="bottom"
+            android:drawableTop="@drawable/ic_playlist_add_dark_accent_28dp"
+            android:text="@string/finalizeTV"/> <!--finalize-->
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/photosBtn"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/ic_camera_alt_white_28dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/white"
-                    android:text="Photos"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/finalizeBtn"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_gravity="bottom"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="28dp"
-                    android:layout_height="28dp"
-                    android:background="@drawable/ic_playlist_add_check_dark_cyan_48dp"/>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/colorDarkAccent"
-                    android:text="Finalize"/>
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:orientation="horizontal">
-            </LinearLayout>
-
-        </LinearLayout> <!--buttons-->
+        <LinearLayout
+            android:id="@+id/padding17"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:orientation="horizontal">
+        </LinearLayout> <!--PADDING-->
 
     </LinearLayout> <!--NavBar-->
 

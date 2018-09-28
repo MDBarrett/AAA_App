@@ -42,7 +42,7 @@ public class JobSheetFragmentFinalize extends Fragment {
 
     TextView totalHours, jobNoTV;
 
-    LinearLayout details, photos, finalize;
+    TextView details, photos, finalize;
 
     Boolean appTheme;
 

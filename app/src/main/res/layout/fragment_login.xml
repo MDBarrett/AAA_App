@@ -25,6 +25,8 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/padding"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.2">
@@ -41,6 +43,8 @@
             android:contentDescription="@string/appLogoCD"/> <!--logo-->
 
         <LinearLayout
+            android:id="@+id/padding2"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.5">
@@ -71,6 +75,8 @@
             android:inputType="textPassword"/> <!--password-->
 
         <LinearLayout
+            android:id="@+id/padding3"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="0.5">
@@ -103,6 +109,8 @@
         </android.support.v7.widget.CardView> <!--login button-->
 
         <LinearLayout
+            android:id="@+id/padding4"
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1">
