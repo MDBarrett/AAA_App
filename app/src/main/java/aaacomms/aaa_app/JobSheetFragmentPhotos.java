@@ -20,7 +20,6 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
@@ -41,7 +40,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
@@ -83,16 +81,23 @@ public class JobSheetFragmentPhotos extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 
-        SharedPreferences prefs = getActivity().getApplicationContext().getSharedPreferences( "ApplicationPreferences" , Context.MODE_PRIVATE);
-        appTheme = prefs.getBoolean("appTheme", false);
-        LinearLayout activity = getView().findViewById(R.id.activity_main);
+        SharedPreferences prefs;
+        if ( getActivity() != null ) {
+            prefs = getActivity().getApplicationContext().getSharedPreferences("ApplicationPreferences", Context.MODE_PRIVATE);
+            appTheme = prefs.getBoolean("appTheme", false);
 
-        if ( appTheme ) {
-            getActivity().setTheme( R.style.darkTheme );
-            activity.setBackgroundResource( R.color.darkBackground );
-        } else {
-            getActivity().setTheme( R.style.lightTheme );
-            activity.setBackgroundResource( R.color.lightBackground );
+            LinearLayout activity;
+            if ( getView() != null ) {
+                activity = getView().findViewById(R.id.activity_main);
+
+                if (appTheme) {
+                    getActivity().setTheme(R.style.darkTheme);
+                    activity.setBackgroundResource(R.color.darkBackground);
+                } else {
+                    getActivity().setTheme(R.style.lightTheme);
+                    activity.setBackgroundResource(R.color.lightBackground);
+                }
+            }
         }
 
         super.onActivityCreated(savedInstanceState);
@@ -159,50 +164,59 @@ public class JobSheetFragmentPhotos extends Fragment {
 
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
-            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
-            Cursor cursor = getActivity().getContentResolver().query(selectedImage,
-                    filePathColumn, null, null, null);
-            cursor.moveToFirst();
+            if (getActivity() != null && selectedImage != null) {
+                Cursor cursor = getActivity().getContentResolver().query(selectedImage, filePathColumn, null, null, null);
+                if (cursor != null) {
+                    cursor.moveToFirst();
 
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            String picturePath = cursor.getString(columnIndex);
-            cursor.close();
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    String picturePath = cursor.getString(columnIndex);
+                    cursor.close();
 
-            img.setImageBitmap(BitmapFactory.decodeFile(picturePath));
-            newImage( picturePath, false );
 
+                    img.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+                    newImage(picturePath, false);
+                }
+            }
         }
 
     }
 
     public void openCameraIntent() {
         Intent pictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (pictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-
-            File photoFile = null;
-            try {
-                photoFile = createImageFile();
+        if ( getActivity() != null )
+            if (pictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                File photoFile;
+                try {
+                    photoFile = createImageFile();
+                }
+                catch (IOException e) {
+                    e.printStackTrace();
+                    return;
+                }
+                Uri photoUri;
+                if ( photoFile != null ) {
+                    photoUri = FileProvider.getUriForFile(getActivity(), getActivity().getPackageName() + ".provider", photoFile);
+                    pictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                    startActivityForResult(pictureIntent, REQUEST_IMAGE);
+                }
             }
-            catch (IOException e) {
-                e.printStackTrace();
-                return;
-            }
-            Uri photoUri = FileProvider.getUriForFile(getActivity(), getActivity().getPackageName() +".provider", photoFile);
-            pictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-            startActivityForResult(pictureIntent, REQUEST_IMAGE);
-        }
     }
 
     private File createImageFile() throws IOException {
 
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
         String imageFileName = "IMG_" + timeStamp + "_";
-        File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(imageFileName, ".jpg", storageDir);
-        imageFilePath = image.getAbsolutePath();
+        if ( getActivity() != null ) {
+            File storageDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            File image = File.createTempFile(imageFileName, ".jpg", storageDir);
+            imageFilePath = image.getAbsolutePath();
 
-        return image;
+            return image;
+        }
+        return null;
     }
 
     private void newImage(final String imageFilePath, boolean storedImages ) {
@@ -230,7 +244,7 @@ public class JobSheetFragmentPhotos extends Fragment {
 
         setButtonListener( newBtn );
 
-        if ( imageFilePath != null ) {
+        if ( imageFilePath != null && getView() != null ) {
 
             final Button lastBtn = getView().findViewById(buttons.size() - 1);
 
@@ -292,26 +306,31 @@ public class JobSheetFragmentPhotos extends Fragment {
     }
 
     private Boolean checkCameraPermissions(){
-        List<String> permissionsNeeded = new ArrayList<String>();
+        List<String> permissionsNeeded = new ArrayList<>();
 
-        final List<String> permissionsList = new ArrayList<String>();
-        if (!addPermission(permissionsList, Manifest.permission.CAMERA))
+        final List<String> permissionsList = new ArrayList<>();
+        if (addPermission(permissionsList, Manifest.permission.CAMERA))
             permissionsNeeded.add("Camera");
-        if (!addPermission(permissionsList, Manifest.permission.WRITE_EXTERNAL_STORAGE))
+        if (addPermission(permissionsList, Manifest.permission.WRITE_EXTERNAL_STORAGE))
             permissionsNeeded.add("Write External Storage");
 
         if (permissionsList.size() > 0) {
             if (permissionsNeeded.size() > 0) {
-                // Need Rationale
-                String message = "To use the Camera Feature you need to grant access to " + permissionsNeeded.get(0);
-                for (int i = 1; i < permissionsNeeded.size(); i++)
-                    message = message + " and " + permissionsNeeded.get(i);
+                String message;
+                StringBuilder builder = new StringBuilder();
+                builder.append( "To use the Camera Feature you need to grant access to " );
+                builder.append( permissionsNeeded.get( 0 ) );
+                message = builder.toString();
+                for (int i = 1; i < permissionsNeeded.size(); i++) {
+                    builder.append( " and " );
+                    builder.append( permissionsNeeded.get( i ) );
+                    message = builder.toString();
+                }
                 showMessageOKCancel(message,
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                requestPermissions(permissionsList.toArray(new String[permissionsList.size()]),
-                                        REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
+                                requestPermissions(permissionsList.toArray(new String[permissionsList.size()]), REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
                             }
                         });
                 return false;
@@ -320,23 +339,28 @@ public class JobSheetFragmentPhotos extends Fragment {
                     REQUEST_CODE_ASK_MULTIPLE_PERMISSIONS);
             return false;
         }
-
         return true;
     }
 
     private Boolean checkStoragePermissions(){
-        List<String> permissionsNeeded = new ArrayList<String>();
+        List<String> permissionsNeeded = new ArrayList<>();
 
-        final List<String> permissionsList = new ArrayList<String>();
-        if (!addPermission(permissionsList, Manifest.permission.READ_EXTERNAL_STORAGE))
+        final List<String> permissionsList = new ArrayList<>();
+        if (addPermission(permissionsList, Manifest.permission.READ_EXTERNAL_STORAGE))
             permissionsNeeded.add("Write External Storage");
 
         if (permissionsList.size() > 0) {
             if (permissionsNeeded.size() > 0) {
-                // Need Rationale
-                String message = "To use the Gallery Feature you need to grant access to " + permissionsNeeded.get(0);
-                for (int i = 1; i < permissionsNeeded.size(); i++)
-                    message = message + " and " + permissionsNeeded.get(i);
+                String message;
+                StringBuilder builder = new StringBuilder();
+                builder.append( "To use the Gallery Feature you need to grant access to " );
+                builder.append( permissionsNeeded.get( 0 ) );
+                message = builder.toString();
+                for (int i = 1; i < permissionsNeeded.size(); i++) {
+                    builder.append( " and " );
+                    builder.append( permissionsNeeded.get( i ) );
+                    message = builder.toString();
+                }
                 showMessageOKCancel(message,
                         new DialogInterface.OnClickListener() {
                             @Override
@@ -356,28 +380,30 @@ public class JobSheetFragmentPhotos extends Fragment {
     }
 
     private boolean addPermission(List<String> permissionsList, String permission) {
-        if (getActivity().checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
-            permissionsList.add(permission);
-            // Check for Rationale Option
-            if (!shouldShowRequestPermissionRationale(permission))
-                return false;
-        }
-        return true;
+        if ( getActivity() != null )
+            if (getActivity().checkSelfPermission(permission) != PackageManager.PERMISSION_GRANTED) {
+                permissionsList.add(permission);
+                return !shouldShowRequestPermissionRationale(permission);
+            }
+        return false;
     }
 
     private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
-        AlertDialog.Builder builder = new AlertDialog.Builder( getActivity() );
-        builder.setCancelable(false);
-        builder.setMessage(message);
-        builder.setPositiveButton("OK", okListener);
-        builder.setNegativeButton("Cancel", null);
-        AlertDialog alert = builder.create();
-        alert.show();
+        AlertDialog.Builder builder;
+        if ( getActivity() != null ) {
+            builder = new AlertDialog.Builder(getActivity());
+            builder.setCancelable(false);
+            builder.setMessage(message);
+            builder.setPositiveButton("OK", okListener);
+            builder.setNegativeButton("Cancel", null);
+            AlertDialog alert = builder.create();
+            alert.show();
 
-        Button nbutton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
-        Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
-        nbutton.setTextColor(Color.parseColor("#00897B"));
-        pbutton.setTextColor(Color.parseColor("#00897B"));
+            Button nbutton = alert.getButton(DialogInterface.BUTTON_NEGATIVE);
+            Button pbutton = alert.getButton(DialogInterface.BUTTON_POSITIVE);
+            nbutton.setTextColor(Color.parseColor("#00897B"));
+            pbutton.setTextColor(Color.parseColor("#00897B"));
+        }
     }
 
     private void chooseGallery() {
@@ -389,44 +415,58 @@ public class JobSheetFragmentPhotos extends Fragment {
     }
 
     private int getCurrentJob(){
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) , Context.MODE_PRIVATE);
-        return prefs.getInt( getResources().getString(R.string.currentJobString) , 0);
+        SharedPreferences prefs;
+        if ( getContext() != null ) {
+            prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString), Context.MODE_PRIVATE);
+            return prefs.getInt(getResources().getString(R.string.currentJobString), 0);
+        }
+        return 0;
     }
 
     private void storeImage( String filePath, int jobNo ){
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo , Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
+        SharedPreferences prefs;
+        if ( getContext() != null ) {
+            prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
 
-        int index = getNumImages();
+            int index = getNumImages();
 
-        editor.putString( getResources().getString(R.string.imagePrefsString) + index , filePath ).apply();
+            editor.putString(getResources().getString(R.string.imagePrefsString) + index, filePath).apply();
 
-        incrementNumImages();
+            incrementNumImages();
+        }
     }
 
     private void setStoredImages( int jobNo ) {
-        int numImages = getNumImages();
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo , Context.MODE_PRIVATE);
+        if ( getContext() != null ) {
+            int numImages = getNumImages();
+            SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo, Context.MODE_PRIVATE);
 
-        for ( int i = 0; i < numImages; i++ ) {
-            String filePath = prefs.getString( getResources().getString(R.string.imagePrefsString) + i , null);
-            newImage( filePath , true );
+            for (int i = 0; i < numImages; i++) {
+                String filePath = prefs.getString(getResources().getString(R.string.imagePrefsString) + i, null);
+                newImage(filePath, true);
+            }
         }
 
     }
 
     private int getNumImages(){
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getCurrentJob() , Context.MODE_PRIVATE);
-        return prefs.getInt( getResources().getString(R.string.numImagesString), 0);
+        if ( getContext() != null ) {
+            SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getCurrentJob(), Context.MODE_PRIVATE);
+            return prefs.getInt(getResources().getString(R.string.numImagesString), 0);
+        }
+        return 0;
     }
 
     private void incrementNumImages() {
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getCurrentJob() , Context.MODE_PRIVATE);
+        if ( getContext() != null ) {
+            SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getCurrentJob(), Context.MODE_PRIVATE);
 
-        int numJobs = prefs.getInt( getResources().getString(R.string.numImagesString), 0 );
+            int numJobs = prefs.getInt(getResources().getString(R.string.numImagesString), 0);
 
-        SharedPreferences.Editor editor2 = prefs.edit();
-        editor2.putInt( getResources().getString(R.string.numImagesString), numJobs + 1 ).apply();
+            SharedPreferences.Editor editor2 = prefs.edit();
+            editor2.putInt(getResources().getString(R.string.numImagesString), numJobs + 1).apply();
+        }
     }
 
     private void setButtonListener(final Button button) {
@@ -471,13 +511,15 @@ public class JobSheetFragmentPhotos extends Fragment {
                         break;
                 }
 
-                if ( index != ( buttons.size() -1 ) ) {
-                    SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getCurrentJob(), Context.MODE_PRIVATE);
-                    img.setImageURI(Uri.parse(prefs.getString(getResources().getString(R.string.imagePrefsString) + index, null)));
-                } else {
+                if ( getContext() != null ) {
+                    if (index != (buttons.size() - 1)) {
+                        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + getCurrentJob(), Context.MODE_PRIVATE);
+                        img.setImageURI(Uri.parse(prefs.getString(getResources().getString(R.string.imagePrefsString) + index, null)));
+                    } else {
 
-                    showDialog(getActivity(), null, null);
+                        showDialog(getActivity(), null, null);
 
+                    }
                 }
             }
         });

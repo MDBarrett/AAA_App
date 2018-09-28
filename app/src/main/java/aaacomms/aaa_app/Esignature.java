@@ -4,7 +4,6 @@ import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.gesture.GestureOverlayView;
 import android.graphics.Bitmap;
@@ -19,11 +18,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Set;
 
 public class Esignature extends Activity {
     GestureOverlayView gestureView;
@@ -32,8 +26,6 @@ public class Esignature extends Activity {
     File file;
     Bitmap bitmap;
     public boolean gestureTouch=false;
-
-    String imageFilePath = "";
 
     TextView signLine;
     TextView start, end, total, date;
@@ -65,10 +57,10 @@ public class Esignature extends Activity {
             activity.setBackgroundResource( R.color.lightBackground );
         }
 
-        Button donebutton = (Button) findViewById(R.id.DoneButton);
-        donebutton.setText("Done");
-        final Button clearButton = (Button) findViewById(R.id.ClearButton);
-        clearButton.setText("Clear");
+        Button doneBtn = findViewById(R.id.DoneButton);
+        doneBtn.setText( getResources().getString(R.string.doneBtn) );
+        final Button clearButton = findViewById(R.id.ClearButton);
+        clearButton.setText( getResources().getString(R.string.clearBtn) );
         Button cancel = findViewById(R.id.cancelButton);
         buttonBar = findViewById(R.id.buttonBarRL);
         signLine = findViewById(R.id.signLine);
@@ -78,14 +70,13 @@ public class Esignature extends Activity {
         date = findViewById(R.id.dataESTV);
 
 
-        path= Environment.getExternalStorageDirectory()+"/signature.png";
-        file = new File(path);
+        path = Environment.getExternalStorageDirectory()+"/signature.png";
+        file = new File( path );
         file.delete();
         signPad = findViewById(R.id.signPad);
-        gestureView = (GestureOverlayView) findViewById(R.id.signaturePad);
+        gestureView = findViewById(R.id.signaturePad);
         signPad.setDrawingCacheEnabled(true);
 
-        gestureView.setAlwaysDrawnWithCacheEnabled(true);
         gestureView.setHapticFeedbackEnabled(false);
         gestureView.cancelLongPress();
         gestureView.cancelClearAnimation();
@@ -93,37 +84,29 @@ public class Esignature extends Activity {
 
             @Override
             public void onGesture(GestureOverlayView arg0, MotionEvent arg1) {
-                // TODO Auto-generated method stub
+
 
             }
 
             @Override
             public void onGestureCancelled(GestureOverlayView arg0,
                                            MotionEvent arg1) {
-                // TODO Auto-generated method stub
+
 
             }
 
             @Override
             public void onGestureEnded(GestureOverlayView arg0, MotionEvent arg1) {
-                // TODO Auto-generated method stub
+
 
             }
 
             @Override
-            public void onGestureStarted(GestureOverlayView arg0,
-                                         MotionEvent arg1) {
-                // TODO Auto-generated method stub
-                if (arg1.getAction()==MotionEvent.ACTION_MOVE){
-                    gestureTouch=false;
-                }
-                else
-                {
-                    gestureTouch=true;
-                }
+            public void onGestureStarted(GestureOverlayView arg0, MotionEvent arg1) {
+                gestureTouch = arg1.getAction() != MotionEvent.ACTION_MOVE;
             }});
 
-        donebutton.setOnClickListener(new View.OnClickListener() {
+        doneBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -147,7 +130,7 @@ public class Esignature extends Activity {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                if(gestureTouch==false)
+                if( !gestureTouch )
                 {
                     setResult(0);
                     finish();
@@ -191,7 +174,7 @@ public class Esignature extends Activity {
     }
 
     private void redColorAnimation(View v) {
-        int colorStart = getResources().getColor(R.color.darkBackground);
+        int colorStart = getColor(R.color.darkBackground);
         int colorEnd = 0xFFFF0000;
 
         ValueAnimator colorAnim = ObjectAnimator.ofInt(v,"BackgroundColor", colorStart, colorEnd);
@@ -204,7 +187,7 @@ public class Esignature extends Activity {
     }
 
     private void greenColorAnimation(View v) {
-        int colorStart = getResources().getColor(R.color.darkBackground);
+        int colorStart = getColor(R.color.darkBackground);
         int colorEnd = 0xFF00FF00;
 
         ValueAnimator colorAnim = ObjectAnimator.ofInt(v,"BackgroundColor", colorStart, colorEnd);

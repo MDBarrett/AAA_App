@@ -1,6 +1,5 @@
 package aaacomms.aaa_app;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -32,9 +31,11 @@ public class LoginFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        login = getView().findViewById(R.id.loginButton);
-        drawer = getActivity().findViewById(R.id.drawer_layout);
-        navBtn = getView().findViewById(R.id.navButton);
+        if ( getView() != null && getActivity() != null ) {
+            login = getView().findViewById(R.id.loginButton);
+            drawer = getActivity().findViewById(R.id.drawer_layout);
+            navBtn = getView().findViewById(R.id.navButton);
+        }
 
         navBtn.setOnClickListener(new View.OnClickListener() {
             @Override

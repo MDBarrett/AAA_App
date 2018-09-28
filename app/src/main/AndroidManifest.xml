@@ -34,7 +34,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".Esignature" />
-        <activity android:name=".InternalStorage" />
     </application>
 
 </manifest>

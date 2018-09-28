@@ -38,6 +38,7 @@
     <string name="end">End:</string>
     <string name="total">Total:</string>
     <string name="jobNoTV">Job No.</string>
+    <string name="jobNumber">Job Number:</string>
     <string name="customerTV">Customer:</string>
     <string name="firstNameTV">First Name:</string>
     <string name="lastNameTV">Last Name:</string>
@@ -72,13 +73,27 @@
     <string name="chooseGalleryBtn">Choose from Gallery</string>
     <string name="createNewJob">New Job</string>
 
-    <string name="signLine">
+    <string name="signLine">                                  <!--resource strings-->
         %1$s
         %2$s
         %3$s
         %4$s
         %5$d
         %6$s
+    </string>
+
+    <string name="jobRow">
+        %1$d
+        %2$s
+        %3$s
+    </string>
+
+    <string name="dateFormat">
+        %1$d
+        %2$s
+        %3$d
+        %4$s
+        %5$d
     </string>
 
     <string name="title_activity_fragment_job_sheet">fragment_job_sheet</string>

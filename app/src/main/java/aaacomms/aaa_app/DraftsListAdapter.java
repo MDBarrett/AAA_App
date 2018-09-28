@@ -15,7 +15,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 import java.util.Set;
@@ -24,7 +23,7 @@ public class DraftsListAdapter extends ArrayAdapter<JobsListDataModel> {
 
     private List<JobsListDataModel> list;
 
-    Context context;
+    private Context context;
 
     int resource;
 
@@ -39,9 +38,13 @@ public class DraftsListAdapter extends ArrayAdapter<JobsListDataModel> {
     @Override
     public View getView(final int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
-        LayoutInflater layoutInflater = LayoutInflater.from(context);
+        View view;
 
-        View view = layoutInflater.inflate(resource, null, false);
+        if (convertView == null) {
+            LayoutInflater layoutInflater = LayoutInflater.from(context);
+            view = layoutInflater.inflate(resource, parent, false);
+        } else
+            view = convertView;
 
         TextView text = view.findViewById(R.id.textTV);
         ImageButton editBtn = view.findViewById(R.id.editBtn);
@@ -49,7 +52,9 @@ public class DraftsListAdapter extends ArrayAdapter<JobsListDataModel> {
 
         JobsListDataModel customLADataModel = list.get(position);
 
-        text.setText( customLADataModel.getJobNo() + ": " + customLADataModel.getCustomer() );
+        String s;
+        s = getContext().getString(R.string.jobRow, customLADataModel.getJobNo(), ": ", customLADataModel.getCustomer() );
+        text.setText( s );
 
         editBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,18 +122,18 @@ public class DraftsListAdapter extends ArrayAdapter<JobsListDataModel> {
         pbutton.setTextColor(Color.parseColor("#00897B"));
     }
 
-    public void removeJob(int jobNo) {
+    private void removeJob(int jobNo) {
         Set<String> set = getJobsSet();
         set.remove( String.valueOf( jobNo ) );
         storeSet( set );
     }
 
-    public Set<String> getJobsSet() {
+    private Set<String> getJobsSet() {
         SharedPreferences prefs = getContext().getSharedPreferences( getContext().getResources().getString(R.string.jobsPrefsString) , Context.MODE_PRIVATE);
         return prefs.getStringSet( getContext().getResources().getString( R.string.jobsListString), null );
     }
 
-    public void storeSet(Set<String> set) {
+    private void storeSet(Set<String> set) {
         SharedPreferences prefs = getContext().getSharedPreferences( getContext().getResources().getString(R.string.jobsPrefsString) , Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putStringSet( getContext().getResources().getString(R.string.jobsListString), set ).apply();
@@ -145,7 +150,7 @@ public class DraftsListAdapter extends ArrayAdapter<JobsListDataModel> {
                 new JobSheetFragment()).commit();
     }
 
-    public int getNumJobs() {
+    private int getNumJobs() {
         SharedPreferences prefs = getContext().getSharedPreferences( getContext().getResources().getString(R.string.jobsPrefsString), Context.MODE_PRIVATE );
         Set<String> set = prefs.getStringSet( getContext().getResources().getString(R.string.jobsListString), null );
         if ( set != null )

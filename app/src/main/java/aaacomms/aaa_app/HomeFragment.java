@@ -3,7 +3,6 @@ package aaacomms.aaa_app;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -48,8 +47,11 @@ public class HomeFragment extends Fragment {
 
         Context contextThemeWrapper;
 
-        SharedPreferences prefs = getActivity().getApplicationContext().getSharedPreferences( "ApplicationPreferences" , Context.MODE_PRIVATE);
-        Boolean appTheme = prefs.getBoolean("appTheme", false);
+        SharedPreferences prefs;
+        if ( getActivity() != null ) {
+            prefs = getActivity().getApplicationContext().getSharedPreferences("ApplicationPreferences", Context.MODE_PRIVATE);
+            appTheme = prefs.getBoolean("appTheme", false);
+        }
 
         if ( appTheme ) {
             contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.darkTheme);
@@ -66,16 +68,24 @@ public class HomeFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 
-        SharedPreferences prefs = getActivity().getApplicationContext().getSharedPreferences( "ApplicationPreferences" , Context.MODE_PRIVATE);
-        appTheme = prefs.getBoolean("appTheme", false);
-        ScrollView activity = getView().findViewById(R.id.activity_main);
+        SharedPreferences prefs;
+        if ( getActivity() != null ) {
+            prefs = getActivity().getApplicationContext().getSharedPreferences("ApplicationPreferences", Context.MODE_PRIVATE);
+            appTheme = prefs.getBoolean("appTheme", false);
+        }
+        ScrollView activity;
+        if ( getView() != null ) {
+            activity = getView().findViewById(R.id.activity_main);
 
-        if ( appTheme ) {
-            getActivity().setTheme( R.style.darkTheme );
-            activity.setBackgroundResource( R.color.darkBackground );
-        } else {
-            getActivity().setTheme( R.style.lightTheme );
-            activity.setBackgroundResource( R.color.lightBackground );
+            if (appTheme) {
+                if ( getActivity() != null )
+                    getActivity().setTheme(R.style.darkTheme);
+                activity.setBackgroundResource(R.color.darkBackground);
+            } else {
+                if ( getActivity() != null )
+                    getActivity().setTheme(R.style.lightTheme);
+                activity.setBackgroundResource(R.color.lightBackground);
+            }
         }
 
         super.onActivityCreated(savedInstanceState);
@@ -118,29 +128,36 @@ public class HomeFragment extends Fragment {
     }
 
     public int getIndex(int jobNo) {
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo, Context.MODE_PRIVATE);
-        return prefs.getInt( getResources().getString(R.string.indexString), 0 );
+        SharedPreferences prefs;
+        if ( getContext() != null ) {
+            prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo, Context.MODE_PRIVATE);
+            return prefs.getInt(getResources().getString(R.string.indexString), 0);
+        }
+        return 0;
     }
 
     public String[] getOrderedJobs() {
         LinkedList<String> jobsList = new LinkedList<>();
-        SharedPreferences prefs = getContext().getSharedPreferences( getResources().getString(R.string.jobsPrefsString) , Context.MODE_PRIVATE);
-        Set<String> set = prefs.getStringSet( getResources().getString( R.string.jobsListString), null );
+        SharedPreferences prefs;
+        if ( getContext() != null ) {
+            prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString), Context.MODE_PRIVATE);
+            Set<String> set = prefs.getStringSet(getResources().getString(R.string.jobsListString), null);
 
-        if( set != null ) {
-            ArrayList<Integer> jobIndices = new ArrayList<>();
+            if (set != null) {
+                ArrayList<Integer> jobIndices = new ArrayList<>();
 
-            for ( String s : set ) {
-                jobIndices.add( getIndex( Integer.valueOf( s ) ) );
-            }
+                for (String s : set) {
+                    jobIndices.add(getIndex(Integer.valueOf(s)));
+                }
 
-            Collections.sort( jobIndices );
+                Collections.sort(jobIndices);
 
-            for( int i = 0; i < jobIndices.size(); i++ ) {
-                for ( String s : set ) {
-                    int index = getIndex( Integer.valueOf( s ) );
-                    if ( index == jobIndices.get( i ) )
-                        jobsList.add( s );
+                for (int i = 0; i < jobIndices.size(); i++) {
+                    for (String s : set) {
+                        int index = getIndex(Integer.valueOf(s));
+                        if (index == jobIndices.get(i))
+                            jobsList.add(s);
+                    }
                 }
             }
         }
@@ -158,11 +175,15 @@ public class HomeFragment extends Fragment {
 
         if ( set != null )
             for ( String s : set ) {
-                SharedPreferences prefs = this.getActivity().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + s , Context.MODE_PRIVATE);
-                String jobStatus = prefs.getString(getResources().getString(R.string.jobStatusString), null);
-                if ( jobStatus != null && jobStatus.equals( "draft" ) ) {
-                    String customer = prefs.getString(getResources().getString(R.string.customerString), null);
-                    draftJobs.add( new JobsListDataModel( Integer.valueOf(s), customer ) );
+                SharedPreferences prefs;
+                if ( getActivity() != null ) {
+                    prefs = this.getActivity().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + s, Context.MODE_PRIVATE);
+                    String jobStatus = prefs.getString(getResources().getString(R.string.jobStatusString), null);
+
+                    if (jobStatus != null && jobStatus.equals("draft")) {
+                        String customer = prefs.getString(getResources().getString(R.string.customerString), null);
+                        draftJobs.add(new JobsListDataModel(Integer.valueOf(s), customer));
+                    }
                 }
             }
 
@@ -176,11 +197,14 @@ public class HomeFragment extends Fragment {
 
         if ( set != null )
             for ( String s : set ) {
-                SharedPreferences prefs = this.getActivity().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + s , Context.MODE_PRIVATE);
-                String jobStatus = prefs.getString(getResources().getString(R.string.jobStatusString), null);
-                if ( jobStatus != null && jobStatus.equals( "completed" ) ) {
-                    String customer = prefs.getString(getResources().getString(R.string.customerString), null);
-                    completedJobs.add( new JobsListDataModel( Integer.valueOf(s), customer ) );
+                SharedPreferences prefs;
+                if ( getActivity() != null ) {
+                    prefs = this.getActivity().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + s, Context.MODE_PRIVATE);
+                    String jobStatus = prefs.getString(getResources().getString(R.string.jobStatusString), null);
+                    if (jobStatus != null && jobStatus.equals("completed")) {
+                        String customer = prefs.getString(getResources().getString(R.string.customerString), null);
+                        completedJobs.add(new JobsListDataModel(Integer.valueOf(s), customer));
+                    }
                 }
             }
 

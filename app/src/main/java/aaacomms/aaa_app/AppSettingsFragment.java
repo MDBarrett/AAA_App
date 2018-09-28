@@ -2,7 +2,6 @@ package aaacomms.aaa_app;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,38 +9,22 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.SwitchCompat;
-import android.text.InputType;
-import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ListView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.SimpleAdapter;
-import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.HashSet;
 import java.util.Set;
 
 public class AppSettingsFragment extends Fragment {
@@ -61,6 +44,8 @@ public class AppSettingsFragment extends Fragment {
 
     Context context;
 
+    RelativeLayout activity;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -70,9 +55,11 @@ public class AppSettingsFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 
-        prefs = getActivity().getApplicationContext().getSharedPreferences( appPrefs , Context.MODE_PRIVATE);
+        if ( getActivity() != null )
+            prefs = getActivity().getApplicationContext().getSharedPreferences( appPrefs , Context.MODE_PRIVATE);
         appTheme = prefs.getBoolean("appTheme", false);
-        RelativeLayout activity = getView().findViewById(R.id.activity_main);
+        if ( getView() != null )
+            activity = getView().findViewById(R.id.activity_main);
 
         if ( appTheme ) {
             getActivity().setTheme( R.style.darkTheme );
@@ -108,7 +95,7 @@ public class AppSettingsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 final LayoutInflater li = LayoutInflater.from(context);
-                View promptsView = li.inflate(R.layout.warning_reset, null);
+                View promptsView = li.inflate(R.layout.warning_reset, new LinearLayout(context), false);
                 AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context, R.style.DialogTheme);
                 alertDialogBuilder.setView(promptsView);
 
@@ -178,13 +165,19 @@ public class AppSettingsFragment extends Fragment {
         Set<String> set = getJobsSet();
         if ( set != null )
             for ( String s : set ) {
-                SharedPreferences prefs = getContext().getSharedPreferences( getResources().getString(R.string.jobsPrefsString) + s , Context.MODE_PRIVATE );
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.clear().apply();
+                SharedPreferences prefs;
+                if( getContext() != null ) {
+                    prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + s, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.clear().apply();
+                }
             }
-        SharedPreferences prefs = getContext().getSharedPreferences( getResources().getString(R.string.jobsPrefsString), Context.MODE_PRIVATE );
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.clear().apply();
+        SharedPreferences prefs;
+        if( getContext() != null ) {
+            prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString), Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.clear().apply();
+        }
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences( getActivity() );
         SharedPreferences.Editor editor2 = preferences.edit();
@@ -192,30 +185,11 @@ public class AppSettingsFragment extends Fragment {
     }
 
     public Set<String> getJobsSet() {
-        SharedPreferences prefs = getContext().getSharedPreferences( getResources().getString(R.string.jobsPrefsString) , Context.MODE_PRIVATE);
-        return prefs.getStringSet( getResources().getString( R.string.jobsListString), null );
+        SharedPreferences prefs;
+        if( getContext() != null ) {
+            prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString), Context.MODE_PRIVATE);
+            return prefs.getStringSet(getResources().getString(R.string.jobsListString), null);
+        }
+        return new HashSet<>();
     }
-
-    public String[] getOrderedJobs() {
-        String[] jobs = new String[ getNumJobs() ];
-        SharedPreferences prefs = getContext().getSharedPreferences( getResources().getString(R.string.jobsPrefsString) , Context.MODE_PRIVATE);
-        Set<String> set = prefs.getStringSet( getResources().getString( R.string.jobsListString), null );
-
-        if( set != null )
-            for( String s : set ) {
-                SharedPreferences jobPrefs = getContext().getSharedPreferences( getResources().getString(R.string.jobsPrefsString) + s , Context.MODE_PRIVATE);
-                int index = jobPrefs.getInt( getResources().getString(R.string.indexString), 0 );
-                jobs[index] = s;
-            }
-        return jobs;
-    }
-
-    public int getNumJobs() {
-        SharedPreferences prefs = getContext().getSharedPreferences( getResources().getString(R.string.jobsPrefsString), Context.MODE_PRIVATE );
-        Set<String> set = prefs.getStringSet( getResources().getString(R.string.jobsListString), null );
-        if ( set != null )
-            return set.size();
-        return 0;
-    }
-
 }

@@ -1,7 +1,6 @@
 package aaacomms.aaa_app;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
@@ -30,8 +29,6 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 public class JobSheetFragmentFinalize extends Fragment {
 
@@ -47,6 +44,8 @@ public class JobSheetFragmentFinalize extends Fragment {
 
     LinearLayout details, photos, finalize;
 
+    Boolean appTheme;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -58,16 +57,24 @@ public class JobSheetFragmentFinalize extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 
-        SharedPreferences prefs = getActivity().getApplicationContext().getSharedPreferences( "ApplicationPreferences" , Context.MODE_PRIVATE);
-        Boolean appTheme = prefs.getBoolean("appTheme", false);
-        RelativeLayout activity = getView().findViewById(R.id.activity_main);
+        SharedPreferences prefs;
+        if ( getActivity() != null ) {
+            prefs = getActivity().getApplicationContext().getSharedPreferences("ApplicationPreferences", Context.MODE_PRIVATE);
+            appTheme = prefs.getBoolean("appTheme", false);
+        }
+        RelativeLayout activity;
+        if ( getView() != null ) {
+            activity = getView().findViewById(R.id.activity_main);
 
-        if ( appTheme ) {
-            getActivity().setTheme( R.style.darkTheme );
-            activity.setBackgroundResource( R.color.darkBackground );
-        } else {
-            getActivity().setTheme( R.style.lightTheme );
-            activity.setBackgroundResource( R.color.lightBackground );
+            if ( getActivity() != null ) {
+                if (appTheme) {
+                    getActivity().setTheme(R.style.darkTheme);
+                    activity.setBackgroundResource(R.color.darkBackground);
+                } else {
+                    getActivity().setTheme(R.style.lightTheme);
+                    activity.setBackgroundResource(R.color.lightBackground);
+                }
+            }
         }
 
         super.onActivityCreated(savedInstanceState);
@@ -190,16 +197,21 @@ public class JobSheetFragmentFinalize extends Fragment {
                     year = getYear( getCurrentJob() );
                 }
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), AlertDialog.THEME_HOLO_LIGHT ,
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(),
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                                 setDate( getCurrentJob(), day, month + 1, year);
-                                dateET.setText( day + "/" + ( month + 1 ) + "/" + year );
+                                dateET.setText( getString( R.string.dateFormat, day, "/", month + 1, "/", year ) );
                             }
                         }, year, month, dayOfMonth);
 
                 datePickerDialog.show();
+
+                Button nbutton = datePickerDialog.getButton(DialogInterface.BUTTON_NEGATIVE);
+                Button pbutton = datePickerDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+                nbutton.setTextColor(Color.parseColor("#00897B"));
+                pbutton.setTextColor(Color.parseColor("#00897B"));
 
             }
         });
@@ -231,7 +243,7 @@ public class JobSheetFragmentFinalize extends Fragment {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setJobStatus( getCurrentJob(),  "completed" );
+                setJobStatus( getCurrentJob() );
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new HomeFragment()).commit();
             }
@@ -261,12 +273,15 @@ public class JobSheetFragmentFinalize extends Fragment {
         if ( getCurrentJob() != 0 ) {
             if (fieldsComplete(getCurrentJob())) {
                 submit.setEnabled(true);
-                SharedPreferences prefs = getActivity().getApplicationContext().getSharedPreferences( "ApplicationPreferences" , Context.MODE_PRIVATE);
-                Boolean appTheme = prefs.getBoolean("appTheme", false);
-                if ( appTheme ) {
-                    submit.setBackgroundResource( R.drawable.box );
-                } else {
-                    submit.setBackgroundResource( R.drawable.box_light );
+                SharedPreferences prefs;
+                if ( getActivity() != null ) {
+                    prefs = getActivity().getApplicationContext().getSharedPreferences("ApplicationPreferences", Context.MODE_PRIVATE);
+                    Boolean appTheme = prefs.getBoolean("appTheme", false);
+                    if (appTheme) {
+                        submit.setBackgroundResource(R.drawable.box);
+                    } else {
+                        submit.setBackgroundResource(R.drawable.box_light);
+                    }
                 }
             } else {
                 submit.setEnabled(false);
@@ -289,34 +304,50 @@ public class JobSheetFragmentFinalize extends Fragment {
     }
 
     private int getCurrentJob(){
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) , Context.MODE_PRIVATE);
-        return prefs.getInt( getResources().getString(R.string.currentJobString) , 0);
+        SharedPreferences prefs;
+        if ( getContext() != null ) {
+            prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString), Context.MODE_PRIVATE);
+            return prefs.getInt(getResources().getString(R.string.currentJobString), 0);
+        }
+        return 0;
     }
 
     private void setStartTime(int jobNo, String startTime) {
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo , Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString( getResources().getString(R.string.startTimeString) , startTime ).apply();
+        SharedPreferences prefs;
+        if ( getContext() != null ) {
+            prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(getResources().getString(R.string.startTimeString), startTime).apply();
+        }
     }
 
     private void setEndTime(int jobNo, String endTime) {
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo , Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString( getResources().getString(R.string.endTimeString) , endTime ).apply();
+        SharedPreferences prefs;
+        if ( getContext() != null ) {
+            prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(getResources().getString(R.string.endTimeString), endTime).apply();
+        }
     }
 
     private void setTotalTime(int jobNo, String totalTime) {
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo , Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString( getResources().getString(R.string.totalTimeString) , totalTime ).apply();
+        SharedPreferences prefs;
+        if ( getContext() != null ) {
+            prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(getResources().getString(R.string.totalTimeString), totalTime).apply();
+        }
     }
 
     private void setDate(int jobNo, int day, int month, int year) {
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo , Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putInt( getResources().getString(R.string.dayString) , day );
-        editor.putInt( getResources().getString(R.string.monthString) , month );
-        editor.putInt( getResources().getString(R.string.yearString) , year ).apply();
+        SharedPreferences prefs;
+        if ( getContext() != null ) {
+            prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putInt(getResources().getString(R.string.dayString), day);
+            editor.putInt(getResources().getString(R.string.monthString), month);
+            editor.putInt(getResources().getString(R.string.yearString), year).apply();
+        }
     }
 
     private void setTime(int minutes, int hours, boolean start){
@@ -357,29 +388,51 @@ public class JobSheetFragmentFinalize extends Fragment {
         }
     }
 
+    @Nullable
     private String getStartTime(int jobNo) {
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo , Context.MODE_PRIVATE);
-        return prefs.getString( getResources().getString(R.string.startTimeString) , null);
+        SharedPreferences prefs;
+        if ( getContext() != null ) {
+            prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo, Context.MODE_PRIVATE);
+            return prefs.getString(getResources().getString(R.string.startTimeString), null);
+        }
+        return null;
     }
 
+    @Nullable
     private String getEndTime(int jobNo) {
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo , Context.MODE_PRIVATE);
-        return prefs.getString( getResources().getString(R.string.endTimeString) , null);
+        SharedPreferences prefs;
+        if ( getContext() != null ) {
+            prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo, Context.MODE_PRIVATE);
+            return prefs.getString(getResources().getString(R.string.endTimeString), null);
+        }
+        return  null;
     }
 
     private int getDay(int jobNo) {
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo , Context.MODE_PRIVATE);
-        return prefs.getInt( getResources().getString(R.string.dayString) , 0);
+        SharedPreferences prefs;
+        if ( getContext() != null ) {
+            prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo, Context.MODE_PRIVATE);
+            return prefs.getInt(getResources().getString(R.string.dayString), 0);
+        }
+        return 0;
     }
 
     private int getMonth(int jobNo) {
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo , Context.MODE_PRIVATE);
-        return prefs.getInt( getResources().getString(R.string.monthString) , 0);
+        SharedPreferences prefs;
+        if ( getContext() != null ) {
+            prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo, Context.MODE_PRIVATE);
+            return prefs.getInt(getResources().getString(R.string.monthString), 0);
+        }
+        return 0;
     }
 
     private int getYear(int jobNo) {
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo , Context.MODE_PRIVATE);
-        return prefs.getInt( getResources().getString(R.string.yearString) , 0);
+        SharedPreferences prefs;
+        if ( getContext() != null ) {
+            prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo, Context.MODE_PRIVATE);
+            return prefs.getInt(getResources().getString(R.string.yearString), 0);
+        }
+        return 0;
     }
 
     private void initializeFields() {
@@ -396,9 +449,9 @@ public class JobSheetFragmentFinalize extends Fragment {
             int day = c.get(Calendar.DAY_OF_MONTH);
 
             setDate( getCurrentJob(), day, month, year);
-            dateET.setText( day + "/" + ( month + 1 )+ "/" + year );
+            dateET.setText( getString(R.string.dateFormat, day, "/", month, "/", year ) );
         } else {
-            dateET.setText( String.valueOf( getDay( getCurrentJob() ) ) + "/" + String.valueOf( getMonth( getCurrentJob() ) ) + "/" + String.valueOf( getYear( getCurrentJob() ) ) );
+            dateET.setText( getString(R.string.dateFormat, getDay( getCurrentJob() ) , "/" , getMonth( getCurrentJob() ) , "/" ,  getYear( getCurrentJob() ) ) );
         }
 
         Date date = new Date();
@@ -414,16 +467,20 @@ public class JobSheetFragmentFinalize extends Fragment {
 
         if ( getStartTime(getCurrentJob()) != null ) {
             String startTime = getStartTime(getCurrentJob());
-            startHour = Integer.valueOf(startTime.substring(0, startTime.length() / 2));
-            startMinute = Integer.valueOf(startTime.substring(startTime.length() / 2));
+            if ( startTime != null ) {
+                startHour = Integer.valueOf(startTime.substring(0, startTime.length() / 2));
+                startMinute = Integer.valueOf(startTime.substring(startTime.length() / 2));
+            }
             setTime( startMinute, startHour, true);
             startTimeET.setText( getStartTime( getCurrentJob() ) );
         }
 
         if ( getEndTime(getCurrentJob()) != null ) {
             String endTime = getEndTime(getCurrentJob());
-            endHour = Integer.valueOf(endTime.substring(0, endTime.length() / 2));
-            endMinute = Integer.valueOf(endTime.substring(endTime.length() / 2));
+            if ( endTime != null ) {
+                endHour = Integer.valueOf(endTime.substring(0, endTime.length() / 2));
+                endMinute = Integer.valueOf(endTime.substring(endTime.length() / 2));
+            }
             setTime( endMinute, endHour, false);
             endTimeET.setText( getEndTime( getCurrentJob() ) );
             setTotalHours();
@@ -432,73 +489,103 @@ public class JobSheetFragmentFinalize extends Fragment {
     }
 
     private Boolean fieldsComplete(int jobNo) {
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo , Context.MODE_PRIVATE);
-        ArrayList<String> missingFields = new ArrayList<>();
+        SharedPreferences prefs;
+        if ( getContext() != null ) {
+            prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo, Context.MODE_PRIVATE);
+            ArrayList<String> missingFields = new ArrayList<>();
 
-        if ( prefs.getString( getResources().getString(R.string.customerString), null).equals("") ) {
-            missingFields.add( "customer name" );
-        }
-        if ( prefs.getString( getResources().getString(R.string.firstNameString), null).equals("") ) {
-            missingFields.add( "first name" );
-        }
-        if ( prefs.getString( getResources().getString(R.string.lastNameString), null).equals("") ) {
-            missingFields.add( "last name" );
-        }
-        if ( !jobSheetSigned( getCurrentJob() ) ) {
-            missingFields.add( "customer signature" );
-        }
-        if ( prefs.getString( getResources().getString(R.string.startTimeString), null) == null ) {
-            missingFields.add( "start time" );
-        }
-        if ( prefs.getString( getResources().getString(R.string.endTimeString), null) == null ) {
-            missingFields.add( "end time" );
-        }
+            if (prefs.getString(getResources().getString(R.string.customerString), "").equals("")) {
+                missingFields.add("customer name");
+            }
+            if (prefs.getString(getResources().getString(R.string.firstNameString), "").equals("")) {
+                missingFields.add("first name");
+            }
+            if (prefs.getString(getResources().getString(R.string.lastNameString), "").equals("")) {
+                missingFields.add("last name");
+            }
+            if (prefs.getString(getResources().getString(R.string.startTimeString), null) == null) {
+                missingFields.add("start time");
+            }
+            if (prefs.getString(getResources().getString(R.string.endTimeString), null) == null) {
+                missingFields.add("end time");
+            }
+            if (!jobSheetSigned(getCurrentJob())) {
+                missingFields.add("customer signature");
+            }
 
-        if ( missingFields.size() > 0 ) {
-            String listString = "missing ";
-            for ( int i = 0; i < missingFields.size(); i++ )
-                if ( i == missingFields.size() - 2 )
-                    listString += missingFields.get( i ) + " and ";
-                else
-                    listString += missingFields.get( i ) + ", ";
-            Toast.makeText(getActivity(), listString.substring(0, (listString.length() - 2) ), Toast.LENGTH_LONG).show();
-            missingFields.clear();
-            return  false;
-        }
-
+            if (missingFields.size() > 0) {
+                String listString;
+                StringBuilder builder = new StringBuilder();
+                builder.append( "missing " );
+                listString = builder.toString();
+                for (int i = 0; i < missingFields.size(); i++)
+                    if (i == missingFields.size() - 2) {
+                        builder.append( missingFields.get(i) );
+                        builder.append( " and " );
+                        listString = builder.toString();
+                    } else {
+                        builder.append( missingFields.get(i) );
+                        builder.append( ", " );
+                        listString = builder.toString();
+                    }
+                Toast.makeText(getActivity(), listString.substring(0, (listString.length() - 2)), Toast.LENGTH_LONG).show();
+                missingFields.clear();
+                return false;
+            }
+        } else
+            return false;
         return true;
     }
 
     private Boolean jobSheetSigned(int jobNo) {
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo , Context.MODE_PRIVATE);
-        return prefs.getBoolean( getResources().getString(R.string.signedString), false);
+        SharedPreferences prefs;
+        if ( getContext() != null ) {
+            prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo, Context.MODE_PRIVATE);
+            return prefs.getBoolean(getResources().getString(R.string.signedString), false);
+        }
+        return false;
     }
 
-    private void setJobStatus(int jobNo, String jobStatus) {
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo , Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putString( getResources().getString(R.string.jobStatusString) , jobStatus ).apply();
+    private void setJobStatus(int jobNo) {
+        SharedPreferences prefs;
+        if ( getContext() != null ) {
+            prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putString(getResources().getString(R.string.jobStatusString), "completed").apply();
+        }
     }
 
+    @Nullable
     private String getFirstName(int jobNo) {
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo, Context.MODE_PRIVATE);
-        return prefs.getString( getResources().getString(R.string.firstNameString) , null);
+        SharedPreferences prefs;
+        if ( getContext() != null ) {
+            prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo, Context.MODE_PRIVATE);
+            return prefs.getString(getResources().getString(R.string.firstNameString), null);
+        }
+        return  null;
     }
 
+    @Nullable
     private String getLastName(int jobNo) {
-        SharedPreferences prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo, Context.MODE_PRIVATE);
-        return prefs.getString( getResources().getString(R.string.lastNameString) , null);
+        SharedPreferences prefs;
+        if ( getContext() != null ) {
+            prefs = getContext().getSharedPreferences(getResources().getString(R.string.jobsPrefsString) + jobNo, Context.MODE_PRIVATE);
+            return prefs.getString(getResources().getString(R.string.lastNameString), null);
+        }
+        return  null;
     }
 
     private void updateSignBtn() {
-        if( getEndTime( getCurrentJob() ) != null && getEndTime( getCurrentJob() ) != null && !getFirstName( getCurrentJob() ).equals("") && !getLastName( getCurrentJob() ).equals("") ) {
+        if( getEndTime( getCurrentJob() ) != null && getEndTime( getCurrentJob() ) != null && getFirstName( getCurrentJob() ) != null && getLastName( getCurrentJob() ) != null ) {
             sign.setEnabled(true);
-            SharedPreferences prefs = getActivity().getApplicationContext().getSharedPreferences( "ApplicationPreferences" , Context.MODE_PRIVATE);
-            Boolean appTheme = prefs.getBoolean("appTheme", false);
-            if ( appTheme ) {
-                sign.setBackgroundResource( R.drawable.box );
-            } else {
-                sign.setBackgroundResource( R.drawable.box_light );
+            if ( getActivity() != null ) {
+                SharedPreferences prefs = getActivity().getApplicationContext().getSharedPreferences("ApplicationPreferences", Context.MODE_PRIVATE);
+                Boolean appTheme = prefs.getBoolean("appTheme", false);
+                if (appTheme) {
+                    sign.setBackgroundResource(R.drawable.box);
+                } else {
+                    sign.setBackgroundResource(R.drawable.box_light);
+                }
             }
         }
     }
