@@ -123,7 +123,7 @@ public class JobSheetFragment extends Fragment {
                     alertDialogBuilder.setCancelable(false).setPositiveButton("Create Job",
                             new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int id) {
-                                    createJob(result);
+                                    createJob( result );
                                 }
                             })
                             .setNegativeButton("Cancel",
@@ -557,24 +557,24 @@ public class JobSheetFragment extends Fragment {
 
     public void createJob(EditText result) {
         String num = result.getText().toString();
-        int jobNumber = Integer.parseInt(num);
+        int jobNumber = Integer.parseInt( num );
         if ( jobAccepted( num ) ) {
-            storeJobNo(jobNumber);
-            setJobStatus(jobNumber);
+            storeJobNo( jobNumber );
+            setJobStatus( jobNumber );
             ArrayAdapter<Integer> dropAdapter;
             if (getActivity() != null) {
                 dropAdapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_item, getJobNumbers());
                 dropAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
                 spinner.setAdapter(dropAdapter);
             }
-            setEditable(true);
+            setEditable( true );
             setJobNoTV( jobNumber );
+            setCurrentJob( Integer.valueOf( num ) );
+            spinner.setSelection( getIndex( jobNumber ) );
             customerET.setText("");
             firstET.setText("");
             lastET.setText("");
             additionalTextET.setText("");
-            spinner.setSelection( getIndex( jobNumber ) );
-            setCurrentJob( Integer.valueOf( num ) );
             newJob = true;
         }
     }
