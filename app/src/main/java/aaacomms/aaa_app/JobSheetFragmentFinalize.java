@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
+import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,8 +22,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -49,57 +48,39 @@ public class JobSheetFragmentFinalize extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_job_sheet_finalize, container, false);
+        final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.darkTheme);
+        LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
+        return localInflater.inflate(R.layout.fragment_job_sheet_finalize, container, false);
     }
 
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-
-        SharedPreferences prefs;
-        if ( getActivity() != null ) {
-            prefs = getActivity().getApplicationContext().getSharedPreferences("ApplicationPreferences", Context.MODE_PRIVATE);
-            appTheme = prefs.getBoolean("appTheme", false);
-        }
-        RelativeLayout activity;
-        if ( getView() != null ) {
-            activity = getView().findViewById(R.id.activity_main);
-
-            if ( getActivity() != null ) {
-                if (appTheme) {
-                    getActivity().setTheme(R.style.darkTheme);
-                    activity.setBackgroundResource(R.color.darkBackground);
-                } else {
-                    getActivity().setTheme(R.style.lightTheme);
-                    activity.setBackgroundResource(R.color.lightBackground);
-                }
-            }
-        }
-
         super.onActivityCreated(savedInstanceState);
 
-        startTimeET = getView().findViewById(R.id.startTimeET);
-        endTimeET = getView().findViewById(R.id.endTimeET);
-        dateET = getView().findViewById(R.id.dateET);
-        totalHours = getView().findViewById(R.id.totalHoursText);
-        totalTimeET = getView().findViewById(R.id.totalTimeET);
-        sign = getView().findViewById(R.id.signButton);
-        submit = getView().findViewById(R.id.submitButton);
-        jobNoTV = getView().findViewById(R.id.jobNoTV);
+        if ( getActivity() != null && getView() != null ) {
+            startTimeET = getView().findViewById(R.id.startTimeET);
+            endTimeET = getView().findViewById(R.id.endTimeET);
+            dateET = getView().findViewById(R.id.dateET);
+            totalHours = getView().findViewById(R.id.totalHoursText);
+            totalTimeET = getView().findViewById(R.id.totalTimeET);
+            sign = getView().findViewById(R.id.signButton);
+            submit = getView().findViewById(R.id.submitButton);
+            jobNoTV = getView().findViewById(R.id.jobNoTV);
 
-        details = getView().findViewById(R.id.detailsBtn);
-        photos = getView().findViewById(R.id.photosBtn);
-        finalize = getView().findViewById(R.id.finalizeBtn);
+            details = getView().findViewById(R.id.detailsBtn);
+            photos = getView().findViewById(R.id.photosBtn);
+            finalize = getView().findViewById(R.id.finalizeBtn);
 
-        drawer = getActivity().findViewById(R.id.drawer_layout);
-        navBtn = getView().findViewById(R.id.navButton);
-        navBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawer.openDrawer(Gravity.START);
-            }
-        });
+            drawer = getActivity().findViewById(R.id.drawer_layout);
+            navBtn = getView().findViewById(R.id.navButton);
+            navBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) { drawer.openDrawer(Gravity.START);
+                }
+            });
+        }
 
         totalTimeET.setEnabled( false );
 

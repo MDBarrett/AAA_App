@@ -12,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SwitchCompat;
+import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +21,6 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,51 +38,41 @@ public class AppSettingsFragment extends Fragment {
     TextView prompt;
 
     SharedPreferences prefs;
-    String appPrefs = "ApplicationPreferences";
+    String appPrefs;
 
     SwitchCompat savePhotosSW, appThemeSW;
 
     Context context;
 
-    RelativeLayout activity;
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_app_settings, container, false);
+        final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.darkTheme);
+        LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
+        return localInflater.inflate(R.layout.fragment_app_settings, container, false);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-
-        if ( getActivity() != null )
-            prefs = getActivity().getApplicationContext().getSharedPreferences( appPrefs , Context.MODE_PRIVATE);
-        appTheme = prefs.getBoolean("appTheme", false);
-        if ( getView() != null )
-            activity = getView().findViewById(R.id.activity_main);
-
-        if ( appTheme ) {
-            getActivity().setTheme( R.style.darkTheme );
-            activity.setBackgroundResource( R.color.darkBackground );
-        } else {
-            getActivity().setTheme( R.style.lightTheme );
-            activity.setBackgroundResource( R.color.lightBackground );
-        }
-
         super.onActivityCreated(savedInstanceState);
 
-        drawer = getActivity().findViewById(R.id.drawer_layout);
-        navBtn = getView().findViewById(R.id.navButton);
-        clearData = getView().findViewById(R.id.clearDataButton);
-        savePhotosSW = getView().findViewById(R.id.savePhotosSwitch);
-        appThemeSW = getView().findViewById(R.id.appThemeSwitch);
+        if ( getActivity()!= null && getView() != null ) {
+            drawer = getActivity().findViewById(R.id.drawer_layout);
+            navBtn = getView().findViewById(R.id.navButton);
+            clearData = getView().findViewById(R.id.clearDataButton);
+            savePhotosSW = getView().findViewById(R.id.savePhotosSwitch);
+            appThemeSW = getView().findViewById(R.id.appThemeSwitch);
+        }
+
+        savePhotosSW.setEnabled( false );
+        appThemeSW.setEnabled( false );
 
         context = getActivity();
 
-        savePhotos = prefs.getBoolean("savePhotos", false);      //FALSE for LIGHT, TRUE for DARK
+//        savePhotos = prefs.getBoolean("savePhotos", false);      //FALSE for LIGHT, TRUE for DARK
 
-        savePhotosSW.setChecked(savePhotos);
-        appThemeSW.setChecked(appTheme);
+//        savePhotosSW.setChecked(savePhotos);
+//        appThemeSW.setChecked(appTheme);
 
         navBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,26 +128,24 @@ public class AppSettingsFragment extends Fragment {
             }
         });
 
-        appThemeSW.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                SharedPreferences.Editor editor = prefs.edit();
-                if (isChecked) {
-                    appTheme = true;
-                    //noinspection ConstantConditions
-                    editor.putBoolean("appTheme", appTheme).apply();
-                    getActivity().setTheme( R.style.darkTheme );
-                } else {
-                    appTheme = false;
-                    //noinspection ConstantConditions
-                    editor.putBoolean("appTheme", appTheme).apply();
-                    getActivity().setTheme( R.style.lightTheme );
-                }
-
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new AppSettingsFragment()).commit();
-
-            }
-        });
+//        appThemeSW.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+////                SharedPreferences.Editor editor = prefs.edit();
+////                if (isChecked) {
+////                    appTheme = true;
+////                    editor.putBoolean(getResources().getString(R.string.appTheme), appTheme).apply();
+////                    getActivity().setTheme( R.style.darkTheme );
+////                } else {
+////                    appTheme = false;
+////                    editor.putBoolean(getResources().getString(R.string.appTheme), appTheme).apply();
+////                    getActivity().setTheme( R.style.lightTheme );
+////                }
+////
+////                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+////                        new AppSettingsFragment()).commit();
+//
+//            }
+//        });
 
     }
 

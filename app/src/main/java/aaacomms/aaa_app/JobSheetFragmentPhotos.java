@@ -23,6 +23,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.FileProvider;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
+import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -73,51 +74,36 @@ public class JobSheetFragmentPhotos extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_job_sheet_photos, container, false);
+        final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.darkTheme);
+        LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
+        return localInflater.inflate(R.layout.fragment_job_sheet_photos, container, false);
     }
 
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-
-        SharedPreferences prefs;
-        if ( getActivity() != null ) {
-            prefs = getActivity().getApplicationContext().getSharedPreferences("ApplicationPreferences", Context.MODE_PRIVATE);
-            appTheme = prefs.getBoolean("appTheme", false);
-
-            LinearLayout activity;
-            if ( getView() != null ) {
-                activity = getView().findViewById(R.id.activity_main);
-
-                if (appTheme) {
-                    getActivity().setTheme(R.style.darkTheme);
-                    activity.setBackgroundResource(R.color.darkBackground);
-                } else {
-                    getActivity().setTheme(R.style.lightTheme);
-                    activity.setBackgroundResource(R.color.lightBackground);
-                }
-            }
-        }
-
         super.onActivityCreated(savedInstanceState);
 
-        jobNoTV = getView().findViewById(R.id.jobNoTV);
-        photosLL = getView().findViewById(R.id.photosLL);
-        drawer = getActivity().findViewById(R.id.drawer_layout);
-        navBtn = getView().findViewById(R.id.navButton);
-        navBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawer.openDrawer(Gravity.START);
-            }
-        });
+        if ( getActivity() != null && getView() != null ) {
+            jobNoTV = getView().findViewById(R.id.jobNoTV);
+            photosLL = getView().findViewById(R.id.photosLL);
+            drawer = getActivity().findViewById(R.id.drawer_layout);
+            navBtn = getView().findViewById(R.id.navButton);
+            navBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    drawer.openDrawer(Gravity.START);
+                }
+            });
 
-        details = getView().findViewById(R.id.detailsBtn);
-        photos = getView().findViewById(R.id.photosBtn);
-        finalize = getView().findViewById(R.id.finalizeBtn);
+            details = getView().findViewById(R.id.detailsBtn);
+            photos = getView().findViewById(R.id.photosBtn);
+            finalize = getView().findViewById(R.id.finalizeBtn);
 
-        img = getView().findViewById(R.id.imageView);
+            img = getView().findViewById(R.id.imageView);
+        }
+        appTheme = true;
 
         setJobNoTV( getCurrentJob() );
 

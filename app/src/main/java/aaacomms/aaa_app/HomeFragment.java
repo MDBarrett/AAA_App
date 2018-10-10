@@ -17,7 +17,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.ScrollView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -44,56 +43,22 @@ public class HomeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
-        Context contextThemeWrapper;
-
-        SharedPreferences prefs;
-        if ( getActivity() != null ) {
-            prefs = getActivity().getApplicationContext().getSharedPreferences("ApplicationPreferences", Context.MODE_PRIVATE);
-            appTheme = prefs.getBoolean("appTheme", false);
-        }
-
-        if ( appTheme ) {
-            contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.darkTheme);
-        } else {
-            contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.lightTheme);
-        }
-
+        final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.darkTheme);
         LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
-
         return localInflater.inflate(R.layout.fragment_home, container, false);
     }
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-
-        SharedPreferences prefs;
-        if ( getActivity() != null ) {
-            prefs = getActivity().getApplicationContext().getSharedPreferences("ApplicationPreferences", Context.MODE_PRIVATE);
-            appTheme = prefs.getBoolean("appTheme", false);
-        }
-        ScrollView activity;
-        if ( getView() != null ) {
-            activity = getView().findViewById(R.id.activity_main);
-
-            if (appTheme) {
-                if ( getActivity() != null )
-                    getActivity().setTheme(R.style.darkTheme);
-                activity.setBackgroundResource(R.color.darkBackground);
-            } else {
-                if ( getActivity() != null )
-                    getActivity().setTheme(R.style.lightTheme);
-                activity.setBackgroundResource(R.color.lightBackground);
-            }
-        }
-
         super.onActivityCreated(savedInstanceState);
 
-        drawer = getActivity().findViewById(R.id.drawer_layout);
-        navBtn = getView().findViewById(R.id.navButton);
-        draftJobs = getView().findViewById(R.id.draftJobsLV);
-        completedJobs = getView().findViewById(R.id.completedJobsLV);
+        if ( getActivity() != null && getView() != null ) {
+            drawer = getActivity().findViewById(R.id.drawer_layout);
+            navBtn = getView().findViewById(R.id.navButton);
+            draftJobs = getView().findViewById(R.id.draftJobsLV);
+            completedJobs = getView().findViewById(R.id.completedJobsLV);
+        }
 
         jobPrefs = this.getActivity().getSharedPreferences(jobPreferences, Context.MODE_PRIVATE);
 

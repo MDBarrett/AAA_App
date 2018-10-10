@@ -14,6 +14,7 @@ import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +25,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,54 +52,32 @@ public class JobSheetFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_job_sheet, container, false);
+        final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.darkTheme);
+        LayoutInflater localInflater = inflater.cloneInContext(contextThemeWrapper);
+        return localInflater.inflate(R.layout.fragment_job_sheet, container, false);
     }
 
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-
-        SharedPreferences prefs;
-        if ( getActivity() != null ) {
-            prefs = getActivity().getApplicationContext().getSharedPreferences("ApplicationPreferences", Context.MODE_PRIVATE);
-            appTheme = prefs.getBoolean("appTheme", false);
-            RelativeLayout activity;
-            if ( getView() != null ) {
-                activity = getView().findViewById(R.id.activity_main);
-
-                if (appTheme) {
-                    getActivity().setTheme(R.style.darkTheme);
-                    activity.setBackgroundResource(R.color.darkBackground);
-                } else {
-                    getActivity().setTheme(R.style.lightTheme);
-                    activity.setBackgroundResource(R.color.lightBackground);
-                }
-            }
-        }
-
         super.onActivityCreated(savedInstanceState);
 
-        drawer = getActivity().findViewById(R.id.drawer_layout);
-        navBtn = getView().findViewById(R.id.navButton);
-        navBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                drawer.openDrawer(Gravity.START);
-            }
-        });
-
-        jobNoTV = getView().findViewById(R.id.jobNoTV);
-        additionalTextET = getView().findViewById(R.id.additionalText);
-        firstET = getView().findViewById(R.id.firstNameET);
-        lastET = getView().findViewById(R.id.lastNameET);
-        customerET = getView().findViewById(R.id.customerET);
-        spinner = getView().findViewById(R.id.jobNumberSP);
-        jobNoBtn = getView().findViewById(R.id.newJobBtn);
-
-        details = getView().findViewById(R.id.detailsBtn);
-        photos = getView().findViewById(R.id.photosBtn);
-        finalize = getView().findViewById(R.id.finalizeBtn);
+        if ( getActivity() != null && getView() != null ) {
+            drawer = getActivity().findViewById(R.id.drawer_layout);
+            navBtn = getView().findViewById(R.id.navButton);
+            navBtn.setOnClickListener(new View.OnClickListener() { @Override public void onClick(View view) { drawer.openDrawer(Gravity.START); } } );
+            jobNoTV = getView().findViewById(R.id.jobNoTV);
+            additionalTextET = getView().findViewById(R.id.additionalText);
+            firstET = getView().findViewById(R.id.firstNameET);
+            lastET = getView().findViewById(R.id.lastNameET);
+            customerET = getView().findViewById(R.id.customerET);
+            spinner = getView().findViewById(R.id.jobNumberSP);
+            jobNoBtn = getView().findViewById(R.id.newJobBtn);
+            details = getView().findViewById(R.id.detailsBtn);
+            photos = getView().findViewById(R.id.photosBtn);
+            finalize = getView().findViewById(R.id.finalizeBtn);
+        }
 
         ArrayAdapter<Integer> dropAdapter = new ArrayAdapter<>(getActivity(), R.layout.spinner_item, getJobNumbers() );
         dropAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
@@ -292,6 +270,35 @@ public class JobSheetFragment extends Fragment {
         setJobNoTV( getCurrentJob() );
         spinner.setSelection( getPosition( getCurrentJob() ) );
     }
+
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        setTheme();
+//    }
+//
+//    private void setTheme() {
+//        SharedPreferences prefs;
+//        if ( getActivity() != null ) {
+////            prefs = getActivity().getSharedPreferences(getResources().getString(R.string.appPrefs), Context.MODE_PRIVATE);
+////            appTheme = prefs.getBoolean(getResources().getString(R.string.appTheme), false);
+//            appTheme = true;
+//            RelativeLayout activity;
+//            if ( getView() != null ) {
+//                activity = getView().findViewById(R.id.activity_main);
+//
+//                if ( appTheme ) {
+//                    getActivity().setTheme(R.style.darkTheme);
+//                    activity.setBackgroundResource(R.color.darkBackground);
+//                    Log.d("appTheme", "theme: DARK THEME");
+//                } else {
+//                    getActivity().setTheme(R.style.lightTheme);
+//                    activity.setBackgroundResource(R.color.lightBackground);
+//                    Log.d("appTheme", "theme: LIGHT THEME");
+//                }
+//            }
+//        }
+//    }
 
     public int getIndex(int jobNo) {
         SharedPreferences prefs;
