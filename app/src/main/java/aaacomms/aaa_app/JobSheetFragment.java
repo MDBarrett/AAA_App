@@ -271,35 +271,6 @@ public class JobSheetFragment extends Fragment {
         spinner.setSelection( getPosition( getCurrentJob() ) );
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        setTheme();
-//    }
-//
-//    private void setTheme() {
-//        SharedPreferences prefs;
-//        if ( getActivity() != null ) {
-////            prefs = getActivity().getSharedPreferences(getResources().getString(R.string.appPrefs), Context.MODE_PRIVATE);
-////            appTheme = prefs.getBoolean(getResources().getString(R.string.appTheme), false);
-//            appTheme = true;
-//            RelativeLayout activity;
-//            if ( getView() != null ) {
-//                activity = getView().findViewById(R.id.activity_main);
-//
-//                if ( appTheme ) {
-//                    getActivity().setTheme(R.style.darkTheme);
-//                    activity.setBackgroundResource(R.color.darkBackground);
-//                    Log.d("appTheme", "theme: DARK THEME");
-//                } else {
-//                    getActivity().setTheme(R.style.lightTheme);
-//                    activity.setBackgroundResource(R.color.lightBackground);
-//                    Log.d("appTheme", "theme: LIGHT THEME");
-//                }
-//            }
-//        }
-//    }
-
     public int getIndex(int jobNo) {
         SharedPreferences prefs;
         if ( getContext() != null ) {
