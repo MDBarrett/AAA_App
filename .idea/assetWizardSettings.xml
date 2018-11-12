@@ -18,34 +18,12 @@
                                 <PersistentState>
                                   <option name="children">
                                     <map>
-                                      <entry key="foregroundClipArt">
-                                        <value>
-                                          <PersistentState>
-                                            <option name="values">
-                                              <map>
-                                                <entry key="color" value="222222" />
-                                              </map>
-                                            </option>
-                                          </PersistentState>
-                                        </value>
-                                      </entry>
-                                      <entry key="foregroundClipartAsset">
-                                        <value>
-                                          <PersistentState>
-                                            <option name="values">
-                                              <map>
-                                                <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/image/ic_edit_black_24dp.xml" />
-                                              </map>
-                                            </option>
-                                          </PersistentState>
-                                        </value>
-                                      </entry>
                                       <entry key="foregroundImage">
                                         <value>
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="scalingPercent" value="54" />
+                                                <entry key="scalingPercent" value="63" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -57,54 +35,12 @@
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
                                       <entry key="backgroundColor" value="ffffff" />
-                                      <entry key="foregroundImage" value="C:\Users\matthew.barrett\Pictures\AAA Logo\aaa_transparent_small.png" />
-                                      <entry key="foregroundLayerName" value="ic_edit_dark" />
+                                      <entry key="foregroundImage" value="C:\Users\matthew.barrett.AAAOFFICE\OneDrive - Visionspeed Pty Ltd t as AAA Communications\Pictures\AAA Logo\aaa_transparent.png" />
                                     </map>
                                   </option>
                                 </PersistentState>
                               </value>
                             </entry>
-                          </map>
-                        </option>
-                      </PersistentState>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </PersistentState>
-          </value>
-        </entry>
-        <entry key="vectorWizard">
-          <value>
-            <PersistentState>
-              <option name="children">
-                <map>
-                  <entry key="vectorAssetStep">
-                    <value>
-                      <PersistentState>
-                        <option name="children">
-                          <map>
-                            <entry key="clipartAsset">
-                              <value>
-                                <PersistentState>
-                                  <option name="values">
-                                    <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material_design_icons/av/ic_playlist_add_check_black_24dp.xml" />
-                                    </map>
-                                  </option>
-                                </PersistentState>
-                              </value>
-                            </entry>
-                          </map>
-                        </option>
-                        <option name="values">
-                          <map>
-                            <entry key="color" value="ffffff" />
-                            <entry key="height" value="28" />
-                            <entry key="outputName" value="ic_playlist_add_check_white_28dp" />
-                            <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="C:\Users\matthew.barrett" />
-                            <entry key="width" value="28" />
                           </map>
                         </option>
                       </PersistentState>
