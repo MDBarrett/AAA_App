@@ -129,5 +129,6 @@
     <string name="numImagesString">numImages</string>
     <string name="jobStatusString">jobStatus</string>
     <string name="signedString">signed</string>
+    <string name="loginStatus">loginStatus</string>
 
 </resources>

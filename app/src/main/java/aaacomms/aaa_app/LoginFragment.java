@@ -47,6 +47,8 @@ public class LoginFragment extends Fragment {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                AzureID azureID = new AzureID();
+                azureID.storeLoginStatus(true, getContext() );
                 UserSettingsFragment nextFrag= new UserSettingsFragment();
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.fragment_container, nextFrag,"findThisFragment")

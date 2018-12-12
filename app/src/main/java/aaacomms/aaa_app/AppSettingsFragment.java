@@ -170,6 +170,10 @@ public class AppSettingsFragment extends Fragment {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences( getActivity() );
         SharedPreferences.Editor editor2 = preferences.edit();
         editor2.clear().apply();
+
+        SharedPreferences preferences2 = getContext().getSharedPreferences(getResources().getString(R.string.loginStatus), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor3 = preferences2.edit();
+        editor3.clear().apply();
     }
 
     public Set<String> getJobsSet() {

@@ -226,9 +226,13 @@ public class JobSheetFragmentFinalize extends Fragment {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setJobStatus( getCurrentJob() );
-                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new HomeFragment()).commit();
+                if ( submitJob() ) {
+                    setJobStatus(getCurrentJob());
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                            new HomeFragment()).commit();
+                } else {
+                    Toast.makeText(getContext(), "failed to submit job", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -559,6 +563,11 @@ public class JobSheetFragmentFinalize extends Fragment {
                 sign.setBackgroundResource(R.drawable.box);
             }
         }
+    }
+
+    private Boolean submitJob() {
+        AzureID azureID = new AzureID();
+        return azureID.getLoginStatus( getContext() );
     }
 
 }
